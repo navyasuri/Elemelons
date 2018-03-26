@@ -1,7 +1,0 @@
-sceneSetups:
-- path: Assets/TaviusScene.unity
-  isLoaded: 1
-  isActive: 1
-- path: Assets/FaizanScene.unity
-  isLoaded: 0
-  isActive: 0

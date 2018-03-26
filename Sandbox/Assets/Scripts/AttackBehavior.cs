@@ -12,6 +12,8 @@ public class AttackBehavior : Photon.MonoBehaviour {
 	Rigidbody rb;
     public int attackerID;
     public Color attackerColor;
+	float starterTime;
+	float curTime;
 
 	void Start() {
 		GetComponent<Renderer>().material.color = attackerColor;
@@ -19,10 +21,14 @@ public class AttackBehavior : Photon.MonoBehaviour {
         // Needed to be transform.forward, not transform.position.
         // Moved to Start to avoid acceleration.
         rb.AddForce(transform.forward * 500f);
+		starterTime = Time.time;
     }
 
     void Update() {
-
+		curTime = Time.time;
+		if (curTime - starterTime > 2f) {
+			Destroy (gameObject);
+		}
 	}
 
 	void OnCollisionEnter(Collision collision)
