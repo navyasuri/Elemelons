@@ -1,39 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 
-public class AttackBehavior : MonoBehaviour {
+public class AttackBehavior : Photon.MonoBehaviour {
 
 //	public Transform target;
 //	public float speed;
 	Vector3 newPos;
 	GameObject player;
 	Rigidbody rb;
+    public int attackerID;
+    public Color attackerColor;
 
-	// Use this for initialization
-	void Start () {
-		GetComponent<Renderer> ().material.color = Color.red;
-		GameObject.Find ("Player");
-		rb = gameObject.GetComponent<Rigidbody> ();
+	void Start() {
+		GetComponent<Renderer>().material.color = attackerColor;
+		rb = gameObject.GetComponent<Rigidbody>();
+        // Needed to be transform.forward, not transform.position.
+        // Moved to Start to avoid acceleration.
+        rb.AddForce(transform.forward * 500f);
+    }
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-//		float step = speed * Time.deltaTime;
-//		transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+    void Update() {
 
-//		newPos=transform.position;
-//		newPos.x += 0.1f;
-//		transform.position = newPos;
-		rb.AddForce(transform.position*1f);
-		
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject == GameObject.Find("Player1"))
-			Debug.Log ("Attacked player");
-			Destroy(gameObject);
+        if (collision.gameObject.CompareTag("Player")) // Check for a Player.
+        {
+            // If the attack is not colliding with the Player who sent it, destroy them:
+            if (collision.gameObject.GetInstanceID() != attackerID)
+                Destroy(collision.gameObject);
+            Destroy(gameObject); // Destroy the attack on any collision.
+        }
 	}
+
+    //[PunRPC] // Used to flag methods as remote-callable.
+    //void Attack(Vector3 dir)
+    //{
+
+    //    GetComponent<Rigidbody>().AddForce(dir * 8, ForceMode.Impulse);
+
+    //    if (photonView.isMine)
+    //        photonView.RPC("ForceJump", PhotonTargets.Others, dir);
+    //}
+
 }
