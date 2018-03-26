@@ -9,10 +9,11 @@ public class NetworkCommunicator : Photon.MonoBehaviour
     // To store the position and rotation of our GameObject as received from the network:
     Vector3 targetPosition;
     Quaternion targetRotation;
+    Color objectColor;
 
     void Start()
     {
-
+    //    objectColor = gameObject.GetComponent<Renderer>().material.color;
     }
 
     void Update()
@@ -32,7 +33,7 @@ public class NetworkCommunicator : Photon.MonoBehaviour
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
-        { // If we own this GameObject, send the data to other players (float/ints/vectors/quaternions)
+        { // If we own this GameObject, send the data to other players (Use: float/ints/vectors/quaternions)
             stream.SendNext(transform.position); // Send the position.
             stream.SendNext(transform.rotation); // Send the rotation.
         }

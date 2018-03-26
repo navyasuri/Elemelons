@@ -43,4 +43,5 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - ForceJump
+  - SetColor
   DisableAutoOpenWizard: 1
