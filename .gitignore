@@ -12,6 +12,7 @@
 ExportedObj/
 .consulo/
 *.csproj
+*.csproj 2
 *.unityproj
 *.sln
 *.suo
