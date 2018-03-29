@@ -49,16 +49,7 @@ public class BasedGestureHandle : MonoBehaviour {
                     child.gameObject.SetActive(false);
                 }
             }
-        } else if ("C".Equals(target)) {
-            cHeartDown.SetActive(true);
-            foreach (Transform child in cHeartDown.transform) {
-                if (child.name == "C") {
-                    child.gameObject.SetActive(true);
-                } else {
-                    child.gameObject.SetActive(false);
-                }
-            }
-        } else if ("Down".Equals(target)) {
+        } else if ("Triangle-AC".Equals(target)) {
             cHeartDown.SetActive(true);
             foreach (Transform child in cHeartDown.transform) {
                 if (child.name == "Down") {

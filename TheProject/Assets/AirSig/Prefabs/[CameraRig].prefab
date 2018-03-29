@@ -533,11 +533,7 @@ MonoBehaviour:
   drawWireframeWhenSelectedOnly: 0
   drawInGame: 0
   size: 2
-  color:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
+  color: {r: 0, g: 1, b: 1, a: 1}
   vertices:
   - {x: 1.5, y: 0.01, z: -1.125}
   - {x: -1.5, y: 0.01, z: -1.125}
