@@ -31,23 +31,23 @@ List the tasks that each member of the team will be focusing on for each week.
 
 **Week 10**  
 - Navya: AirSig testing.  
-- Tavius: Player platform coding.  
+- Tavius: Particle systems for elements.  
 - Faizan: Player’s avatar/body.  
 
 **Week 11**  
-- Navya: Particle systems for elements.  
-- Tavius: Textures.  
-- Faizan: Environment models/prefabs.  
+- Navya:  Gestures continued.
+- Tavius: Environment interactions.  
+- Faizan: Player platform coding.
 
 **Week 12**  
-- Navya: Gestures continued.  
-- Tavius: Environment interactions.  
-- Faizan: Health/stamina bar UI.  
+- Navya: Environment models/prefabs.  
+- Tavius: Textures. *optional*
+- Faizan: Health/stamina bar UI.
 
 **Week 13**  
 - Navya: Gestures continued (secret gestures).  
-- Tavius: Environment continued (story design).  
-- Faizan: Player avatar (arms/hands) continued.  
+- Tavius: Audio assets (story design).  
+- Faizan: Player avatar (arms/hands) continued.  *optional*
 
 **Week 14**  
 - Navya: User testing + implement feedback.  
