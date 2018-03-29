@@ -2,7 +2,7 @@
 
 **Project Name**: Avatar: The Last Airbender  
 **Group members**: Faizan, Navya and Tavius  
-**Technical Specifications**: [url]
+**Technical Specifications**: [Technical Specifications](https://github.com/navyasuri/PUNtrial/blob/master/TechnicalSpecifications.md)
 
 ## Project Overview
 
