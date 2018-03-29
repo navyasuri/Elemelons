@@ -1,7 +1,7 @@
 # Project Proposal
 
-**Project Name**: Avatar: The Last Airbender
-**Group members**: Faizan, Navya and Tavius
+**Project Name**: Avatar: The Last Airbender 
+**Group members**: Faizan, Navya and Tavius 
 **Technical Specifications**: [url]
 
 ## Project Overview
