@@ -50,7 +50,7 @@ To provide players a suspension of disbelief, our project will take on a realist
 
 **Provide a moodboard that represents the atmosphere of your world**.
 
-How do markdown img???
+![Avatar Moodboard](Elemelons/TheProject/Assets/Moodboard/avatar-moodboard.png)
 
 **Describe the sonic environment of your project**. What does the audience member hear? Group them in three overall categories: sound effects, interface sounds and music. What is their character (e.g. metallic, smooth, melodic, organic), and how does that character tie in to the overall experience you are trying to build? You should have specific examples.
 
