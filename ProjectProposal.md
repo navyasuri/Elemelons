@@ -7,10 +7,7 @@
 ## Project Overview
 
 **Describe what your project is about**. Describe what kind of experience you intend to offer the audience, what drives you to make it, and what you think is interesting about it. This is the part of the document where you must capture the attention of your reader, so try to be as interesting and concise as possible.  
-- Water, Earth, Fire, Air. If you were an element, which would you be?  
-- Bringing Avatar: The Last Airbender to life. Gives (players/users/those who experience) the ability to harness the power of their element. A proper homage, we intend to transport (players) to a realm often pondered. Part telekinetic ability, part (something else), it gives (you/users) the power to do something always wanted to do.  
-- It exists in contemporary media: the force in Star Wars, (other superhero movies, which are reaching fever pitch).  
-- Agency to do something beyond real life.
+Water, Earth, Fire, Air. If you could summon any one of these core elements, which would you choose? Our virtual reality experience of Avatar: The Last Airbender puts the power of the elements in the hands of the player. By honing their skills on a unique set of movement gestures sourced from the hit TV series, players will materialize fireballs, launch powerful gusts of wind, and pull boulders from the ground beneath their feet—all with their very own hands. At a time when popular media is all about pushing the edge of the possible, our experience provides the agency to tap into the supernatural powers within oneself.
 
 **Describe why this project is relevant to its medium**. What is it about VR that will make it different than on a 2D screen, or as a physical performance? This is where you show the reader that you not only have a great idea, but that you also understand the technical aspects of the medium you're working in. Make sure you also mention why this is important as a social experience.  
 - The immersive nature of virtual reality allows the experience to flow naturally (e.g. users positioned on suspended, moving platforms will think they’re actually on such a platform, or instinctively defend themselves when an attack is headed their way etc).  
