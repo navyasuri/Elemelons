@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114972199531628216}
   - component: {fileID: 114463868539377192}
   m_Layer: 0
-  m_Name: NetworkController
+  m_Name: VRM_NetworkController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

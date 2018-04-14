@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4543887803696092}
   - component: {fileID: 114099162702290470}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: VRM_Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114817259684438832}
   - component: {fileID: 114907507603590754}
   m_Layer: 0
-  m_Name: capsuleHand
+  m_Name: VRM_capsuleHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
