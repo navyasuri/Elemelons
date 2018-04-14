@@ -371,7 +371,7 @@ public enum PhotonNetworkingMessage
     ///
     /// Example: void OnCustomAuthenticationResponse(Dictionary&lt;string, object&gt; data) { ... }
     /// </remarks>
-    /// <see cref="https://doc.photonengine.com/en-us/pun/current/connection-and-authentication/custom-authentication"/>
+    /// <see cref="https://doc.photonengine.com/en/realtime/current/reference/custom-authentication"/>
     OnCustomAuthenticationResponse,
 
     /// <summary>
@@ -491,7 +491,7 @@ public enum PhotonTargets
 }
 
 
-/// <summary>Currently available <a href="https://doc.photonengine.com/en-us/pun/current/connection-and-authentication/regions">Photon Cloud regions</a> as enum.</summary>
+/// <summary>Currently available <a href="http://doc.photonengine.com/en/pun/current/reference/regions">Photon Cloud regions</a> as enum.</summary>
 /// <remarks>
 /// This is used in PhotonNetwork.ConnectToRegion.
 /// </remarks>

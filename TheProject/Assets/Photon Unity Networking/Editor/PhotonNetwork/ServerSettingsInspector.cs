@@ -123,23 +123,21 @@ public class ServerSettingsInspector : Editor
 
 
 				EditorGUI.indentLevel ++;
-				#if UNITY_2017_3_OR_NEWER
-				CloudRegionFlag valRegions = (CloudRegionFlag)EditorGUILayout.EnumFlagsField(" ", settings.EnabledRegions);
-				#else
 				CloudRegionFlag valRegions = (CloudRegionFlag)EditorGUILayout.EnumMaskField(" ", settings.EnabledRegions);
-				#endif
 
-                if (valRegions != settings.EnabledRegions)
-                {
-                    settings.EnabledRegions = valRegions;
-                    this.showMustHaveRegion = valRegions == 0;
-                }
-                if (this.showMustHaveRegion)
-                {
-                    EditorGUILayout.HelpBox("You should enable at least two regions for 'Best Region' hosting.", MessageType.Warning);
-                }
-
+                    if (valRegions != settings.EnabledRegions)
+                    {
+                        settings.EnabledRegions = valRegions;
+                        this.showMustHaveRegion = valRegions == 0;
+                    }
+                    if (this.showMustHaveRegion)
+                    {
+                        EditorGUILayout.HelpBox("You should enable at least two regions for 'Best Region' hosting.", MessageType.Warning);
+                    }
 				EditorGUI.indentLevel --;
+
+
+
 
                 }
 

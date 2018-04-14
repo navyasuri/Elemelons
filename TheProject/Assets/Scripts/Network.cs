@@ -52,6 +52,7 @@ public class Network : Photon.PunBehaviour
         // will be kept track of by Photon in order to update its information in NetworkCommunicator.cs, attached to the object.
         PhotonNetwork.Instantiate(Player, new Vector3(0, 0.5f, 0), Quaternion.identity, 0);
 
+
         // NOTE: Prefab should be located in the Assets/Resources folder.
     }
 

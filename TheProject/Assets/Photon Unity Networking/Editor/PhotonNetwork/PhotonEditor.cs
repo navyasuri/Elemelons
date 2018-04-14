@@ -35,7 +35,7 @@ public class PunWizardText
     public string CloseWindowButton = "Close";
     public string SkipButton = "Skip";
     public string SetupButton = "Setup Project";
-    public string MobileExportNoteLabel = "Build for mobiles impossible. Get PUN+ or Unity 4 Pro for mobile or use Unity 5 or newer.";
+    public string MobileExportNoteLabel = "Build for mobiles impossible. Get PUN+ or Unity Pro for mobile or use Unity 5.";
     public string MobilePunPlusExportNoteLabel = "PUN+ available. Using native sockets for iOS/Android.";
     public string CancelButton = "Cancel";
     public string PUNWizardLabel = "PUN Wizard";
@@ -96,17 +96,17 @@ public class PhotonEditor : EditorWindow
 
     protected static string DocumentationLocation = "Assets/Photon Unity Networking/PhotonNetwork-Documentation.pdf";
 
-    protected static string UrlFreeLicense = "https://www.photonengine.com/en-us/onpremise/dashboard";
+    protected static string UrlFreeLicense = "https://www.photonengine.com/dashboard/OnPremise";
 
-    protected static string UrlDevNet = "https://doc.photonengine.com/en-us/pun/current";
+    protected static string UrlDevNet = "http://doc.photonengine.com/en/pun/current";
 
-    protected static string UrlForum = "https://forum.photonengine.com";
+    protected static string UrlForum = "http://forum.exitgames.com";
 
-    protected static string UrlCompare = "https://doc.photonengine.com/en-us/realtime/current/getting-started/onpremise-or-saas";
+    protected static string UrlCompare = "http://doc.photonengine.com/en/realtime/current/getting-started/onpremise-or-saas";
 
-    protected static string UrlHowToSetup = "https://doc.photonengine.com/en-us/onpremise/current/getting-started/photon-server-in-5min";
+    protected static string UrlHowToSetup = "http://doc.photonengine.com/en/onpremise/current/getting-started/photon-server-in-5min";
 
-    protected static string UrlAppIDExplained = "https://doc.photonengine.com/en-us/realtime/current/getting-started/obtain-your-app-id";
+    protected static string UrlAppIDExplained = "http://doc.photonengine.com/en/realtime/current/getting-started/obtain-your-app-id";
 
     protected static string UrlAccountPage = "https://www.photonengine.com/Account/SignIn?email="; // opened in browser
 
@@ -149,20 +149,10 @@ public class PhotonEditor : EditorWindow
     // setup once on load
     static PhotonEditor()
     {
-		#if UNITY_2017_2_OR_NEWER
-		EditorApplication.playModeStateChanged += PlaymodeStateChanged;
-		#else
-		EditorApplication.playmodeStateChanged += PlaymodeStateChanged;
-		#endif
-		
-		#if UNITY_2018
-		EditorApplication.projectChanged += EditorUpdate;
-		EditorApplication.hierarchyChanged += EditorUpdate;
-		#else
-		EditorApplication.projectWindowChanged += EditorUpdate;
-		EditorApplication.hierarchyWindowChanged += EditorUpdate;
-		#endif
-		EditorApplication.update += OnUpdate;
+        EditorApplication.projectWindowChanged += EditorUpdate;
+        EditorApplication.hierarchyWindowChanged += EditorUpdate;
+        EditorApplication.playmodeStateChanged += PlaymodeStateChanged;
+        EditorApplication.update += OnUpdate;
 
         // detect optional packages
         PhotonEditor.CheckPunPlus();
@@ -259,11 +249,7 @@ public class PhotonEditor : EditorWindow
 
 
     // called in editor on change of play-mode (used to show a message popup that connection settings are incomplete)
-	#if UNITY_2017_2_OR_NEWER
-	private static void PlaymodeStateChanged(PlayModeStateChange state)
-	#else
-	private static void PlaymodeStateChanged()
-	#endif
+    private static void PlaymodeStateChanged()
     {
         if (EditorApplication.isPlaying || !EditorApplication.isPlayingOrWillChangePlaymode)
         {
