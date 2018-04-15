@@ -17,7 +17,8 @@ public class Network : Photon.PunBehaviour
     private RoomInfo[] roomsList;
 
     // Prefab references for objects to be Instantiated by this script:
-    public GameObject playerHeadPrefab;
+	public GameObject playerPrefab;
+	public GameObject playerHeadPrefab;
     public GameObject leftHandPrefab;
     public GameObject rightHandPrefab;
     public GameObject spawnPoint1;
@@ -110,7 +111,7 @@ public class Network : Photon.PunBehaviour
         // Not necessary, because in this case, the "player" we need is just the SteamVR rig, which exists upon game startup.
         // NOTE: But then how do spawn locations work???   
 
-        //PhotonNetwork.Instantiate(player.name, spawnLocation, Quaternion.identity, 0);
+		GameObject.Instantiate(playerPrefab, spawnLocation, Quaternion.identity);
         // NOTE: Prefab should be located in the Assets/Resources folder.
     }
 
@@ -157,7 +158,7 @@ public class Network : Photon.PunBehaviour
 
         //Debug.Log(PhotonNetwork.countOfPlayers);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
 
         //Find headset and instaniate player prefab ON NETWORK — set headset as player head's parent
         GameObject headset = GameObject.Find("Camera (eye)");
