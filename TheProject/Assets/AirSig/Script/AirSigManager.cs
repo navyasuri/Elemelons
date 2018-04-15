@@ -1890,7 +1890,7 @@ namespace AirSig {
                     string gesture = Encoding.ASCII.GetString(buf)
                         .TrimEnd(TAIL_TO_REMOVE)
                         .TrimEnd(NULL_TO_REMOVE);
-                    if (DEBUG_LOG_ENABLED) Debug.Log("[AirSigManager][DeveloperGesture] match: " + gesture + ", score: " + score + ", conf: " + conf);
+                    if (DEBUG_LOG_ENABLED) Debug.Log("[AirSigManager][DeveloperDefined] match: " + gesture + ", score: " + score + ", conf: " + conf);
                     if (null != furtherAction && null != bundle) {
                         bundle.matchGesture = gesture;
                         bundle.score = score;

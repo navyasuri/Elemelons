@@ -31,8 +31,8 @@ public class DeveloperDefined : BasedGestureHandle {
         developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
         airsigManager.onDeveloperDefinedMatch += developerDefined;
         airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
-        airsigManager.SetDeveloperDefinedTarget(new List<string> { "HEART", "Triangle-AC" });
-        airsigManager.SetClassifier("TestTriangleHeart", "");
+        airsigManager.SetDeveloperDefinedTarget(new List<string> { "HEART", "C", "DOWN" });
+        airsigManager.SetClassifier("SampleGestureProfile", "");
 
         checkDbExist();
 
