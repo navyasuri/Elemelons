@@ -17,7 +17,7 @@ public class Network : Photon.PunBehaviour
     private RoomInfo[] roomsList;
 
     // Prefab references for objects to be Instantiated by this script:
-    public GameObject playerPrefab;
+    public GameObject playerHeadPrefab;
     public GameObject leftHandPrefab;
     public GameObject rightHandPrefab;
     public GameObject spawnPoint1;
@@ -161,22 +161,21 @@ public class Network : Photon.PunBehaviour
 
         //Find headset and instaniate player prefab ON NETWORK — set headset as player head's parent
         GameObject headset = GameObject.Find("Camera (eye)");
-        GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, headset.transform.position, headset.transform.rotation, 0);
+        GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
         player.transform.SetParent(headset.transform);
 
         //Find the controllers and instantiate capsules ON NETOWRK — set controllers as the parents of the capsules
 
         //Find left controller
-        GameObject controllerLeft = GameObject.Find("Controller (left)/Model");
+        GameObject controllerLeft = GameObject.Find("Controller (left)");
         Debug.Log(controllerLeft);
-        GameObject capsuleHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, controllerLeft.transform.position, Quaternion.identity, 0);
-        capsuleHandLeft.transform.SetParent(controllerLeft.transform);
+        GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, controllerLeft.transform.position, Quaternion.identity, 0);
+        playerHandLeft.transform.SetParent(controllerLeft.transform);
 
         //Now for right controller
-
-        GameObject controllerRight = GameObject.Find("Controller (right)/Model");
-        GameObject capsuleHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, controllerRight.transform.position, Quaternion.identity, 0);
-        capsuleHandRight.transform.SetParent(controllerRight.transform);
+        GameObject controllerRight = GameObject.Find("Controller (right)");
+        GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, controllerRight.transform.position, Quaternion.identity, 0);
+		playerHandRight.transform.SetParent(controllerRight.transform);
 
     }
 }
