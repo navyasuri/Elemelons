@@ -23,10 +23,10 @@ GameObject:
   - component: {fileID: 65528763582566016}
   - component: {fileID: 54771160982571110}
   - component: {fileID: 23026268832605390}
-  - component: {fileID: 114823405293994430}
   - component: {fileID: 114659942937189282}
   - component: {fileID: 114212685631533290}
   - component: {fileID: 138264131293871124}
+  - component: {fileID: 114823405293994430}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Player
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da7cc49c5d8cf435e9aeef857a25ff9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: {fileID: 1312131388397984, guid: 37e5842238bc94ca1967349287d6155a, type: 2}
+  attack: {fileID: 1650465157779456, guid: 7812d511ed8369c448a285d398fc0215, type: 2}
   playerColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114976234725530686
 MonoBehaviour:

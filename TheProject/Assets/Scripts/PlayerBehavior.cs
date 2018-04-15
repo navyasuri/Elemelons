@@ -6,7 +6,7 @@ using Photon;
 public class PlayerBehavior : Photon.MonoBehaviour {
 
 	public GameObject attack; // For the drag-and-drop of the Component on the Player Prefab.
-	string Attack = "Attack (1)";
+	string Attack = "Attack";
     public Color playerColor;
 
     void Awake()
