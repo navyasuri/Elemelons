@@ -158,11 +158,11 @@ public class CullAreaEditor : Editor
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Open the tutorial"))
             {
-                Application.OpenURL("https://doc.photonengine.com/en-us/pun/current/demos-and-tutorials/package-demos/culling-demo");
+                Application.OpenURL("https://doc.photonengine.com/en-us/pun/current/manuals-and-demos/culling-demo");
             }
             if (GUILayout.Button("Take me to the forums"))
             {
-                Application.OpenURL("https://forum.photonengine.com/categories/unity-networking-plugin-pun");
+                Application.OpenURL("http://forum.photonengine.com/categories/unity-networking-plugin-pun");
             }
             EditorGUILayout.EndHorizontal();
         }

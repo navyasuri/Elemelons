@@ -1204,6 +1204,8 @@ public static class PhotonNetwork
     /// - Invalid region (calls: OnConnectionFail() with DisconnectCause.InvalidRegion)
     /// - Subscription CCU limit reached (calls: OnConnectionFail() with DisconnectCause.MaxCcuReached. also calls: OnPhotonMaxCccuReached())
     ///
+    /// More about the connection limitations:
+    /// http://doc.exitgames.com/en/pun
     /// </remarks>
     /// <param name="gameVersion">This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).</param>
     public static bool ConnectUsingSettings(string gameVersion)
@@ -1283,6 +1285,8 @@ public static class PhotonNetwork
     /// - Invalid region (calls: OnConnectionFail() with DisconnectCause.InvalidRegion)
     /// - Subscription CCU limit reached (calls: OnConnectionFail() with DisconnectCause.MaxCcuReached. also calls: OnPhotonMaxCccuReached())
     ///
+    /// More about the connection limitations:
+    /// http://doc.exitgames.com/en/pun
     /// </remarks>
     /// <param name="masterServerAddress">The server's address (either your own or Photon Cloud address).</param>
     /// <param name="port">The server's port to connect to.</param>
@@ -1419,6 +1423,8 @@ public static class PhotonNetwork
     /// - Invalid region (calls: OnConnectionFail() with DisconnectCause.InvalidRegion)
     /// - Subscription CCU limit reached (calls: OnConnectionFail() with DisconnectCause.MaxCcuReached. also calls: OnPhotonMaxCccuReached())
     ///
+    /// More about the connection limitations:
+    /// http://doc.exitgames.com/en/pun
     /// </remarks>
     /// <param name="gameVersion">This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).</param>
     /// <returns>If this client is going to connect to cloud server based on ping. Even if true, this does not guarantee a connection but the attempt is being made.</returns>
@@ -1443,6 +1449,13 @@ public static class PhotonNetwork
 
         networkingPeer.IsInitialConnect = true;
         networkingPeer.SetApp(PhotonServerSettings.AppID, gameVersion);
+
+        CloudRegionCode bestFromPrefs = PhotonHandler.BestRegionCodeInPreferences;
+        if (bestFromPrefs != CloudRegionCode.none)
+        {
+            Debug.Log("Best region found in PlayerPrefs. Connecting to: " + bestFromPrefs);
+            return networkingPeer.ConnectToRegionMaster(bestFromPrefs);
+        }
 
         bool couldConnect = PhotonNetwork.networkingPeer.ConnectToNameServer();
         return couldConnect;
@@ -2041,7 +2054,8 @@ public static class PhotonNetwork
     /// full, unless you close and hide them (room.open = false and room.visible = false).
     ///
     /// In best case, you make your clients join random games, as described here:
-    /// https://doc.photonengine.com/en-us/pun/current/lobby-and-matchmaking/matchmaking-and-lobby
+    /// http://doc.exitgames.com/en/realtime/current/reference/matchmaking-and-lobby
+    ///
     ///
     /// You can show your current players and room count without joining a lobby (but you must
     /// be on the master server). Use: countOfPlayers, countOfPlayersOnMaster, countOfPlayersInRooms and
@@ -2180,7 +2194,7 @@ public static class PhotonNetwork
     ///
     /// When done, OnReceivedRoomListUpdate gets called. Use GetRoomList() to access it.
     /// </remarks>
-    /// <see cref="https://doc.photonengine.com/en-us/pun/current/lobby-and-matchmaking/matchmaking-and-lobby#sql_lobby_type"/>
+    /// <see cref="http://doc.photonengine.com/en-us/pun/current/manuals-and-demos/matchmaking-and-lobby#sql_lobby_type"/>
     /// <param name="typedLobby">The lobby to query. Has to be of type SqlLobby.</param>
     /// <param name="sqlLobbyFilter">The sql query statement.</param>
     /// <returns>If the operation could be sent (has to be connected).</returns>
@@ -3036,9 +3050,9 @@ public static class PhotonNetwork
     /// A client can tell the server which Interest Groups it's interested in.
     /// The server will only forward events for those Interest Groups to that client (saving bandwidth and performance).
     ///
-    /// See: https://doc.photonengine.com/en-us/pun/current/gameplay/interestgroups
+    /// See: https://doc.photonengine.com/en-us/pun/current/manuals-and-demos/interestgroupsinterestgroups
     ///
-    /// See: https://doc.photonengine.com/en-us/pun/current/demos-and-tutorials/package-demos/culling-demo
+    /// See: https://doc.photonengine.com/en-us/pun/current/manuals-and-demos/culling-demo
     /// </remarks>
     /// <param name="group">The interest group to affect.</param>
     /// <param name="enabled">Sets if receiving from group to enabled (or not).</param>
@@ -3092,9 +3106,9 @@ public static class PhotonNetwork
     /// A client can tell the server which Interest Groups it's interested in.
     /// The server will only forward events for those Interest Groups to that client (saving bandwidth and performance).
     ///
-    /// See: https://doc.photonengine.com/en-us/pun/current/gameplay/interestgroups
+    /// See: https://doc.photonengine.com/en-us/pun/current/manuals-and-demos/interestgroupsinterestgroups
     ///
-    /// See: https://doc.photonengine.com/en-us/pun/current/demos-and-tutorials/package-demos/culling-demo
+    /// See: https://doc.photonengine.com/en-us/pun/current/manuals-and-demos/culling-demo
     /// </remarks>
     /// <param name="disableGroups">The interest groups to disable (or null).</param>
     /// <param name="enableGroups">The interest groups to enable (or null).</param>
@@ -3259,8 +3273,10 @@ public static class PhotonNetwork
     /// This operation makes Photon call your custom web-service by name (path) with the given parameters.
     /// </summary>
     /// <remarks>
-    /// This is a server-side feature which must be setup in the Photon Cloud Dashboard prior to use.
-    /// <see cref="https://doc.photonengine.com/en-us/pun/current/gameplay/web-extensions/webrpc"/>
+    /// This is a server-side feature which must be setup in the Photon Cloud Dashboard prior to use.<br/>
+    /// See the Turnbased Feature Overview for a short intro.<br/>
+    /// http://doc.photonengine.com/en/turnbased/current/getting-started/feature-overview
+    ///<br/>
     /// The Parameters will be converted into JSon format, so make sure your parameters are compatible.
     ///
     /// See PhotonNetworkingMessage.OnWebRpcResponse on how to get a response.

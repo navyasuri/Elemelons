@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 ///     Represents the cull area used for network culling.
 /// </summary>
-[HelpURL("https://doc.photonengine.com/en-us/pun/current/demos-and-tutorials/package-demos/culling-demo")]
+[HelpURL("https://doc.photonengine.com/en-us/pun/current/manuals-and-demos/culling-demo")]
 public class CullArea : MonoBehaviour
 {
     private const int MAX_NUMBER_OF_ALLOWED_CELLS = 250;
