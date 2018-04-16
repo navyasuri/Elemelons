@@ -221,7 +221,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -282,6 +282,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: {fileID: 1650465157779456, guid: 7812d511ed8369c448a285d398fc0215, type: 2}
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+  rightHandControl: {fileID: 114571260249075972, guid: 0959cc492203bc14b89e6eafc828bfa6,
+    type: 2}
+  leftHandControl: {fileID: 114988995412016804, guid: 0959cc492203bc14b89e6eafc828bfa6,
+    type: 2}
 --- !u!114 &114976234725530686
 MonoBehaviour:
   m_ObjectHideFlags: 1

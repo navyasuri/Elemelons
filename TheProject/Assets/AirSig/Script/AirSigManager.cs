@@ -13,7 +13,7 @@ namespace AirSig {
     public class AirSigManager : MonoBehaviour {
 
         /// Enable debug logging
-        public static bool DEBUG_LOG_ENABLED = true;
+        public static bool DEBUG_LOG_ENABLED = false;
 
         // Default interval for sensor sampling rate.
         // Increasing this makes less sample for a fixed period of time

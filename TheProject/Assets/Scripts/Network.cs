@@ -169,6 +169,12 @@ public class Network : Photon.PunBehaviour
 
         //Find left controller
         GameObject controllerLeft = GameObject.Find("Controller (left)");
+
+		//int leftIndex = controllerLeft.
+		// Get the SteamVR index of this controller ^^^
+		// Call updateLeftControllerIndex(indexTempName, );
+		// Call updateRightControllerIndex(indexTempName);
+
         Debug.Log(controllerLeft);
         GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, controllerLeft.transform.position, Quaternion.identity, 0);
         playerHandLeft.transform.SetParent(controllerLeft.transform);

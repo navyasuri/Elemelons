@@ -11,9 +11,11 @@ public class BasedGestureHandle : MonoBehaviour {
     public AirSigManager airsigManager;
 
     // Reference to the vive right hand controller for handing key pressing
-    public SteamVR_TrackedObject rightHandControl;
+	public SteamVR_TrackedObject rightHandControl;
+	public SteamVR_TrackedObject leftHandControl;
 
-    public ParticleSystem track;
+    public ParticleSystem trackL;
+	public ParticleSystem trackR;
 
     // UI for displaying current status and operation results 
     public Text textMode;
@@ -93,6 +95,9 @@ public class BasedGestureHandle : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.Escape)) {
             Application.Quit();
         }
+
+		Debug.Log (textToUpdate);
+
         if (null != textToUpdate) {
             if(uiFeedback != null) StopCoroutine(uiFeedback);
             uiFeedback = setResultTextForSeconds(textToUpdate, 5.0f, defaultResultText);
@@ -100,15 +105,47 @@ public class BasedGestureHandle : MonoBehaviour {
             textToUpdate = null;
         }
 
-        if (-1 != (int)rightHandControl.index) {
-            var device = SteamVR_Controller.Input((int)rightHandControl.index);
-            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)) {
-                track.Clear();
-                track.Play();
-            } else if (device.GetPressUp(SteamVR_Controller.ButtonMask.Trigger)) {
-                track.Stop();
-            }
-        }
+		Debug.Log ("Left Hand Index is " + (int)leftHandControl.index);
+		Debug.Log ("Right hand Index is " + (int)rightHandControl.index);
+
+		if ( -1 != (int)rightHandControl.index && -1 != (int)leftHandControl.index ){
+			var deviceR = SteamVR_Controller.Input((int)rightHandControl.index);
+			if (deviceR.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
+				trackR.Clear();
+				trackR.Play();
+			} else if (deviceR.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
+				trackR.Stop();
+			}
+
+			var deviceL = SteamVR_Controller.Input((int)leftHandControl.index);
+			if (deviceL.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
+				trackL.Clear();
+				trackL.Play();
+			} else if (deviceL.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
+				trackL.Stop();
+			}
+
+		}
+
+//		if (-1 != (int)rightHandControl.index) {
+//			var device = SteamVR_Controller.Input((int)rightHandControl.index);
+//			if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
+//				track.Clear();
+//				track.Play();
+//			} else if (device.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
+//				track.Stop();
+//			}
+//		}
+//
+//		if (-1 != (int)leftHandControl.index) {
+//			var device = SteamVR_Controller.Input((int)leftHandControl.index);
+//			if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
+//				track.Clear();
+//				track.Play();
+//			} else if (device.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
+//				track.Stop();
+//			}
+//		}
 
         if (nextUiAction != null) {
             nextUiAction();
