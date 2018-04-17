@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 199510739121991248}
   m_Layer: 0
   m_Name: Particle System
-  m_TagString: Untagged
+  m_TagString: rightParticles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 199740220824839418}
   m_Layer: 0
   m_Name: Particle System
-  m_TagString: Untagged
+  m_TagString: leftParticles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -654,7 +654,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1296817215
+  randomSeed: -237324486
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3931,7 +3931,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1493950650
+  randomSeed: 1029643021
   InitialModule:
     serializedVersion: 3
     enabled: 1

@@ -416,6 +416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1898191621}
   - component: {fileID: 1898191620}
+  - component: {fileID: 1898191622}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -436,12 +437,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airsigManager: {fileID: 1262120278}
-  rightHandControl: {fileID: 114571260249075972, guid: 0959cc492203bc14b89e6eafc828bfa6,
-    type: 2}
-  leftHandControl: {fileID: 114988995412016804, guid: 0959cc492203bc14b89e6eafc828bfa6,
-    type: 2}
-  trackL: {fileID: 198281340057297334, guid: d918b11479b25344d9c22c3b76569cf9, type: 2}
-  trackR: {fileID: 198281340057297334, guid: d918b11479b25344d9c22c3b76569cf9, type: 2}
   textMode: {fileID: 114481944033914234, guid: 1a3d5ec853165144bb3767e2e282d1db, type: 2}
   textResult: {fileID: 114946929469839424, guid: 1a3d5ec853165144bb3767e2e282d1db,
     type: 2}
@@ -463,3 +458,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1898191622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1898191619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b0f56b4cabae8b498bde7c68d3482df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

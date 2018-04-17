@@ -6,6 +6,11 @@ TagManager:
   tags:
   - left
   - right
+  - FxTemporaire
+  - projectile
+  - TeleportIgnore
+  - leftParticles
+  - rightParticles
   layers:
   - Default
   - TransparentFX

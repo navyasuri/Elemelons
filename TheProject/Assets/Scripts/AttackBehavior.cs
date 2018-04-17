@@ -11,37 +11,37 @@ public class AttackBehavior : Photon.MonoBehaviour {
 	GameObject player;
 	Rigidbody rb;
     public int attackerID;
-    public Color attackerColor;
+    //public Color attackerColor;
 	float starterTime;
 	float curTime;
 
 	void Start() {
-		GetComponent<Renderer>().material.color = attackerColor;
+		//GetComponent<Renderer>().material.color = attackerColor;
 		rb = gameObject.GetComponent<Rigidbody>();
         // Needed to be transform.forward, not transform.position.
         // Moved to Start to avoid acceleration.
         rb.AddForce(transform.forward * 500f);
 		starterTime = Time.time;
 
-        Vector3 serializedColor;
-        serializedColor.x = attackerColor.r;
-        serializedColor.y = attackerColor.g;
-        serializedColor.z = attackerColor.b;
-        // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
-        PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
+//        Vector3 serializedColor;
+//        serializedColor.x = attackerColor.r;
+//        serializedColor.y = attackerColor.g;
+//        serializedColor.z = attackerColor.b;
+//        // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
+//        PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
     }
 
-    [PunRPC] // As a photon serialized view, only send floats/ints/vectors/quaternions.
-    public void SetColor(Vector3 color)
-    {
-        // Sets this Player to the color sent with the call:
-        GetComponent<Renderer>().material.color = new Color(color.x, color.y, color.z, 1f);
-        attackerColor = GetComponent<Renderer>().material.color;
-        if (PhotonView.Get(this).isMine)
-        { // If this user called the function, send this call to the other users, including those who join:
-            photonView.RPC("SetColor", PhotonTargets.OthersBuffered, color);
-        }
-    }
+//    [PunRPC] // As a photon serialized view, only send floats/ints/vectors/quaternions.
+//    public void SetColor(Vector3 color)
+//    {
+//        // Sets this Player to the color sent with the call:
+//        GetComponent<Renderer>().material.color = new Color(color.x, color.y, color.z, 1f);
+//        attackerColor = GetComponent<Renderer>().material.color;
+//        if (PhotonView.Get(this).isMine)
+//        { // If this user called the function, send this call to the other users, including those who join:
+//            photonView.RPC("SetColor", PhotonTargets.OthersBuffered, color);
+//        }
+//    }
 
     void Update() {
 		curTime = Time.time;

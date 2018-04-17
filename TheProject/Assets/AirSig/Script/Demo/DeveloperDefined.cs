@@ -9,6 +9,8 @@ public class DeveloperDefined : BasedGestureHandle {
     AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
 	public string Attack = "Attack";
+	SteamVR_TrackedObject left;
+	SteamVR_TrackedObject right;
 
 
     // Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.
@@ -18,7 +20,6 @@ public class DeveloperDefined : BasedGestureHandle {
     void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		//Debug.Log ("You drew: " + gesture);
         textToUpdate = string.Format("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim(), score);
-		GameObject left = GameObject.Find ("Controller (left)");
 		Vector3 attackVector = left.transform.position + (transform.forward * 1f);
 		attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
 		var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, left.transform.rotation, 0); // Create the attack.
@@ -30,12 +31,15 @@ public class DeveloperDefined : BasedGestureHandle {
     void Awake() {
         Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
+		left = leftController;
+		right = rightController;
+
         // Update the display text
         textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
         textResult.text = defaultResultText = "Pressing trigger and write symbol in the air\nReleasing trigger when finish";
         textResult.alignment = TextAnchor.UpperCenter;
         instruction.SetActive(false);
-        ToggleGestureImage("All");
+        //ToggleGestureImage("All");
 
         // Configure AirSig by specifying target 
         developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);

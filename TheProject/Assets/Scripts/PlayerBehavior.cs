@@ -78,7 +78,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 				attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
 				var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
 				newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
-				newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
+				//newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
 			}
 				
 			var deviceL = SteamVR_Controller.Input ((int)leftHandControl.index);
@@ -87,7 +87,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 				attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
 				var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
 				newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
-				newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
+				//newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
 			}
 		}
     }

@@ -10,12 +10,14 @@ public class BasedGestureHandle : MonoBehaviour {
     // Reference to AirSigManager for setting operation mode and registering listener
     public AirSigManager airsigManager;
 
-    // Reference to the vive right hand controller for handing key pressing
-	public SteamVR_TrackedObject rightHandControl;
-	public SteamVR_TrackedObject leftHandControl;
+    // Reference to the vive controllers
+	protected SteamVR_TrackedObject rightController;
+	protected SteamVR_Controller.Device rightDevice;
+	protected ParticleSystem rightParticles;
 
-    public ParticleSystem trackL;
-	public ParticleSystem trackR;
+	protected SteamVR_TrackedObject leftController;
+	protected SteamVR_Controller.Device leftDevice;
+	protected ParticleSystem leftParticles;
 
     // UI for displaying current status and operation results 
     public Text textMode;
@@ -31,6 +33,16 @@ public class BasedGestureHandle : MonoBehaviour {
     // Set by the callback function to run this action in the next UI call
     protected Action nextUiAction;
     protected IEnumerator uiFeedback;
+
+	public void Start() {
+		rightController = GameObject.FindWithTag ("right").GetComponent<SteamVR_TrackedObject> ();
+		rightDevice = SteamVR_Controller.Input ((int)rightController.index);
+		rightParticles = GameObject.FindWithTag ("rightParticles").GetComponent<ParticleSystem>();
+
+		leftController = GameObject.FindWithTag ("left").GetComponent<SteamVR_TrackedObject> ();
+		leftDevice = SteamVR_Controller.Input ((int)leftController.index);
+		leftParticles = GameObject.FindWithTag ("leftParticles").GetComponent<ParticleSystem>();
+	}
 
     protected string GetDefaultIntructionText() {
         return DEFAULT_INSTRUCTION_TEXT;
@@ -96,7 +108,7 @@ public class BasedGestureHandle : MonoBehaviour {
             Application.Quit();
         }
 
-		Debug.Log (textToUpdate);
+		//Debug.Log (textToUpdate);
 
         if (null != textToUpdate) {
             if(uiFeedback != null) StopCoroutine(uiFeedback);
@@ -105,28 +117,23 @@ public class BasedGestureHandle : MonoBehaviour {
             textToUpdate = null;
         }
 
-		Debug.Log ("Left Hand Index is " + (int)leftHandControl.index);
-		Debug.Log ("Right hand Index is " + (int)rightHandControl.index);
+		//Debug.Log ("Left Hand Index is " + (int)leftController.index);
+		//Debug.Log ("Right hand Index is " + (int)rightController.index);
 
-		if ( -1 != (int)rightHandControl.index && -1 != (int)leftHandControl.index ){
-			var deviceR = SteamVR_Controller.Input((int)rightHandControl.index);
-			if (deviceR.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
-				trackR.Clear();
-				trackR.Play();
-			} else if (deviceR.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
-				trackR.Stop();
-			}
-
-			var deviceL = SteamVR_Controller.Input((int)leftHandControl.index);
-			if (deviceL.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
-				trackL.Clear();
-				trackL.Play();
-			} else if (deviceL.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
-				trackL.Stop();
-			}
-
+		if (rightDevice.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
+			rightParticles.Clear();
+			rightParticles.Play();
+		} else if (rightDevice.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
+			rightParticles.Stop();
 		}
 
+		if (leftDevice.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
+			leftParticles.Clear();
+			leftParticles.Play();
+		} else if (leftDevice.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
+			leftParticles.Stop();
+		}
+			
 //		if (-1 != (int)rightHandControl.index) {
 //			var device = SteamVR_Controller.Input((int)rightHandControl.index);
 //			if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
