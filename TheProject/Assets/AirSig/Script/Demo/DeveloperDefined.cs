@@ -41,8 +41,11 @@ public class DeveloperDefined : MonoBehaviour {
     AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
 	public string Attack = "Attack";
+	public string DefenseWall = "DefenseWall";
 
+	bool GestureTriggered = true;
 	bool ShootFireball = false;
+	bool DefenseCross = false;
 
 
 
@@ -60,17 +63,20 @@ public class DeveloperDefined : MonoBehaviour {
     public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		// Good Match!
 		if (score > 0.8) {
-			Debug.Log(string.Format ("<color=green>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
+			Debug.Log(string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 
 			// Launch fireball
-			if (gesture.Trim().Equals ("AttackPunch")) {
+			if (gesture.Trim().Equals ("AttackPunchSimple")) {
 				// Actions triggered by Update()
 				ShootFireball = true;
+				GestureTriggered = true;
 			}
 
 			// Defend yo self
 			if (gesture.Trim ().Equals ("DefenseShieldCross")) {
 				Debug.Log ("A wild fire shield appeared!");
+				DefenseCross = true;
+				GestureTriggered = true;
 			}
 		
 		// Try again...
@@ -91,8 +97,8 @@ public class DeveloperDefined : MonoBehaviour {
 
 		// Configure AirSig by specifying target 
 		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
-		airsigManager.SetClassifier("AttackDefenseGestureProfile", "");
-		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunch", "DefenseShieldCross" });
+		airsigManager.SetClassifier("NewAttackDefense", "");
+		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunchSimple", "DefenseShieldCross" });
         developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
         airsigManager.onDeveloperDefinedMatch += developerDefined;
         
@@ -118,9 +124,11 @@ public class DeveloperDefined : MonoBehaviour {
     void Update() {
         UpdateUIandHandleControl();
 
-		if (ShootFireball) {
-			SpawnFireball (headset);
+		if (GestureTriggered) {
+			GestureResponse (headset);
+			GestureTriggered = false;
 			ShootFireball = false;
+			DefenseCross = false;
 		}
     }
 
@@ -246,14 +254,21 @@ public class DeveloperDefined : MonoBehaviour {
 		headset = headsetPassedIn;
 	}
 
-	public void SpawnFireball(GameObject headset) {
-		Vector3 attackVector = headset.transform.position + (headset.transform.forward * 1f);
-		//Vector3 attackVector = headset.transform.position;
+	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
+	public void GestureResponse(GameObject headset) {
+		// Get the position 1 unit in front of the headset:
+		Vector3 Vector = headset.transform.position + (headset.transform.forward * 1f);
 
-		//attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
-		var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, Quaternion.identity, 0); // Create the attack.
-		newAttack.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
+		if (ShootFireball) {
+			var newAttack = PhotonNetwork.Instantiate (Attack, Vector, Quaternion.identity, 0); // Create the attack.
+			newAttack.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
+	//		newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
+		}
 
-//		newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
+		if (DefenseCross) {
+			var newDefense = PhotonNetwork.Instantiate (DefenseWall, Vector, Quaternion.identity, 0); // Create the defense.
+			newDefense.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
+		}
+
 	}
 }

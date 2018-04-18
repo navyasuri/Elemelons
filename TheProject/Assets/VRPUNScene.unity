@@ -315,12 +315,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683a39b26a0f2c147bfc5d44ac859892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraRig: {fileID: 1293615064935672, guid: 48a867665c85744b0a2a5d92baacaab4, type: 2}
+  cameraRig: {fileID: 1552955003290736, guid: 2cb59f215196b644694becdcd0ce3f29, type: 2}
   playerHeadPrefab: {fileID: 1614703172101012, guid: 2c8627cebde226b4ab9406c6d6ed2550,
     type: 2}
-  leftHandPrefab: {fileID: 1585487501607548, guid: b30a8d639ebcc7a43bbca95d679c172c,
+  leftHandPrefab: {fileID: 1789407906519474, guid: 8c268c6a1131b4941800fa36555934d4,
     type: 2}
-  rightHandPrefab: {fileID: 1457759220501530, guid: e9e40007723729448bbb615e2e65a486,
+  rightHandPrefab: {fileID: 1977383247732938, guid: 7559ed5a6cc3e0440aa1cc92bbaea065,
     type: 2}
   spawnPoint1: {fileID: 377441744}
   spawnPoint2: {fileID: 1841121034}
@@ -605,9 +605,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airsigManager: {fileID: 1262120278}
-  rightController: {fileID: 0}
-  leftController: {fileID: 0}
   Attack: Attack
+  DefenseWall: DefenseWall
 --- !u!4 &1898191621
 Transform:
   m_ObjectHideFlags: 0
