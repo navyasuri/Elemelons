@@ -12,35 +12,37 @@ public class DeveloperDefined : MonoBehaviour {
 	public AirSigManager airsigManager;
 
 	// Reference to the vive controllers
-	public SteamVR_TrackedObject rightController;
+	protected SteamVR_TrackedObject rightController;
 	protected SteamVR_Controller.Device rightDevice;
 	protected ParticleSystem rightParticles;
 
-	public SteamVR_TrackedObject leftController;
+	protected SteamVR_TrackedObject leftController;
 	protected SteamVR_Controller.Device leftDevice;
 	protected ParticleSystem leftParticles;
 
-	// UI for displaying current status and operation results 
-	public Text textMode;
-	public Text textResult;
-	public GameObject instruction;
-	public GameObject cHeartDown;
+	protected GameObject headset;
 
-	protected string textToUpdate;
+	// UI for displaying current status and operation results 
+	//public Text textMode;
+	//public Text textResult;
+	//public GameObject instruction;
+	//public GameObject cHeartDown;
+
+	//protected string textToUpdate;
 
 	protected readonly string DEFAULT_INSTRUCTION_TEXT = "Pressing trigger and write in the air\nReleasing trigger when finish";
 	protected string defaultResultText;
 
 	// Set by the callback function to run this action in the next UI call
-	protected Action nextUiAction;
-	protected IEnumerator uiFeedback;
+	//protected Action nextUiAction;
+	//protected IEnumerator uiFeedback;
 
     // Callback for receiving signature/gesture progression or identification results
     AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
 	public string Attack = "Attack";
 
-	bool shooting = false;
+	bool ShootFireball = false;
 
 
 
@@ -56,25 +58,25 @@ public class DeveloperDefined : MonoBehaviour {
     // gesture - gesture matched or null if no match. Only guesture in SetDeveloperDefinedTarget range will be verified against
     // score - the confidence level of this identification. Above 1 is generally considered a match
     public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
-		//Debug.Log ("You drew: " + gesture);
-//		Debug.Log(string.Format("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
-		if (score > 1.2) {
+		// Good Match!
+		if (score > 0.8) {
 			Debug.Log(string.Format ("<color=green>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 
+			// Launch fireball
 			if (gesture.Trim().Equals ("AttackPunch")) {
-				//SpawnFireball (leftController);
+				// Actions triggered by Update()
+				ShootFireball = true;
 			}
 
+			// Defend yo self
 			if (gesture.Trim ().Equals ("DefenseShieldCross")) {
 				Debug.Log ("A wild fire shield appeared!");
 			}
+		
+		// Try again...
 		} else {
 			Debug.Log(string.Format ("<color=red>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 		}
-		//SpawnFireball(leftController);
-
-		//GameObject.Find ("FireballSpawner").GetComponent<FireBallSpawner> ().SpawnFireball ();
-		shooting = true;
     }
 
     // Use this for initialization
@@ -82,25 +84,21 @@ public class DeveloperDefined : MonoBehaviour {
         Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
         // Update the display text
-        textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
-        textResult.text = defaultResultText = "Pressing trigger and write symbol in the air\nReleasing trigger when finish";
-        textResult.alignment = TextAnchor.UpperCenter;
-        instruction.SetActive(false);
-        //ToggleGestureImage("All");
+        //textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
+        //textResult.text = defaultResultText = "Pressing trigger and write symbol in the air\nReleasing trigger when finish";
+        //textResult.alignment = TextAnchor.UpperCenter;
+        //instruction.SetActive(false);
 
+		// Configure AirSig by specifying target 
 		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
 		airsigManager.SetClassifier("AttackDefenseGestureProfile", "");
 		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunch", "DefenseShieldCross" });
-
-        // Configure AirSig by specifying target 
         developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
         airsigManager.onDeveloperDefinedMatch += developerDefined;
         
-
-        
-
         checkDbExist();
 
+		// Set each controller as an AirSig gesture trigger, and which button activates the recording
         airsigManager.SetTriggerStartKeys(
             AirSigManager.Controller.RIGHT_HAND,
 			SteamVR_Controller.ButtonMask.Grip,
@@ -119,11 +117,10 @@ public class DeveloperDefined : MonoBehaviour {
 
     void Update() {
         UpdateUIandHandleControl();
-		Debug.Log (leftController);
 
-		if (shooting) {
-			SpawnFireball (leftController);
-			shooting = false;
+		if (ShootFireball) {
+			SpawnFireball (headset);
+			ShootFireball = false;
 		}
     }
 
@@ -140,58 +137,56 @@ public class DeveloperDefined : MonoBehaviour {
 		return DEFAULT_INSTRUCTION_TEXT;
 	}
 
-	protected void ToggleGestureImage(string target) {
-		if ("All".Equals(target)) {
-			cHeartDown.SetActive(true);
-			foreach (Transform child in cHeartDown.transform) {
-				child.gameObject.SetActive(true);
-			}
-		} else if ("Heart".Equals(target)) {
-			cHeartDown.SetActive(true);
-			foreach (Transform child in cHeartDown.transform) {
-				if (child.name == "Heart") {
-					child.gameObject.SetActive(true);
-				} else {
-					child.gameObject.SetActive(false);
-				}
-			}
-		} else if ("C".Equals(target)) {
-			cHeartDown.SetActive(true);
-			foreach (Transform child in cHeartDown.transform) {
-				if (child.name == "C") {
-					child.gameObject.SetActive(true);
-				} else {
-					child.gameObject.SetActive(false);
-				}
-			}
-		} else if ("Down".Equals(target)) {
-			cHeartDown.SetActive(true);
-			foreach (Transform child in cHeartDown.transform) {
-				if (child.name == "Down") {
-					child.gameObject.SetActive(true);
-				} else {
-					child.gameObject.SetActive(false);
-				}
-			}
-		} else {
-			cHeartDown.SetActive(false);
-		}
-	}
-
-	protected IEnumerator setResultTextForSeconds(string text, float seconds, string defaultText = "") {
-		string temp = textResult.text;
-		textResult.text = text;
-		yield return new WaitForSeconds(seconds);
-		textResult.text = defaultText;
-	}
+	// All for updating the AirSig UI gestuer match results, from the Demo scene:
+//	protected void ToggleGestureImage(string target) {
+//		if ("All".Equals(target)) {
+//			cHeartDown.SetActive(true);
+//			foreach (Transform child in cHeartDown.transform) {
+//				child.gameObject.SetActive(true);
+//			}
+//		} else if ("Heart".Equals(target)) {
+//			cHeartDown.SetActive(true);
+//			foreach (Transform child in cHeartDown.transform) {
+//				if (child.name == "Heart") {
+//					child.gameObject.SetActive(true);
+//				} else {
+//					child.gameObject.SetActive(false);
+//				}
+//			}
+//		} else if ("C".Equals(target)) {
+//			cHeartDown.SetActive(true);
+//			foreach (Transform child in cHeartDown.transform) {
+//				if (child.name == "C") {
+//					child.gameObject.SetActive(true);
+//				} else {
+//					child.gameObject.SetActive(false);
+//				}
+//			}
+//		} else if ("Down".Equals(target)) {
+//			cHeartDown.SetActive(true);
+//			foreach (Transform child in cHeartDown.transform) {
+//				if (child.name == "Down") {
+//					child.gameObject.SetActive(true);
+//				} else {
+//					child.gameObject.SetActive(false);
+//				}
+//			}
+//		} else {
+//			cHeartDown.SetActive(false);
+//		}
+//	}
+//
+//	protected IEnumerator setResultTextForSeconds(string text, float seconds, string defaultText = "") {
+//		string temp = textResult.text;
+//		textResult.text = text;
+//		yield return new WaitForSeconds(seconds);
+//		textResult.text = defaultText;
+//	}
 
 	protected void checkDbExist() {
 		bool isDbExist = airsigManager.IsDbExist;
 		if (!isDbExist) {
-			textResult.text = "<color=red>Cannot find DB files!\nMake sure\n'Assets/AirSig/StreamingAssets'\nis copied to\n'Assets/StreamingAssets'</color>";
-			textMode.text = "";
-			instruction.SetActive(false);
-			cHeartDown.SetActive(false);
+			Debug.Log("<color=red>Cannot find DB files!\nMake sure\n'Assets/AirSig/StreamingAssets'\nis copied to\n'Assets/StreamingAssets'</color>");
 		}
 	}
 
@@ -200,17 +195,6 @@ public class DeveloperDefined : MonoBehaviour {
 			Application.Quit();
 		}
 
-		//Debug.Log (textToUpdate);
-
-		if (null != textToUpdate) {
-			if(uiFeedback != null) StopCoroutine(uiFeedback);
-			uiFeedback = setResultTextForSeconds(textToUpdate, 5.0f, defaultResultText);
-			StartCoroutine(uiFeedback);
-			textToUpdate = null;
-		}
-
-		//Debug.Log ("Left Hand Index is " + (int)leftController.index);
-		//Debug.Log ("Right hand Index is " + (int)rightController.index);
 		if (rightDevice != null && leftDevice != null) {
 			if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
 				rightParticles.Clear ();
@@ -227,10 +211,18 @@ public class DeveloperDefined : MonoBehaviour {
 			}
 		}
 
-		if (nextUiAction != null) {
-			nextUiAction();
-			nextUiAction = null;
-		}
+// More script for the AirSig Demo UI:
+//		if (null != textToUpdate) {
+//			if(uiFeedback != null) StopCoroutine(uiFeedback);
+//			uiFeedback = setResultTextForSeconds(textToUpdate, 5.0f, defaultResultText);
+//			StartCoroutine(uiFeedback);
+//			textToUpdate = null;
+//		}
+//
+//		if (nextUiAction != null) {
+//			nextUiAction();
+//			nextUiAction = null;
+//		}
 	}
 
 
@@ -242,7 +234,7 @@ public class DeveloperDefined : MonoBehaviour {
 	 * =================================================================
 	 */
 
-	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn) {
+	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn) {
 		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>();
 		rightDevice = SteamVR_Controller.Input((int)rightController.index);
 		rightParticles = rightPassedIn.GetComponent<ParticleSystem>();
@@ -251,14 +243,17 @@ public class DeveloperDefined : MonoBehaviour {
 		leftDevice = SteamVR_Controller.Input((int)leftController.index);
 		leftParticles = leftPassedIn.GetComponent<ParticleSystem>();
 
-		Debug.Log ("AirSig left controller is: " + leftController);
+		headset = headsetPassedIn;
 	}
 
-	public void SpawnFireball(SteamVR_TrackedObject controller) {
-		Vector3 attackVector = controller.transform.position + (transform.forward * 1f);
-		//Vector3 attackVector = Vector3.zero;
+	public void SpawnFireball(GameObject headset) {
+		Vector3 attackVector = headset.transform.position + (headset.transform.forward * 1f);
+		//Vector3 attackVector = headset.transform.position;
+
 		//attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
-		var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, controller.transform.rotation, 0); // Create the attack.
-		//newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
+		var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, Quaternion.identity, 0); // Create the attack.
+		newAttack.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
+
+//		newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
 	}
 }
