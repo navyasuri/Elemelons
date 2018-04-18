@@ -146,9 +146,6 @@ public class Network : Photon.PunBehaviour
     // Helper function to find the rig
     IEnumerator WaitForRig()
     {
-
-        //Debug.Log(PhotonNetwork.countOfPlayers);
-
         yield return new WaitForSeconds(1);
 
         //Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
@@ -166,6 +163,6 @@ public class Network : Photon.PunBehaviour
 		playerHandRight.transform.SetParent(rightController.transform);
 
 		// Once the player is instantiated in the game room, update the controller references for AirSig:
-		GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController);
+		GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset);
     }
 }

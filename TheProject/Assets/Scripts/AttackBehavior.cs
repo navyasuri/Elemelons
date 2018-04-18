@@ -20,7 +20,6 @@ public class AttackBehavior : Photon.MonoBehaviour {
 		rb = gameObject.GetComponent<Rigidbody>();
         // Needed to be transform.forward, not transform.position.
         // Moved to Start to avoid acceleration.
-        rb.AddForce(transform.forward * 500f);
 		starterTime = Time.time;
 
 //        Vector3 serializedColor;
@@ -59,6 +58,14 @@ public class AttackBehavior : Photon.MonoBehaviour {
                 Destroy(collision.gameObject);
             Destroy(gameObject); // Destroy the attack on any collision.
         }
+	}
+
+	public void Launch(Vector3 launch) {
+		rb = gameObject.GetComponent<Rigidbody>();
+		rb.AddForce(launch * 500f);
+
+		Quaternion rot = Quaternion.FromToRotation (Vector3.back, launch);
+		transform.rotation = rot;
 	}
 
     //[PunRPC] // Used to flag methods as remote-callable.
