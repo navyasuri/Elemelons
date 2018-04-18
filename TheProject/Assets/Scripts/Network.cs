@@ -149,27 +149,23 @@ public class Network : Photon.PunBehaviour
 
         //Debug.Log(PhotonNetwork.countOfPlayers);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
-        //Find headset and instaniate player prefab ON NETWORK — set headset as player head's parent
+        //Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
         GameObject headset = GameObject.Find("Camera (eye)");
         GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
         player.transform.SetParent(headset.transform);
 
-        //Find the controllers and instantiate hand prefabs ON NETWORK — set controllers as the parents of the capsules
-
-        //Find left controller
+        //Find the controllers and instantiate hand prefabs ON NETWORK — set controllers as the parents of the hand prefabs:
 		GameObject leftController = GameObject.Find("Controller (left)");
         GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
         playerHandLeft.transform.SetParent(leftController.transform);
 
-        //Now for right controller
 		GameObject rightController = GameObject.Find("Controller (right)");
         GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
 		playerHandRight.transform.SetParent(rightController.transform);
 
-        //BasedGestureHandle.AirSigControlUpdate(rightController, leftController);
-        //GameObject.Find("GameManager").gameObject.GetComponent<BasedGestureHandle>().AirSigControlUpdate(rightController, leftController);
-		GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(rightController, leftController);
+		// Once the player is instantiated in the game room, update the controller references for AirSig:
+		GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController);
     }
 }

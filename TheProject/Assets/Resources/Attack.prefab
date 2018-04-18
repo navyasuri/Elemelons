@@ -251,7 +251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackerID: 0
-  attackerColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114932734867111888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -350,7 +349,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 365457264
+  randomSeed: -52764504
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3591,7 +3590,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 540867175
+  randomSeed: -1464040484
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6892,7 +6891,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2080538285
+  randomSeed: -1929363148
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10247,7 +10246,7 @@ ParticleSystem:
   serializedVersion: 5
   lengthInSec: 5
   simulationSpeed: 2
-  stopAction: 0
+  stopAction: 2
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -10298,7 +10297,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2122934536
+  randomSeed: 1845970593
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10449,8 +10448,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 2
+      minMaxState: 0
+      scalar: 0.5
       minScalar: 2
       maxCurve:
         serializedVersion: 2
@@ -10490,7 +10489,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -10531,7 +10530,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -10694,7 +10693,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 500
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -10763,7 +10762,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.65
+      value: 0.1
       mode: 0
       spread: 0
       speed:
@@ -10957,7 +10956,7 @@ ParticleSystem:
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 0.5
+          value: 0.500033
           inSlope: -1.1944004
           outSlope: -1.1944004
           tangentMode: 0
@@ -13665,7 +13664,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1386300493
+  randomSeed: 2019799970
   InitialModule:
     serializedVersion: 3
     enabled: 1

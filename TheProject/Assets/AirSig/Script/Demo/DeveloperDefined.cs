@@ -40,6 +40,8 @@ public class DeveloperDefined : MonoBehaviour {
 
 	public string Attack = "Attack";
 
+	bool shooting = false;
+
 
 
 	/* ================================================================
@@ -53,22 +55,30 @@ public class DeveloperDefined : MonoBehaviour {
     // gestureId - a serial number
     // gesture - gesture matched or null if no match. Only guesture in SetDeveloperDefinedTarget range will be verified against
     // score - the confidence level of this identification. Above 1 is generally considered a match
-    void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
+    public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		//Debug.Log ("You drew: " + gesture);
+//		Debug.Log(string.Format("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 		if (score > 1.2) {
-			textToUpdate = string.Format ("<color=green>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+			Debug.Log(string.Format ("<color=green>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
+
+			if (gesture.Trim().Equals ("AttackPunch")) {
+				//SpawnFireball (leftController);
+			}
+
+			if (gesture.Trim ().Equals ("DefenseShieldCross")) {
+				Debug.Log ("A wild fire shield appeared!");
+			}
 		} else {
-			textToUpdate = string.Format ("<color=red>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+			Debug.Log(string.Format ("<color=red>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 		}
-		Vector3 attackVector = leftController.transform.position + (transform.forward * 1f);
-		attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
-		var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, leftController.transform.rotation, 0); // Create the attack.
-		newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
-		//newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
+		//SpawnFireball(leftController);
+
+		//GameObject.Find ("FireballSpawner").GetComponent<FireBallSpawner> ().SpawnFireball ();
+		shooting = true;
     }
 
     // Use this for initialization
-    void Start() {
+    void Awake() {
         Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
         // Update the display text
@@ -78,12 +88,16 @@ public class DeveloperDefined : MonoBehaviour {
         instruction.SetActive(false);
         //ToggleGestureImage("All");
 
+		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
+		airsigManager.SetClassifier("AttackDefenseGestureProfile", "");
+		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunch", "DefenseShieldCross" });
+
         // Configure AirSig by specifying target 
         developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
         airsigManager.onDeveloperDefinedMatch += developerDefined;
-        airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
-		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunch", "DefenseShieldCross" });
-        airsigManager.SetClassifier("AttackDefenseGestureProfile", "");
+        
+
+        
 
         checkDbExist();
 
@@ -106,6 +120,11 @@ public class DeveloperDefined : MonoBehaviour {
     void Update() {
         UpdateUIandHandleControl();
 		Debug.Log (leftController);
+
+		if (shooting) {
+			SpawnFireball (leftController);
+			shooting = false;
+		}
     }
 
 
@@ -208,26 +227,6 @@ public class DeveloperDefined : MonoBehaviour {
 			}
 		}
 
-		//		if (-1 != (int)rightHandControl.index) {
-		//			var device = SteamVR_Controller.Input((int)rightHandControl.index);
-		//			if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
-		//				track.Clear();
-		//				track.Play();
-		//			} else if (device.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
-		//				track.Stop();
-		//			}
-		//		}
-		//
-		//		if (-1 != (int)leftHandControl.index) {
-		//			var device = SteamVR_Controller.Input((int)leftHandControl.index);
-		//			if (device.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
-		//				track.Clear();
-		//				track.Play();
-		//			} else if (device.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
-		//				track.Stop();
-		//			}
-		//		}
-
 		if (nextUiAction != null) {
 			nextUiAction();
 			nextUiAction = null;
@@ -253,6 +252,13 @@ public class DeveloperDefined : MonoBehaviour {
 		leftParticles = leftPassedIn.GetComponent<ParticleSystem>();
 
 		Debug.Log ("AirSig left controller is: " + leftController);
+	}
 
+	public void SpawnFireball(SteamVR_TrackedObject controller) {
+		Vector3 attackVector = controller.transform.position + (transform.forward * 1f);
+		//Vector3 attackVector = Vector3.zero;
+		//attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
+		var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, controller.transform.rotation, 0); // Create the attack.
+		//newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
 	}
 }
