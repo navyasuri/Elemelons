@@ -22,13 +22,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
     void Awake()
     {
-		rightController = GameObject.FindWithTag ("right").GetComponent<SteamVR_TrackedObject> ();
-		rightDevice = SteamVR_Controller.Input ((int)rightController.index);
-		rightParticles = GameObject.FindWithTag ("rightParticles").GetComponent<ParticleSystem>();
 
-		leftController = GameObject.FindWithTag ("left").GetComponent<SteamVR_TrackedObject> ();
-		leftDevice = SteamVR_Controller.Input ((int)leftController.index);
-		leftParticles = GameObject.FindWithTag ("leftParticles").GetComponent<ParticleSystem>();
     }
 
     void Start () {
@@ -41,6 +35,14 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         serializedColor.z = playerColor.b;
         // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
         PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
+
+		rightController = GameObject.FindWithTag ("right").GetComponent<SteamVR_TrackedObject> ();
+		rightDevice = SteamVR_Controller.Input ((int)rightController.index);
+		rightParticles = GameObject.FindWithTag ("right").GetComponent<ParticleSystem>();
+
+		leftController = GameObject.FindWithTag ("left").GetComponent<SteamVR_TrackedObject> ();
+		leftDevice = SteamVR_Controller.Input ((int)leftController.index);
+		leftParticles = GameObject.FindWithTag ("left").GetComponent<ParticleSystem>();
     }
     // On Start goals:
     // set your color

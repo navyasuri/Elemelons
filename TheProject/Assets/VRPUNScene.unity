@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683a39b26a0f2c147bfc5d44ac859892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraRig: {fileID: 0}
+  cameraRig: {fileID: 1293615064935672, guid: 48a867665c85744b0a2a5d92baacaab4, type: 2}
   playerHeadPrefab: {fileID: 1614703172101012, guid: 2c8627cebde226b4ab9406c6d6ed2550,
     type: 2}
   leftHandPrefab: {fileID: 1585487501607548, guid: b30a8d639ebcc7a43bbca95d679c172c,
@@ -605,6 +605,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airsigManager: {fileID: 1262120278}
+  rightController: {fileID: 0}
+  leftController: {fileID: 0}
   textMode: {fileID: 114481944033914234, guid: 1a3d5ec853165144bb3767e2e282d1db, type: 2}
   textResult: {fileID: 114946929469839424, guid: 1a3d5ec853165144bb3767e2e282d1db,
     type: 2}

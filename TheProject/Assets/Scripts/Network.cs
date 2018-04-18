@@ -160,7 +160,6 @@ public class Network : Photon.PunBehaviour
 
         //Find left controller
 		GameObject leftController = GameObject.Find("Controller (left)");
-        Debug.Log(leftController);
         GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
         playerHandLeft.transform.SetParent(leftController.transform);
 
@@ -170,6 +169,7 @@ public class Network : Photon.PunBehaviour
 		playerHandRight.transform.SetParent(rightController.transform);
 
         //BasedGestureHandle.AirSigControlUpdate(rightController, leftController);
-        GameObject.Find("GameManager").gameObject.GetComponent<BasedGestureHandle>().AirSigControlUpdate(rightController, leftController);
+        //GameObject.Find("GameManager").gameObject.GetComponent<BasedGestureHandle>().AirSigControlUpdate(rightController, leftController);
+		GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(rightController, leftController);
     }
 }

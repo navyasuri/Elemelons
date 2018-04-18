@@ -11,11 +11,11 @@ public class BasedGestureHandle : MonoBehaviour {
     public AirSigManager airsigManager;
 
     // Reference to the vive controllers
-	protected SteamVR_TrackedObject rightController;
+	public SteamVR_TrackedObject rightController;
 	protected SteamVR_Controller.Device rightDevice;
 	protected ParticleSystem rightParticles;
 
-	protected SteamVR_TrackedObject leftController;
+	public SteamVR_TrackedObject leftController;
 	protected SteamVR_Controller.Device leftDevice;
 	protected ParticleSystem leftParticles;
 
@@ -120,19 +120,20 @@ public class BasedGestureHandle : MonoBehaviour {
 
 		//Debug.Log ("Left Hand Index is " + (int)leftController.index);
 		//Debug.Log ("Right hand Index is " + (int)rightController.index);
+		if (rightDevice != null && leftDevice != null) {
+			if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
+				rightParticles.Clear ();
+				rightParticles.Play ();
+			} else if (rightDevice.GetPressUp (SteamVR_Controller.ButtonMask.Grip)) {
+				rightParticles.Stop ();
+			}
 
-		if (rightDevice.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
-			rightParticles.Clear();
-			rightParticles.Play();
-		} else if (rightDevice.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
-			rightParticles.Stop();
-		}
-
-		if (leftDevice.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
-			leftParticles.Clear();
-			leftParticles.Play();
-		} else if (leftDevice.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
-			leftParticles.Stop();
+			if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
+				leftParticles.Clear ();
+				leftParticles.Play ();
+			} else if (leftDevice.GetPressUp (SteamVR_Controller.ButtonMask.Grip)) {
+				leftParticles.Stop ();
+			}
 		}
 			
 //		if (-1 != (int)rightHandControl.index) {
@@ -164,11 +165,11 @@ public class BasedGestureHandle : MonoBehaviour {
 	public void AirSigControlUpdate(GameObject left, GameObject right) {
 		rightController = right.GetComponent<SteamVR_TrackedObject>();
 		rightDevice = SteamVR_Controller.Input((int)rightController.index);
-		rightParticles = GameObject.FindWithTag("rightParticles").GetComponent<ParticleSystem>();
+		rightParticles = right.GetComponent<ParticleSystem>();
 
 		leftController = left.GetComponent<SteamVR_TrackedObject>();
 		leftDevice = SteamVR_Controller.Input((int)leftController.index);
-		leftParticles = GameObject.FindWithTag("leftParticles").GetComponent<ParticleSystem>();
+		leftParticles = left.GetComponent<ParticleSystem>();
 	}
 
 }
