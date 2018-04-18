@@ -17,7 +17,7 @@ public class Network : Photon.PunBehaviour
     private RoomInfo[] roomsList;
 
     // Prefab references for objects to be Instantiated by this script:
-	public GameObject cameraRig;
+	public GameObject teleportRig;
 	public GameObject playerHeadPrefab;
     public GameObject leftHandPrefab;
     public GameObject rightHandPrefab;
@@ -100,9 +100,9 @@ public class Network : Photon.PunBehaviour
         //Waiting for rig to come into the network and connect the player:
         StartCoroutine(WaitForRig());
 
-        Debug.Log("Creating new player and spawn position is " + spawnLocation);
+        //Debug.Log("Creating new player and spawn position is " + spawnLocation);
 
-		GameObject.Instantiate(cameraRig, spawnLocation, Quaternion.identity);
+		GameObject.Instantiate(teleportRig, spawnLocation, Quaternion.identity);
         // NOTE: Prefab should be located in the Assets/Resources folder.
     }
 
@@ -150,19 +150,26 @@ public class Network : Photon.PunBehaviour
 
         //Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
         GameObject headset = GameObject.Find("Camera (eye)");
-        GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
-        player.transform.SetParent(headset.transform);
-
-        //Find the controllers and instantiate hand prefabs ON NETWORK — set controllers as the parents of the hand prefabs:
 		GameObject leftController = GameObject.Find("Controller (left)");
-        GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
-        playerHandLeft.transform.SetParent(leftController.transform);
-
 		GameObject rightController = GameObject.Find("Controller (right)");
-        GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
-		playerHandRight.transform.SetParent(rightController.transform);
 
-		// Once the player is instantiated in the game room, update the controller references for AirSig:
-		GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset);
+		if (headset == null || leftController == null || rightController == null) {
+			Debug.Log ("Rig not tracking, waiting for all components to track.");
+			StartCoroutine (WaitForRig ());
+		} else {
+			// Instantiate player hand/body prefabs ON NETWORK, setting rig items as parents of the prefabs:
+			GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
+			player.transform.SetParent(headset.transform);
+
+			GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
+			playerHandLeft.transform.SetParent(leftController.transform);
+
+			GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
+			playerHandRight.transform.SetParent(rightController.transform);
+
+			// Once the player is instantiated in the game room, update the controller references for AirSig:
+			GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset);
+		}
     }
+
 }

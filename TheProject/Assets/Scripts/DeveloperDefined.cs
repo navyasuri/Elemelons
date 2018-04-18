@@ -43,7 +43,7 @@ public class DeveloperDefined : MonoBehaviour {
 	public string Attack = "Attack";
 	public string DefenseWall = "DefenseWall";
 
-	bool GestureTriggered = true;
+	bool GestureTriggered = false;
 	bool ShootFireball = false;
 	bool DefenseCross = false;
 
@@ -75,8 +75,8 @@ public class DeveloperDefined : MonoBehaviour {
 			// Defend yo self
 			if (gesture.Trim ().Equals ("DefenseShieldCross")) {
 				Debug.Log ("A wild fire shield appeared!");
-				DefenseCross = true;
-				GestureTriggered = true;
+//				DefenseCross = true;
+//				GestureTriggered = true;
 			}
 		
 		// Try again...
@@ -127,8 +127,6 @@ public class DeveloperDefined : MonoBehaviour {
 		if (GestureTriggered) {
 			GestureResponse (headset);
 			GestureTriggered = false;
-			ShootFireball = false;
-			DefenseCross = false;
 		}
     }
 
@@ -262,13 +260,21 @@ public class DeveloperDefined : MonoBehaviour {
 		if (ShootFireball) {
 			var newAttack = PhotonNetwork.Instantiate (Attack, Vector, Quaternion.identity, 0); // Create the attack.
 			newAttack.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
-	//		newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
+	//		newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player within the fireball. (To avoid self-damage)
+			ShootFireball = false;
 		}
 
-		if (DefenseCross) {
-			var newDefense = PhotonNetwork.Instantiate (DefenseWall, Vector, Quaternion.identity, 0); // Create the defense.
-			newDefense.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
-		}
+		// =======================================
+		// TODO: Turn this bug into a feature:
+		//       When shoot fireballs is not set to false right away,
+		//       the player spawns a fire storm.
+		//       Hook this up to a for(loop) with a counter up to, say 20, before setting to false.
+
+//		if (DefenseCross) {
+//			var newDefense = PhotonNetwork.Instantiate (DefenseWall, Vector, Quaternion.identity, 0); // Create the defense.
+//			newDefense.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
+//			DefenseCross = false;
+//		}
 
 	}
 }

@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114659942937189282}
   - component: {fileID: 114212685631533290}
   - component: {fileID: 138264131293871124}
-  - component: {fileID: 114823405293994430}
+  - component: {fileID: 114671451323986348}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Player
@@ -269,7 +269,7 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114823405293994430
+--- !u!114 &114671451323986348
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -280,12 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da7cc49c5d8cf435e9aeef857a25ff9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: {fileID: 1650465157779456, guid: 7812d511ed8369c448a285d398fc0215, type: 2}
   playerColor: {r: 0, g: 0, b: 0, a: 0}
-  rightHandControl: {fileID: 114571260249075972, guid: 0959cc492203bc14b89e6eafc828bfa6,
-    type: 2}
-  leftHandControl: {fileID: 114988995412016804, guid: 0959cc492203bc14b89e6eafc828bfa6,
-    type: 2}
 --- !u!114 &114976234725530686
 MonoBehaviour:
   m_ObjectHideFlags: 1

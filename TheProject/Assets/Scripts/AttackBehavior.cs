@@ -22,6 +22,7 @@ public class AttackBehavior : Photon.MonoBehaviour {
         // Moved to Start to avoid acceleration.
 		starterTime = Time.time;
 
+	    // Old code for colorizing, kept here for RPC example:
 //        Vector3 serializedColor;
 //        serializedColor.x = attackerColor.r;
 //        serializedColor.y = attackerColor.g;
