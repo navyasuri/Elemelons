@@ -8,12 +8,27 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public GameObject attack; // For the drag-and-drop of the Component on the Player Prefab.
 	public string Attack = "Attack";
     public Color playerColor;
-	public SteamVR_TrackedObject rightHandControl;
-	public SteamVR_TrackedObject leftHandControl;
+
+	protected SteamVR_TrackedObject rightController;
+	protected SteamVR_Controller.Device rightDevice;
+	protected ParticleSystem rightParticles;
+
+	protected SteamVR_TrackedObject leftController;
+	protected SteamVR_Controller.Device leftDevice;
+	protected ParticleSystem leftParticles;
+
+	//public SteamVR_TrackedObject rightHandControl;
+	//public SteamVR_TrackedObject leftHandControl;
 
     void Awake()
     {
+		rightController = GameObject.FindWithTag ("right").GetComponent<SteamVR_TrackedObject> ();
+		rightDevice = SteamVR_Controller.Input ((int)rightController.index);
+		rightParticles = GameObject.FindWithTag ("rightParticles").GetComponent<ParticleSystem>();
 
+		leftController = GameObject.FindWithTag ("left").GetComponent<SteamVR_TrackedObject> ();
+		leftDevice = SteamVR_Controller.Input ((int)leftController.index);
+		leftParticles = GameObject.FindWithTag ("leftParticles").GetComponent<ParticleSystem>();
     }
 
     void Start () {
@@ -71,24 +86,20 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 //            newAttack.GetComponent<AttackBehavior>().attackerColor = playerColor;
 //        }
 
-		if (-1 != (int)rightHandControl.index && -1 != (int)leftHandControl.index) {
-			var deviceR = SteamVR_Controller.Input ((int)rightHandControl.index);
-			if (deviceR.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
-				Vector3 attackVector = transform.position + (transform.forward * 1f);
-				attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
-				var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
-				newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
-				//newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
-			}
-				
-			var deviceL = SteamVR_Controller.Input ((int)leftHandControl.index);
-			if (deviceL.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
-				Vector3 attackVector = transform.position + (transform.forward * 1f);
-				attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
-				var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
-				newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
-				//newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
-			}
+		if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
+			Vector3 attackVector = transform.position + (transform.forward * 1f);
+			attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
+			var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
+			newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
+			//newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
 		}
-    }
+			
+		if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
+			Vector3 attackVector = transform.position + (transform.forward * 1f);
+			attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
+			var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
+			newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
+			//newAttack.GetComponent<AttackBehavior> ().attackerColor = playerColor;
+		}
+	}
 }

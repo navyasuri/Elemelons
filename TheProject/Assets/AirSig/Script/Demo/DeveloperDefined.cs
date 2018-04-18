@@ -19,7 +19,11 @@ public class DeveloperDefined : BasedGestureHandle {
     // score - the confidence level of this identification. Above 1 is generally considered a match
     void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		//Debug.Log ("You drew: " + gesture);
-        textToUpdate = string.Format("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim(), score);
+		if (score > 1.2) {
+			textToUpdate = string.Format ("<color=green>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+		} else {
+			textToUpdate = string.Format ("<color=red>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+		}
 		Vector3 attackVector = left.transform.position + (transform.forward * 1f);
 		attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
 		var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, left.transform.rotation, 0); // Create the attack.

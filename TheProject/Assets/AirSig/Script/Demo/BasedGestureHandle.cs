@@ -35,13 +35,14 @@ public class BasedGestureHandle : MonoBehaviour {
     protected IEnumerator uiFeedback;
 
 	public void Start() {
-		rightController = GameObject.FindWithTag ("right").GetComponent<SteamVR_TrackedObject> ();
-		rightDevice = SteamVR_Controller.Input ((int)rightController.index);
-		rightParticles = GameObject.FindWithTag ("rightParticles").GetComponent<ParticleSystem>();
-
-		leftController = GameObject.FindWithTag ("left").GetComponent<SteamVR_TrackedObject> ();
-		leftDevice = SteamVR_Controller.Input ((int)leftController.index);
-		leftParticles = GameObject.FindWithTag ("leftParticles").GetComponent<ParticleSystem>();
+		// See AirSigControlUpdate below, called by Network as the Player Rig is instantiated.
+//		rightController = GameObject.FindWithTag ("right").GetComponent<SteamVR_TrackedObject> ();
+//		rightDevice = SteamVR_Controller.Input ((int)rightController.index);
+//		rightParticles = GameObject.FindWithTag ("rightParticles").GetComponent<ParticleSystem>();
+//
+//		leftController = GameObject.FindWithTag ("left").GetComponent<SteamVR_TrackedObject> ();
+//		leftDevice = SteamVR_Controller.Input ((int)leftController.index);
+//		leftParticles = GameObject.FindWithTag ("leftParticles").GetComponent<ParticleSystem>();
 	}
 
     protected string GetDefaultIntructionText() {
@@ -159,5 +160,15 @@ public class BasedGestureHandle : MonoBehaviour {
             nextUiAction = null;
         }
     }
+
+	public void AirSigControlUpdate(GameObject left, GameObject right) {
+		rightController = right.GetComponent<SteamVR_TrackedObject>();
+		rightDevice = SteamVR_Controller.Input((int)rightController.index);
+		rightParticles = GameObject.FindWithTag("rightParticles").GetComponent<ParticleSystem>();
+
+		leftController = left.GetComponent<SteamVR_TrackedObject>();
+		leftDevice = SteamVR_Controller.Input((int)leftController.index);
+		leftParticles = GameObject.FindWithTag("leftParticles").GetComponent<ParticleSystem>();
+	}
 
 }

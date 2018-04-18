@@ -13,11 +13,11 @@ using Photon; // To use Photon-specific methods
 // Now we can override Photon methods.
 public class Network : Photon.PunBehaviour
 {
-    private const string roomName = "ElemelonsClosedBeta";
+    private const string roomName = "ElemelonsClosedAlpha";
     private RoomInfo[] roomsList;
 
     // Prefab references for objects to be Instantiated by this script:
-	public GameObject playerPrefab;
+	public GameObject cameraRig;
 	public GameObject playerHeadPrefab;
     public GameObject leftHandPrefab;
     public GameObject rightHandPrefab;
@@ -31,7 +31,7 @@ public class Network : Photon.PunBehaviour
     void Start()
     {
         // Allows us to connect to the network. The only argument is the version of this application.
-        PhotonNetwork.ConnectUsingSettings("0.1.1");
+        PhotonNetwork.ConnectUsingSettings("0.1.2");
 
         PhotonNetwork.autoJoinLobby = true;
 
@@ -76,9 +76,7 @@ public class Network : Photon.PunBehaviour
     // Once we've joined our room, we want to instantiate an object for our player to control:
     public override void OnJoinedRoom()
     {
-        //Debug.Log("Current number of players is: " + PhotonNetwork.countOfPlayers);
-
-        //Place the rig at a spawn point
+        // Get the spawn point location to place the rig
         Vector3 spawnLocation;
         if (spawnPoints.Length > 0)
         {
@@ -102,16 +100,9 @@ public class Network : Photon.PunBehaviour
         //Waiting for rig to come into the network and connect the player:
         StartCoroutine(WaitForRig());
 
-
         Debug.Log("Creating new player and spawn position is " + spawnLocation);
-        // Use PhotonNetwork.Instantiate instead of GameObject.Instantiate to make sure that the player prefab GameObject we
-        // instantiate will be kept track of by Photon, in order to update its information in NetworkCommunicator.cs, 
-        // which must be attached to the object.
 
-        // Not necessary, because in this case, the "player" we need is just the SteamVR rig, which exists upon game startup.
-        // NOTE: But then how do spawn locations work???   
-
-		GameObject.Instantiate(playerPrefab, spawnLocation, Quaternion.identity);
+		GameObject.Instantiate(cameraRig, spawnLocation, Quaternion.identity);
         // NOTE: Prefab should be located in the Assets/Resources folder.
     }
 
@@ -165,24 +156,19 @@ public class Network : Photon.PunBehaviour
         GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
         player.transform.SetParent(headset.transform);
 
-        //Find the controllers and instantiate capsules ON NETOWRK — set controllers as the parents of the capsules
+        //Find the controllers and instantiate hand prefabs ON NETWORK — set controllers as the parents of the capsules
 
         //Find left controller
-        GameObject controllerLeft = GameObject.Find("Controller (left)");
-
-		//int leftIndex = controllerLeft.
-		// Get the SteamVR index of this controller ^^^
-		// Call updateLeftControllerIndex(indexTempName, );
-		// Call updateRightControllerIndex(indexTempName);
-
-        Debug.Log(controllerLeft);
-        GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, controllerLeft.transform.position, Quaternion.identity, 0);
-        playerHandLeft.transform.SetParent(controllerLeft.transform);
+		GameObject leftController = GameObject.Find("Controller (left)");
+        Debug.Log(leftController);
+        GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
+        playerHandLeft.transform.SetParent(leftController.transform);
 
         //Now for right controller
-        GameObject controllerRight = GameObject.Find("Controller (right)");
-        GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, controllerRight.transform.position, Quaternion.identity, 0);
-		playerHandRight.transform.SetParent(controllerRight.transform);
+		GameObject rightController = GameObject.Find("Controller (right)");
+        GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
+		playerHandRight.transform.SetParent(rightController.transform);
 
+		BasedGestureHandle.AirSigControlUpdate(rightController, leftController);
     }
 }
