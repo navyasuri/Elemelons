@@ -23,7 +23,6 @@ public class paintingCollision : MonoBehaviour {
 			//transform.position = transform.parent.position;
 
 			GetComponent<PhotonView> ().RequestOwnership ();
-			GetComponent<TransformManager>().MakeVisible();
 			GetComponent<TransformManager>().DetachParent();
 			Transform wallToSnapTo = collision.gameObject.transform;
 			Debug.Log (wallToSnapTo);

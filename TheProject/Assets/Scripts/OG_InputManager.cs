@@ -98,7 +98,6 @@ public class OG_InputManager : MonoBehaviour
 
 			Transform go = gameObject.transform.GetChild (2);
 			go.GetComponent<PhotonView> ().RequestOwnership ();
-            go.GetComponent<TransformManager>().MakeVisible();
             go.GetComponent<TransformManager> ().DetachParent ();
             //
 			//go.parent = null;
@@ -155,7 +154,6 @@ public class OG_InputManager : MonoBehaviour
 		
 				GameObject goHit = hit.collider.gameObject;
 				goHit.GetComponent<PhotonView> ().RequestOwnership ();
-                goHit.GetComponent<TransformManager>().MakeTransparent();
                 goHit.GetComponent<TransformManager> ().SetNewParent (transform);
                 //goHit.transform.position = transform.position;
                 //goHit.GetComponent<TransformManager>().MakeTransparent();
