@@ -24,8 +24,13 @@ public class BoulderBehavior : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if (col.gameObject.tag != "Environment") {
-			
+		// Subtract health from player on impact:
+		if (col.gameObject.CompareTag("Player")) {
+			col.gameObject.GetComponent<PlayerBehavior> ().health -= 1;
+			Debug.Log ("Player hit! Health remaining: " + col.gameObject.GetComponent<PlayerBehavior> ().health);
+		}
+		// If the boulder hits anything not tagged 'environment':
+		if (!col.gameObject.CompareTag("Environment")) {
 			Destroy (this.gameObject);
 		}
 

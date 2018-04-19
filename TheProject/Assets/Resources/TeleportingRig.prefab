@@ -1594,14 +1594,14 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1043025618
+  randomSeed: -1152467918
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.1
+      scalar: 0.5
       minScalar: 0.0001
       maxCurve:
         serializedVersion: 2
@@ -2252,16 +2252,16 @@ ParticleSystem:
           outSlope: 1
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.07321179
-          value: 0.51813245
-          inSlope: -0.6488718
-          outSlope: -0.6488718
+          time: 0.050941586
+          value: 0.35428357
+          inSlope: -0.34382153
+          outSlope: -0.34382153
           tangentMode: 0
         - serializedVersion: 2
           time: 1
           value: 0.25061035
-          inSlope: -0.64165545
-          outSlope: -0.64165545
+          inSlope: -0.42501697
+          outSlope: -0.42501697
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -2276,16 +2276,16 @@ ParticleSystem:
           outSlope: 0
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.15513518
-          value: 0.36736727
+          time: 0.1348944
+          value: 0.26495028
           inSlope: -0.537706
           outSlope: -0.537706
           tangentMode: 0
         - serializedVersion: 2
           time: 1
           value: 0.18914795
-          inSlope: -0.4267809
-          outSlope: -0.4267809
+          inSlope: -0.0573114
+          outSlope: -0.0573114
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -2484,25 +2484,25 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.6095334, b: 0.19117647, a: 1}
+        key0: {r: 1, g: 0.44665307, b: 0.08823532, a: 1}
         key1: {r: 0.9338235, g: 0.658696, b: 0.36391655, a: 1}
         key2: {r: 0.86280024, g: 0.8478112, b: 0.23236682, a: 0.5803922}
-        key3: {r: 0.89705884, g: 0.59891874, b: 0.15170847, a: 1}
+        key3: {r: 0.89705884, g: 0.59891874, b: 0.15170847, a: 0.41960785}
         key4: {r: 0, g: 0, b: 0, a: 0.46666667}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 24479
+        ctime1: 21974
         ctime2: 42791
-        ctime3: 64764
+        ctime3: 65535
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 25058
-        atime2: 52621
+        atime1: 27756
+        atime2: 56090
         atime3: 65535
         atime4: 65535
         atime5: 0
@@ -4895,14 +4895,14 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2043756677
+  randomSeed: -1292616374
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.1
+      scalar: 0.5
       minScalar: 0.0001
       maxCurve:
         serializedVersion: 2
@@ -5553,16 +5553,16 @@ ParticleSystem:
           outSlope: 1
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.07321179
-          value: 0.51813245
-          inSlope: -0.6488718
-          outSlope: -0.6488718
+          time: 0.050941586
+          value: 0.35428357
+          inSlope: -0.34382153
+          outSlope: -0.34382153
           tangentMode: 0
         - serializedVersion: 2
           time: 1
           value: 0.25061035
-          inSlope: -0.64165545
-          outSlope: -0.64165545
+          inSlope: -0.42501697
+          outSlope: -0.42501697
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -5577,16 +5577,16 @@ ParticleSystem:
           outSlope: 0
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.15513518
-          value: 0.36736727
+          time: 0.1348944
+          value: 0.26495028
           inSlope: -0.537706
           outSlope: -0.537706
           tangentMode: 0
         - serializedVersion: 2
           time: 1
           value: 0.18914795
-          inSlope: -0.4267809
-          outSlope: -0.4267809
+          inSlope: -0.0573114
+          outSlope: -0.0573114
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -5785,25 +5785,25 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.6095334, b: 0.19117647, a: 1}
+        key0: {r: 1, g: 0.44665307, b: 0.08823532, a: 1}
         key1: {r: 0.9338235, g: 0.658696, b: 0.36391655, a: 1}
         key2: {r: 0.86280024, g: 0.8478112, b: 0.23236682, a: 0.5803922}
-        key3: {r: 0.89705884, g: 0.59891874, b: 0.15170847, a: 1}
+        key3: {r: 0.89705884, g: 0.59891874, b: 0.15170847, a: 0.41960785}
         key4: {r: 0, g: 0, b: 0, a: 0.46666667}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 24479
+        ctime1: 21974
         ctime2: 42791
-        ctime3: 64764
+        ctime3: 65535
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 25058
-        atime2: 52621
+        atime1: 27756
+        atime2: 56090
         atime3: 65535
         atime4: 65535
         atime5: 0

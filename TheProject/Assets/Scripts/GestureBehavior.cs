@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon;
 
-public class AttackBehavior : Photon.MonoBehaviour {
+public class GestureBehavior : Photon.MonoBehaviour {
 
-//	public Transform target;
-//	public float speed;
-	Vector3 newPos;
 	GameObject player;
 	Rigidbody rb;
-    public int attackerID;
+    public int playerID;
     //public Color attackerColor;
-	float starterTime;
-	float curTime;
+	float startTime;
+	float currentTime;
+
+	public bool attack = false;
+	public bool defense = false;
 
 	void Start() {
 		//GetComponent<Renderer>().material.color = attackerColor;
 		rb = gameObject.GetComponent<Rigidbody>();
-        // Needed to be transform.forward, not transform.position.
-        // Moved to Start to avoid acceleration.
-		starterTime = Time.time;
+		startTime = Time.time;
 
+	    // Old code for colorizing, kept here for RPC example:
 //        Vector3 serializedColor;
 //        serializedColor.x = attackerColor.r;
 //        serializedColor.y = attackerColor.g;
@@ -43,29 +42,57 @@ public class AttackBehavior : Photon.MonoBehaviour {
 //    }
 
     void Update() {
-		curTime = Time.time;
-		if (curTime - starterTime > 2f) {
-			Destroy (gameObject);
+		currentTime = Time.time;
+
+		if (attack) {
+			if (currentTime - startTime > 3f) {
+				Destroy (gameObject);
+			}
+		}
+
+		if (defense) {
+			if (currentTime - startTime > 2f) {
+				Destroy (gameObject);
+			}
 		}
 	}
 
+	// For attack:
 	void OnCollisionEnter(Collision collision)
 	{
         if (collision.gameObject.CompareTag("Player")) // Check for a Player.
         {
             // If the attack is not colliding with the Player who sent it, destroy them:
-            if (collision.gameObject.GetInstanceID() != attackerID)
+            if (collision.gameObject.GetInstanceID() != playerID)
                 Destroy(collision.gameObject);
             Destroy(gameObject); // Destroy the attack on any collision.
+			collision.gameObject.GetComponent<PlayerBehavior>().health -= 1;
+			Debug.Log ("Player hit! Health remaining: " + collision.gameObject.GetComponent<PlayerBehavior> ().health);
         }
 	}
 
-	public void Launch(Vector3 launch) {
-		rb = gameObject.GetComponent<Rigidbody>();
-		rb.AddForce(launch * 500f);
+	// For defense:
+	void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.CompareTag("attack"))
+		{
+			// Destroy any attacks that are not this players:
+			if (collision.gameObject.GetComponent<GestureBehavior> ().playerID != playerID) {
+				Destroy (collision.gameObject);
+			}
+		}
+	}
 
-		Quaternion rot = Quaternion.FromToRotation (Vector3.back, launch);
-		transform.rotation = rot;
+	public void Spawn(Vector3 direction) {
+		// Orient the new object:
+		Quaternion rotation = Quaternion.FromToRotation (Vector3.back, direction);
+		transform.rotation = rotation;
+
+		// Send attacks flying!
+		if (attack) {
+			rb = gameObject.GetComponent<Rigidbody> ();
+			rb.AddForce (direction * 500f);
+		}
 	}
 
     //[PunRPC] // Used to flag methods as remote-callable.
