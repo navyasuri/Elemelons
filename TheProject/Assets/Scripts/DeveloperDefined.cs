@@ -110,10 +110,10 @@ public class DeveloperDefined : MonoBehaviour {
 			SteamVR_Controller.ButtonMask.Grip,
             AirSigManager.PressOrTouch.PRESS);
 
-//        airsigManager.SetTriggerStartKeys(
-//            AirSigManager.Controller.LEFT_HAND,
-//			SteamVR_Controller.ButtonMask.Grip,
-//            AirSigManager.PressOrTouch.PRESS);
+        airsigManager.SetTriggerStartKeys(
+            AirSigManager.Controller.LEFT_HAND,
+			SteamVR_Controller.ButtonMask.Grip,
+            AirSigManager.PressOrTouch.PRESS);
     }
 		
     void OnDestroy() {
@@ -276,6 +276,8 @@ public class DeveloperDefined : MonoBehaviour {
 			gestureResult.GetComponent<GestureBehavior> ().Spawn (headset.transform.forward);
 			defenseTriggered = false;
 		}
+
+		// Set a timer with something of .2 seconds to avoid double attacking using both controllers.
 
 
 		// =======================================

@@ -41,6 +41,11 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         }
     }
 
+	public void hit() {
+		health -= 1;
+		Debug.Log ("You were hit! Health: " + health);
+	}
+
 	// The following is dead code, previously used to move players in the space:
 //	void Update () {
 //        if (photonView.isMine) //Check if this is part of this application which called 'PhotonNetwork.Instantiate()'
