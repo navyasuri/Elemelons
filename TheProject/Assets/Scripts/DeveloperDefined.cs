@@ -23,12 +23,12 @@ public class DeveloperDefined : MonoBehaviour {
 	protected GameObject headset;
 
 	// UI for displaying current status and operation results 
-	public Text textMode;
-	public Text textResult;
+	//public Text textMode;
+	//public Text textResult;
 	//public GameObject instruction;
 	//public GameObject cHeartDown;
 
-	protected string textToUpdate;
+	//protected string textToUpdate;
 
 	protected readonly string DEFAULT_INSTRUCTION_TEXT = "Pressing trigger and write in the air\nReleasing trigger when finish";
 	protected string defaultResultText;
@@ -64,7 +64,7 @@ public class DeveloperDefined : MonoBehaviour {
 		// Good Match!
 		if (score > 0.8) {
 			Debug.Log(string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
-			textToUpdate = string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+			//textToUpdate = string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
 
 			// Launch fireball
 			if (gesture.Trim().Equals ("AttackPunchSimple")) {
