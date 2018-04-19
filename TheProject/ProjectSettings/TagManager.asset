@@ -4,19 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - left
-  - right
-  - FxTemporaire
-  - projectile
-  - TeleportIgnore
-  - leftParticles
-  - rightParticles
-<<<<<<< HEAD
-=======
-  - Environment
->>>>>>> faizan
   - attack
-  - defense
   layers:
   - Default
   - TransparentFX

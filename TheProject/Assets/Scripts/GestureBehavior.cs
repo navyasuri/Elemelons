@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon;
@@ -8,10 +8,7 @@ public class GestureBehavior : Photon.MonoBehaviour {
 	GameObject player;
 	Rigidbody rb;
     public int playerID;
-<<<<<<< HEAD:TheProject/Assets/Scripts/GestureBehavior.cs
-=======
 	AudioSource flameWoosh;
->>>>>>> faizan:TheProject/Assets/Scripts/GestureBehavior.cs
     //public Color attackerColor;
 	float startTime;
 	float currentTime;
@@ -96,11 +93,8 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		if (attack) {
 			rb = gameObject.GetComponent<Rigidbody> ();
 			rb.AddForce (direction * 500f);
-<<<<<<< HEAD:TheProject/Assets/Scripts/GestureBehavior.cs
-=======
 			flameWoosh = gameObject.GetComponent<AudioSource> ();
 			flameWoosh.Play ();
->>>>>>> faizan:TheProject/Assets/Scripts/GestureBehavior.cs
 		}
 	}
 

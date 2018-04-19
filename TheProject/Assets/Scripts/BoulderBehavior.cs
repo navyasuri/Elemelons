@@ -35,7 +35,6 @@ public class BoulderBehavior : MonoBehaviour {
 			gameObject.GetComponentInParent<AudioSource>().Play();
 			Destroy (this.gameObject);
 		}
-
 		rumbling.Play();
 
 	}

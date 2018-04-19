@@ -31,12 +31,12 @@ public class ObstacleSpawner : MonoBehaviour {
 		if (Time.time - startTime > delay) {
 			newObstacle = GameObject.Instantiate (obstacle, currPos, Quaternion.identity);
 			startTime = Time.time;
-//			newObstacle.GetComponent<Rigidbody> ().AddForce (mForce, ForceMode.VelocityChange);
-		}
-
-		if (newObstacle != null) {
 			newObstacle.GetComponent<Rigidbody> ().AddForce (mForce, ForceMode.Force);
 		}
+
+		//if (newObstacle != null) {
+		//	newObstacle.GetComponent<Rigidbody> ().AddForce (mForce, ForceMode.Force);
+		//}
 
 			
 	}
