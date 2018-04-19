@@ -63,23 +63,24 @@ public class GestureBehavior : Photon.MonoBehaviour {
 	{
         if (collision.gameObject.CompareTag("Player")) // Check for a Player.
         {
-            // If the attack is not colliding with the Player who sent it, destroy them:
-            if (collision.gameObject.GetInstanceID() != playerID)
-                Destroy(collision.gameObject);
-            Destroy(gameObject); // Destroy the attack on any collision.
-			collision.gameObject.GetComponent<PlayerBehavior>().health -= 1;
-			Debug.Log ("Player hit! Health remaining: " + collision.gameObject.GetComponent<PlayerBehavior> ().health);
+            // If the attack is not colliding with the Player who sent it, hurt them:
+			if (collision.gameObject.GetInstanceID () != playerID) {
+				collision.gameObject.GetComponent<PlayerBehavior> ().health -= 1;
+				Debug.Log ("Player hit! Health remaining: " + collision.gameObject.GetComponent<PlayerBehavior> ().health);
+			}
         }
+		Destroy(gameObject); // Destroy the attack on any collision.
 	}
 
 	// For defense:
 	void OnTriggerEnter(Collider collision)
 	{
-		if (collision.gameObject.CompareTag("attack"))
+		if (collision.gameObject.CompareTag("attack")) // Check for attacking objects
 		{
-			// Destroy any attacks that are not this players:
+			// Destroy any attacks that are not this player's:
 			if (collision.gameObject.GetComponent<GestureBehavior> ().playerID != playerID) {
 				Destroy (collision.gameObject);
+				flameWoosh.Play ();
 			}
 		}
 	}

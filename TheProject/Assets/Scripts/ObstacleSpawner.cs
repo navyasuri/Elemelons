@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour {
 
 	private float startTime;
-	public float delay;
+	private float delay;
 	public GameObject obstacle;
 	private Vector3 mForce;
 	private GameObject newObstacle;
