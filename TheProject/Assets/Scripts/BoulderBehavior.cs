@@ -14,7 +14,7 @@ public class BoulderBehavior : MonoBehaviour {
 //		this.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
 		rumbling = GetComponent<AudioSource>();
 		rumbling.time = 3f;
-		float randomScale = Random.Range (0.05f, 0.07f);
+		float randomScale = Random.Range (0.01f, 0.03f);
 		gameObject.transform.localScale += new Vector3 (randomScale, randomScale, randomScale);
 	}
 	
