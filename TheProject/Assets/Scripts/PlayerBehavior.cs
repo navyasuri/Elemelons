@@ -18,14 +18,22 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         serializedColor.z = playerColor.b;
         // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
         PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
+<<<<<<< HEAD
 		health = 1;
+=======
+		health = 3;
+>>>>>>> faizan
     }
 
 	void Update() {
 		if (health == 0) {
 			Destroy (gameObject.GetComponentInParent<Camera>());
 			GameObject.Find ("NetworkManager").GetComponent<Network> ().OnJoinedRoom ();
+<<<<<<< HEAD
 			health = 1;
+=======
+			health = 3;
+>>>>>>> faizan
 		}
 	}
 

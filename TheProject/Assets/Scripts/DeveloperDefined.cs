@@ -64,7 +64,11 @@ public class DeveloperDefined : MonoBehaviour {
 		// Good Match!
 		if (score > 0.8) {
 			Debug.Log(string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
+<<<<<<< HEAD:TheProject/Assets/Scripts/DeveloperDefined.cs
 			textToUpdate = string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+=======
+			//textToUpdate = string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+>>>>>>> faizan:TheProject/Assets/Scripts/DeveloperDefined.cs
 
 			// Launch fireball
 			if (gesture.Trim().Equals ("AttackPunchSimple")) {

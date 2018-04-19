@@ -11,6 +11,10 @@ TagManager:
   - TeleportIgnore
   - leftParticles
   - rightParticles
+<<<<<<< HEAD
+=======
+  - Environment
+>>>>>>> faizan
   - attack
   - defense
   layers:
