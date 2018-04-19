@@ -11,6 +11,8 @@ TagManager:
   - TeleportIgnore
   - leftParticles
   - rightParticles
+  - Environment
+  - attack
   layers:
   - Default
   - TransparentFX
