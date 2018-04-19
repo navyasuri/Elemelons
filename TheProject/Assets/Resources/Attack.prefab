@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 199432253482062962}
   m_Layer: 0
   m_Name: Attack
-  m_TagString: Untagged
+  m_TagString: attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,13 +180,13 @@ MeshRenderer:
   m_GameObject: {fileID: 1650465157779456}
   m_Enabled: 0
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 76e2fe9a7ce3b794d91bcc5bbc951014, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -250,7 +250,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd9bf3a236334aac846c95baac55e72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackerID: 0
+  playerID: 0
+  attack: 0
+  defense: 0
 --- !u!114 &114932734867111888
 MonoBehaviour:
   m_ObjectHideFlags: 1
