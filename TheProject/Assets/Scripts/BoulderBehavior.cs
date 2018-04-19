@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class BoulderBehavior : MonoBehaviour {
 
-	private AudioSource audio;
+	//public AudioSource rumbling;
+	AudioSource rumbling;
 	// Use this for initialization
 	void Start () {
 //		this.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
-		audio = GetComponent<AudioSource>();
+		rumbling = GetComponent<AudioSource>();
+		rumbling.time = 3f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (rumbling.time > 4.0f) {
+			rumbling.Stop ();
+			rumbling.time = 3f;
+		}
 		
 	}
 
@@ -21,5 +28,8 @@ public class BoulderBehavior : MonoBehaviour {
 			
 			Destroy (this.gameObject);
 		}
+
+		rumbling.Play();
+
 	}
 }
