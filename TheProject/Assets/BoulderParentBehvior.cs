@@ -12,8 +12,12 @@ public class BoulderParentBehvior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!this.gameObject.GetComponentInChildren<MeshRenderer> ().enabled) {
-			explosion.Play();
+//		if (!this.gameObject.GetComponentInChildren<MeshRenderer> ().enabled) {
+//			explosion.Play();
+//			Destroy (this.gameObject, 1f);
+//		}
+		if (explosion.isPlaying) {
+			Debug.Log ("Child is dead");
 			Destroy (this.gameObject, 1f);
 		}
 	}

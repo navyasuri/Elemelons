@@ -588,7 +588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683a39b26a0f2c147bfc5d44ac859892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraRig: {fileID: 1552955003290736, guid: 2cb59f215196b644694becdcd0ce3f29, type: 2}
+  teleportRig: {fileID: 1552955003290736, guid: 2cb59f215196b644694becdcd0ce3f29,
+    type: 2}
   playerHeadPrefab: {fileID: 1614703172101012, guid: 2c8627cebde226b4ab9406c6d6ed2550,
     type: 2}
   leftHandPrefab: {fileID: 1789407906519474, guid: 8c268c6a1131b4941800fa36555934d4,
@@ -974,8 +975,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airsigManager: {fileID: 1262120278}
-  Attack: Attack
-  DefenseWall: DefenseWall
+  attack: Attack
+  defenseWall: DefenseWall
+  gestureTriggered: 0
+  attackTriggered: 0
+  defenseTriggered: 0
 --- !u!4 &1898191621
 Transform:
   m_ObjectHideFlags: 0

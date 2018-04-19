@@ -31,6 +31,8 @@ public class BoulderBehavior : MonoBehaviour {
 		}
 		// If the boulder hits anything not tagged 'environment':
 		if (!col.gameObject.CompareTag("Environment")) {
+			// get parent, play audio source
+			gameObject.GetComponentInParent<AudioSource>().Play();
 			Destroy (this.gameObject);
 		}
 

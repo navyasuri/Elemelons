@@ -8,6 +8,7 @@ public class GestureBehavior : Photon.MonoBehaviour {
 	GameObject player;
 	Rigidbody rb;
     public int playerID;
+	AudioSource flameWoosh;
     //public Color attackerColor;
 	float startTime;
 	float currentTime;
@@ -92,6 +93,8 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		if (attack) {
 			rb = gameObject.GetComponent<Rigidbody> ();
 			rb.AddForce (direction * 500f);
+			flameWoosh = gameObject.GetComponent<AudioSource> ();
+			flameWoosh.Play ();
 		}
 	}
 
