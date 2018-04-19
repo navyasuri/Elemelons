@@ -14,7 +14,7 @@ public class BoulderBehavior : MonoBehaviour {
 //		this.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
 		rumbling = GetComponent<AudioSource>();
 		rumbling.time = 3f;
-		float randomScale = Random.Range (0.01f, 0.02f);
+		float randomScale = Random.Range (0.05f, 0.07f);
 		gameObject.transform.localScale += new Vector3 (randomScale, randomScale, randomScale);
 	}
 	
@@ -40,8 +40,7 @@ public class BoulderBehavior : MonoBehaviour {
 		Debug.Log (col.gameObject.tag);
 		// Subtract health from player on impact:
 		if (col.gameObject.CompareTag("Player")) {
-			col.gameObject.GetComponent<PlayerBehavior> ().health -= 1;
-			Debug.Log ("Player hit! Health remaining: " + col.gameObject.GetComponent<PlayerBehavior> ().health);
+			col.gameObject.GetComponent<PlayerBehavior> ().hit();
 		}
 		// If the boulder hits anything not tagged 'environment':
 		if (!col.gameObject.CompareTag("Environment")) {

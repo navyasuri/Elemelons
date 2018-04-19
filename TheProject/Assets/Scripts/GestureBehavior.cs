@@ -65,8 +65,7 @@ public class GestureBehavior : Photon.MonoBehaviour {
         {
             // If the attack is not colliding with the Player who sent it, hurt them:
 			if (collision.gameObject.GetInstanceID () != playerID) {
-				collision.gameObject.GetComponent<PlayerBehavior> ().health -= 1;
-				Debug.Log ("Player hit! Health remaining: " + collision.gameObject.GetComponent<PlayerBehavior> ().health);
+				collision.gameObject.GetComponent<PlayerBehavior> ().hit();
 			}
         }
 		Destroy(gameObject); // Destroy the attack on any collision.
