@@ -23,29 +23,29 @@ public class DeveloperDefined : MonoBehaviour {
 	protected GameObject headset;
 
 	// UI for displaying current status and operation results 
-	//public Text textMode;
-	//public Text textResult;
+	public Text textMode;
+	public Text textResult;
 	//public GameObject instruction;
 	//public GameObject cHeartDown;
 
-	//protected string textToUpdate;
+	protected string textToUpdate;
 
 	protected readonly string DEFAULT_INSTRUCTION_TEXT = "Pressing trigger and write in the air\nReleasing trigger when finish";
 	protected string defaultResultText;
 
 	// Set by the callback function to run this action in the next UI call
-	//protected Action nextUiAction;
-	//protected IEnumerator uiFeedback;
+	protected Action nextUiAction;
+	protected IEnumerator uiFeedback;
 
     // Callback for receiving signature/gesture progression or identification results
     AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
-	public string Attack = "Attack";
-	public string DefenseWall = "DefenseWall";
+	public string attack = "Attack";
+	public string defenseWall = "DefenseWall";
 
-	bool GestureTriggered = true;
-	bool ShootFireball = false;
-	bool DefenseCross = false;
+	public bool gestureTriggered = false;
+	public bool attackTriggered = false;
+	public bool defenseTriggered = false;
 
 
 
@@ -64,19 +64,19 @@ public class DeveloperDefined : MonoBehaviour {
 		// Good Match!
 		if (score > 0.8) {
 			Debug.Log(string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
+			textToUpdate = string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
 
 			// Launch fireball
 			if (gesture.Trim().Equals ("AttackPunchSimple")) {
-				// Actions triggered by Update()
-				ShootFireball = true;
-				GestureTriggered = true;
+				attackTriggered = true;
+				gestureTriggered = true;
+				// Actions are then triggered by Update()
 			}
 
 			// Defend yo self
 			if (gesture.Trim ().Equals ("DefenseShieldCross")) {
-				Debug.Log ("A wild fire shield appeared!");
-				DefenseCross = true;
-				GestureTriggered = true;
+				defenseTriggered = true;
+				gestureTriggered = true;
 			}
 		
 		// Try again...
@@ -90,9 +90,9 @@ public class DeveloperDefined : MonoBehaviour {
         Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
         // Update the display text
-        //textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
-        //textResult.text = defaultResultText = "Pressing trigger and write symbol in the air\nReleasing trigger when finish";
-        //textResult.alignment = TextAnchor.UpperCenter;
+//        textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
+//        textResult.text = defaultResultText = "Pressing grip and write symbol in the air\nReleasing grip when finished.";
+//        textResult.alignment = TextAnchor.UpperCenter;
         //instruction.SetActive(false);
 
 		// Configure AirSig by specifying target 
@@ -110,10 +110,10 @@ public class DeveloperDefined : MonoBehaviour {
 			SteamVR_Controller.ButtonMask.Grip,
             AirSigManager.PressOrTouch.PRESS);
 
-        airsigManager.SetTriggerStartKeys(
-            AirSigManager.Controller.LEFT_HAND,
-			SteamVR_Controller.ButtonMask.Grip,
-            AirSigManager.PressOrTouch.PRESS);
+//        airsigManager.SetTriggerStartKeys(
+//            AirSigManager.Controller.LEFT_HAND,
+//			SteamVR_Controller.ButtonMask.Grip,
+//            AirSigManager.PressOrTouch.PRESS);
     }
 		
     void OnDestroy() {
@@ -124,11 +124,9 @@ public class DeveloperDefined : MonoBehaviour {
     void Update() {
         UpdateUIandHandleControl();
 
-		if (GestureTriggered) {
+		if (gestureTriggered) {
 			GestureResponse (headset);
-			GestureTriggered = false;
-			ShootFireball = false;
-			DefenseCross = false;
+			gestureTriggered = false;
 		}
     }
 
@@ -141,11 +139,12 @@ public class DeveloperDefined : MonoBehaviour {
 	 * =============================================
 	 */
 
-	protected string GetDefaultIntructionText() {
-		return DEFAULT_INSTRUCTION_TEXT;
-	}
+//	protected string GetDefaultIntructionText() {
+//		return DEFAULT_INSTRUCTION_TEXT;
+//	}
 
-	// All for updating the AirSig UI gestuer match results, from the Demo scene:
+	// All for updating the AirSig UI gesture match results, from the Demo scene:
+
 //	protected void ToggleGestureImage(string target) {
 //		if ("All".Equals(target)) {
 //			cHeartDown.SetActive(true);
@@ -256,19 +255,33 @@ public class DeveloperDefined : MonoBehaviour {
 
 	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
 	public void GestureResponse(GameObject headset) {
-		// Get the position 1 unit in front of the headset:
+		// Get the position one unit in front of the headset:
 		Vector3 Vector = headset.transform.position + (headset.transform.forward * 1f);
 
-		if (ShootFireball) {
-			var newAttack = PhotonNetwork.Instantiate (Attack, Vector, Quaternion.identity, 0); // Create the attack.
-			newAttack.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
-	//		newAttack.GetComponent<AttackBehavior>().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
+		if (attackTriggered) { // Attack!
+			GameObject gestureResult = PhotonNetwork.Instantiate (attack, Vector, Quaternion.identity, 0);
+			gestureResult.GetComponent<GestureBehavior> ().attack = true;
+			// Pass Camera eye and children (hopefully) as the player here, for special properties
+			gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
+			// 'Activate' the prefab
+			gestureResult.GetComponent<GestureBehavior> ().Spawn (headset.transform.forward);
+			attackTriggered = false;
 		}
 
-		if (DefenseCross) {
-			var newDefense = PhotonNetwork.Instantiate (DefenseWall, Vector, Quaternion.identity, 0); // Create the defense.
-			newDefense.GetComponent<AttackBehavior>().Launch(headset.transform.forward);
+		if (defenseTriggered) { // Defend!
+			GameObject gestureResult = PhotonNetwork.Instantiate (defenseWall, Vector, Quaternion.identity, 0);
+			Debug.Log (headset);
+			gestureResult.GetComponent<GestureBehavior> ().defense = true;
+			gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
+			gestureResult.GetComponent<GestureBehavior> ().Spawn (headset.transform.forward);
+			defenseTriggered = false;
 		}
 
+
+		// =======================================
+		// TODO: Turn this bug into a feature:
+		//       When shoot fireballs is not set to false right away,
+		//       the player spawns a fire storm.
+		//       Hook this up to a for(loop) with a counter up to, say 20, before setting to false.
 	}
 }

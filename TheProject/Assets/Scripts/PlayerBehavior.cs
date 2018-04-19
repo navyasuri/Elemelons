@@ -5,25 +5,8 @@ using Photon;
 
 public class PlayerBehavior : Photon.MonoBehaviour {
 
-	public GameObject attack; // For the drag-and-drop of the Component on the Player Prefab.
-	public string Attack = "Attack";
-    public Color playerColor;
-
-	protected SteamVR_TrackedObject rightController;
-	protected SteamVR_Controller.Device rightDevice;
-	protected ParticleSystem rightParticles;
-
-	protected SteamVR_TrackedObject leftController;
-	protected SteamVR_Controller.Device leftDevice;
-	protected ParticleSystem leftParticles;
-
-	//public SteamVR_TrackedObject rightHandControl;
-	//public SteamVR_TrackedObject leftHandControl;
-
-    void Awake()
-    {
-
-    }
+    protected Color playerColor;
+	public int health;
 
     void Start () {
         // Pick a random, saturated and not-too-dark color
@@ -35,19 +18,16 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         serializedColor.z = playerColor.b;
         // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
         PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
-
-		rightController = GameObject.FindWithTag ("right").GetComponent<SteamVR_TrackedObject> ();
-		rightDevice = SteamVR_Controller.Input ((int)rightController.index);
-		rightParticles = GameObject.FindWithTag ("right").GetComponent<ParticleSystem>();
-
-		leftController = GameObject.FindWithTag ("left").GetComponent<SteamVR_TrackedObject> ();
-		leftDevice = SteamVR_Controller.Input ((int)leftController.index);
-		leftParticles = GameObject.FindWithTag ("left").GetComponent<ParticleSystem>();
+		health = 1;
     }
-    // On Start goals:
-    // set your color
-    // tell everyone else what color you are
-    // get the colors of the other players.
+
+	void Update() {
+		if (health == 0) {
+			Destroy (gameObject.GetComponentInParent<Camera>());
+			GameObject.Find ("NetworkManager").GetComponent<Network> ().OnJoinedRoom ();
+			health = 1;
+		}
+	}
 
     [PunRPC] // As a photon serialized view, only send floats/ints/vectors/quaternions.
     public void SetColor(Vector3 color)
@@ -60,36 +40,24 @@ public class PlayerBehavior : Photon.MonoBehaviour {
             photonView.RPC("SetColor", PhotonTargets.OthersBuffered, color);
         }
     }
-	
-	void Update () {
-        if (photonView.isMine) // Is this part of this application which called 'PhotonNetwork.Instantiate()'?
-            Movement();
-    }
 
-    float speed = 5f;
-
-    void Movement()
-    {
-        if (Input.GetKey(KeyCode.UpArrow)) // Move forward.
-            transform.position += transform.forward * Time.deltaTime * speed;
-        if (Input.GetKey(KeyCode.DownArrow)) // Move back.
-            transform.position -= transform.forward * Time.deltaTime * speed;
-        if (Input.GetKey(KeyCode.RightArrow)) // Turn right.
-            transform.Rotate(Vector3.up * (Time.deltaTime + speed)); // Rotate at 5 degrees per second
-        if (Input.GetKey(KeyCode.LeftArrow)) // Turn left.
-            transform.Rotate(Vector3.up * -1 * (Time.deltaTime + speed));
-
-//		if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
-//			Vector3 attackVector = transform.position + (transform.forward * 1f);
-//			attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
-//			var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
-//			newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
-//		}
-//		if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
-//			Vector3 attackVector = transform.position + (transform.forward * 1f);
-//			attackVector.y += 0.25f; // Move it up a tad for the aesthetics.
-//			var newAttack = PhotonNetwork.Instantiate (Attack, attackVector, transform.rotation, 0); // Create the attack.
-//			newAttack.GetComponent<AttackBehavior> ().attackerID = gameObject.GetInstanceID (); // Note ID of attacking player. (To avoid self-damage)
-//		}
-	}
+	// The following is dead code, previously used to move players in the space:
+//	void Update () {
+//        if (photonView.isMine) //Check if this is part of this application which called 'PhotonNetwork.Instantiate()'
+//            Movement();
+//    }
+//
+//    float speed = 5f;
+//
+//    void Movement()
+//    {
+//        if (Input.GetKey(KeyCode.UpArrow)) // Move forward.
+//            transform.position += transform.forward * Time.deltaTime * speed;
+//        if (Input.GetKey(KeyCode.DownArrow)) // Move back.
+//            transform.position -= transform.forward * Time.deltaTime * speed;
+//        if (Input.GetKey(KeyCode.RightArrow)) // Turn right.
+//            transform.Rotate(Vector3.up * (Time.deltaTime + speed)); // Rotate at 5 degrees per second
+//        if (Input.GetKey(KeyCode.LeftArrow)) // Turn left.
+//            transform.Rotate(Vector3.up * -1 * (Time.deltaTime + speed));
+//	}
 }

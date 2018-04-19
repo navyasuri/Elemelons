@@ -13,6 +13,7 @@ TagManager:
   - rightParticles
   - Environment
   - attack
+  - defense
   layers:
   - Default
   - TransparentFX
