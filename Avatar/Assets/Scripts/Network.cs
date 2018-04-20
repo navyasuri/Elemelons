@@ -13,7 +13,7 @@ using Photon; // To use Photon-specific methods
 // Now we can override Photon methods.
 public class Network : Photon.PunBehaviour
 {
-    private const string roomName = "ElemelonsClosedAlpha";
+    private const string roomName = "ElemelonsClosedBeta";
     private RoomInfo[] roomsList;
 
     // Prefab references for objects to be Instantiated by this script:
@@ -34,6 +34,7 @@ public class Network : Photon.PunBehaviour
         PhotonNetwork.ConnectUsingSettings("0.1.2");
 
         PhotonNetwork.autoJoinLobby = true;
+		PhotonNetwork.automaticallySyncScene = true;
 
         if (spawnPoint1 && spawnPoint2)
         {
