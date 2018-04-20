@@ -18,7 +18,7 @@ public class BoulderBehavior : MonoBehaviour {
 	void Start () {
 //		this.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
 		rumbling = GetComponent<AudioSource>();
-		rumbling.time = 3f;
+		rumbling.time = 0f;
 		float randomScale = Random.Range (0.01f, 0.03f);
 		gameObject.transform.localScale += new Vector3 (randomScale, randomScale, randomScale);
 		float startTime = Time.time;
@@ -27,10 +27,10 @@ public class BoulderBehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (rumbling.time > 4.0f) {
-			rumbling.Stop ();
-			rumbling.time = 3f;
-		}
+//		if (rumbling.time > 4.0f) {
+//			rumbling.Stop ();
+//			rumbling.time = 3f;
+//		}
 
 		if (gameObject.transform.position.y < -10f) {
 			Destroy (this.gameObject);
@@ -47,13 +47,12 @@ public class BoulderBehavior : MonoBehaviour {
 		//float randomPitch = Random.Range (lowPitch, highPitch);
 		//rumbling.pitch = randomPitch;
 		//rumbling.time = 0f;
-		rumbling.Play();
+		if (!rumbling.isPlaying) {
+			rumbling.Play ();
+		}
 
-		Debug.Log (col.gameObject.tag);
-		// Subtract health from player on impact:
-//		if (col.gameObject.CompareTag("Player")) {
-//			col.gameObject.GetComponent<PlayerBehavior> ().hit();
-//		}
+		//Debug.Log (col.gameObject.tag);
+
 		// If the boulder hits anything not tagged 'environment':
 		if (!col.gameObject.CompareTag("Environment")) {
 			// get parent, play audio source

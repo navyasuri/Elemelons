@@ -6,27 +6,22 @@ using UnityEngine;
 public class BoulderExplosionBehavior : MonoBehaviour {
 
 	AudioSource explosion;
-	float startTime;
+	float startTime = 0;
 
 	// Use this for initialization
 	void Start () {
-		explosion = GetComponent<AudioSource>();
-		explosion.Play ();
 		float startTime = Time.time;
+		explosion = GetComponent<AudioSource>();
+		explosion.time = 0f;
+		explosion.Play ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (!this.gameObject.GetComponentInChildren<MeshRenderer> ().enabled) {
-			explosion.Play();
-			Destroy (this.gameObject, 1f);
+		float currentTime = Time.time;
+		if (currentTime - startTime > explosion.clip.length) {
+			Destroy (gameObject);
 		}
-		Debug.Log (Time.time - startTime);
-		//Debug.Log (explosion.audioClip.length);
-//		if (Time.time - startTime > 2f) {
-//			explosion.Stop();
-//			Destroy (this.gameObject);
-//		}
 	}
 
 }
