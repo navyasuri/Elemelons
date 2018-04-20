@@ -122,10 +122,10 @@ public class DeveloperDefined : MonoBehaviour {
     }
 
     void Update() {
-        UpdateUIandHandleControl();
+        Vector3 attackVec = UpdateUIandHandleControl();
 
 		if (gestureTriggered) {
-			GestureResponse (headset);
+			GestureResponse (headset, attackVec);
 			gestureTriggered = false;
 		}
     }
@@ -197,25 +197,35 @@ public class DeveloperDefined : MonoBehaviour {
 		}
 	}
 
-	protected void UpdateUIandHandleControl() {
+	protected Vector3 UpdateUIandHandleControl() {
 		if (Input.GetKeyUp(KeyCode.Escape)) {
 			Application.Quit();
 		}
 
+
+		Vector3 starter = Vector3.one;
+		Vector3 end = Vector3.one;
 		if (rightDevice != null && leftDevice != null) {
 			if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
+				starter = rightDevice.transform.pos;
 				rightParticles.Clear ();
 				rightParticles.Play ();
 			} else if (rightDevice.GetPressUp (SteamVR_Controller.ButtonMask.Grip)) {
+				end = rightDevice.transform.pos;
 				rightParticles.Stop ();
 			}
 
 			if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
+				starter = leftDevice.transform.pos;
 				leftParticles.Clear ();
 				leftParticles.Play ();
 			} else if (leftDevice.GetPressUp (SteamVR_Controller.ButtonMask.Grip)) {
+				end = leftDevice.transform.pos;
 				leftParticles.Stop ();
 			}
+
+			Vector3 dir = end - starter;
+			return dir;
 		}
 
 // More script for the AirSig Demo UI:
@@ -254,12 +264,12 @@ public class DeveloperDefined : MonoBehaviour {
 	}
 
 	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
-	public void GestureResponse(GameObject headset) {
+	public void GestureResponse(GameObject headset, Vector3 attackVec) {
 		// Get the position one unit in front of the headset:
 		Vector3 Vector = headset.transform.position + (headset.transform.forward * 1f);
 
 		if (attackTriggered) { // Attack!
-			GameObject gestureResult = PhotonNetwork.Instantiate (attack, Vector, Quaternion.identity, 0);
+			GameObject gestureResult = PhotonNetwork.Instantiate (attack, attackVec, Quaternion.identity, 0);
 			gestureResult.GetComponent<GestureBehavior> ().attack = true;
 			// Pass Camera eye and children (hopefully) as the player here, for special properties
 			gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
