@@ -41,10 +41,16 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         }
     }
 
-	public void hit() {
-		health -= 1;
-		Debug.Log ("You were hit! Health: " + health);
+	void OnCollisionEnter(Collision col) {
+		if (col.gameObject.CompareTag("attack")) {
+			health -= 1;
+			Debug.Log ("You were hit! Health: " + health);
+		}
 	}
+
+//	public void hit() {
+//
+//	}
 
 	// The following is dead code, previously used to move players in the space:
 //	void Update () {

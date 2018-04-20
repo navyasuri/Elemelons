@@ -61,13 +61,13 @@ public class GestureBehavior : Photon.MonoBehaviour {
 	// For attack:
 	void OnCollisionEnter(Collision collision)
 	{
-        if (collision.gameObject.CompareTag("Player")) // Check for a Player.
-        {
-            // If the attack is not colliding with the Player who sent it, hurt them:
-			if (collision.gameObject.GetInstanceID () != playerID) {
-				collision.gameObject.GetComponent<PlayerBehavior> ().hit();
-			}
-        }
+//        if (collision.gameObject.CompareTag("Player")) // Check for a Player.
+//        {
+//            // If the attack is not colliding with the Player who sent it, hurt them:
+//			if (collision.gameObject.GetInstanceID () != playerID) {
+//				collision.gameObject.GetComponent<PlayerBehavior> ().hit();
+//			}
+//        }
 		Destroy(gameObject); // Destroy the attack on any collision.
 	}
 
@@ -92,7 +92,7 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		// Send attacks flying!
 		if (attack) {
 			rb = gameObject.GetComponent<Rigidbody> ();
-			rb.AddForce (direction * 500f);
+			rb.AddForce (direction * 1250f);
 			flameWoosh = gameObject.GetComponent<AudioSource> ();
 			flameWoosh.Play ();
 		}

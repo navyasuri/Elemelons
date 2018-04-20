@@ -27,8 +27,8 @@ public class ObstacleSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
 		if (Time.time - startTime > delay) {
+
 			newObstacle = GameObject.Instantiate (obstacle, currPos, Quaternion.identity);
 			startTime = Time.time;
 			newObstacle.GetComponent<Rigidbody> ().AddForce (mForce, ForceMode.Force);
