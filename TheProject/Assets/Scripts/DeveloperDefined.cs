@@ -11,7 +11,8 @@ public class DeveloperDefined : MonoBehaviour {
 	// Reference to AirSigManager for setting operation mode and registering listener
 	public AirSigManager airsigManager;
 
-	// Reference to the vive controllers
+	// Vive objects
+	protected GameObject headset;
 	protected SteamVR_TrackedObject rightController;
 	protected SteamVR_Controller.Device rightDevice;
 	protected ParticleSystem rightParticles;
@@ -20,16 +21,25 @@ public class DeveloperDefined : MonoBehaviour {
 	protected SteamVR_Controller.Device leftDevice;
 	protected ParticleSystem leftParticles;
 
-	protected GameObject headset;
+	// Gesture control
+	Vector3 rightStart;
+	Vector3 rightEnd;
+	Vector3 rightDir;
+	Vector3 leftStart;
+	Vector3 leftEnd;
+	Vector3 leftDir;
+	bool rightAttackReady = false;
+	bool leftAttackReady = false;
+	bool gestureTriggered = false;
+	bool attackTriggered = false;
+	bool defenseTriggered = false;
 
 	// UI for displaying current status and operation results 
 	//public Text textMode;
 	//public Text textResult;
 	//public GameObject instruction;
 	//public GameObject cHeartDown;
-
 	protected string textToUpdate;
-
 	protected readonly string DEFAULT_INSTRUCTION_TEXT = "Pressing trigger and write in the air\nReleasing trigger when finish";
 	protected string defaultResultText;
 
@@ -40,25 +50,11 @@ public class DeveloperDefined : MonoBehaviour {
     // Callback for receiving signature/gesture progression or identification results
     AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
-	public string attack = "Attack";
-	public string defenseWall = "DefenseWall";
 
-	public bool gestureTriggered = false;
-	public bool attackTriggered = false;
-	public bool defenseTriggered = false;
-
-
-
-	/* ================================================================
-	 * 
-	 *  The following are the pre-scriptmerge DeveloperDefined methods:
-	 * 
-	 * ================================================================
-	 */
 
     // Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.
     // gestureId - a serial number
-    // gesture - gesture matched or null if no match. Only guesture in SetDeveloperDefinedTarget range will be verified against
+    // gesture - gesture matched or null if no match. Only gesture in SetDeveloperDefinedTarget list will be verified against
     // score - the confidence level of this identification. Above 1 is generally considered a match
     public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		// Good Match!
@@ -68,9 +64,9 @@ public class DeveloperDefined : MonoBehaviour {
 
 			// Launch fireball
 			if (gesture.Trim().Equals ("AttackPunchSimple")) {
+				// Actions are then triggered by Update() based on these flags:
 				attackTriggered = true;
 				gestureTriggered = true;
-				// Actions are then triggered by Update()
 			}
 
 			// Defend yo self
@@ -93,7 +89,7 @@ public class DeveloperDefined : MonoBehaviour {
 //        textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
 //        textResult.text = defaultResultText = "Pressing grip and write symbol in the air\nReleasing grip when finished.";
 //        textResult.alignment = TextAnchor.UpperCenter;
-        //instruction.SetActive(false);
+//        instruction.SetActive(false);
 
 		// Configure AirSig by specifying target 
 		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
@@ -101,18 +97,17 @@ public class DeveloperDefined : MonoBehaviour {
 		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunchSimple", "DefenseShieldCross" });
         developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
         airsigManager.onDeveloperDefinedMatch += developerDefined;
-        
         checkDbExist();
 
 		// Set each controller as an AirSig gesture trigger, and which button activates the recording
         airsigManager.SetTriggerStartKeys(
             AirSigManager.Controller.RIGHT_HAND,
-			SteamVR_Controller.ButtonMask.Grip,
+			SteamVR_Controller.ButtonMask.Trigger,
             AirSigManager.PressOrTouch.PRESS);
 
         airsigManager.SetTriggerStartKeys(
             AirSigManager.Controller.LEFT_HAND,
-			SteamVR_Controller.ButtonMask.Grip,
+			SteamVR_Controller.ButtonMask.Trigger,
             AirSigManager.PressOrTouch.PRESS);
     }
 		
@@ -122,73 +117,12 @@ public class DeveloperDefined : MonoBehaviour {
     }
 
     void Update() {
-        Vector3 attackVec = UpdateUIandHandleControl();
-
 		if (gestureTriggered) {
-			GestureResponse (headset, attackVec);
+			GestureResponse ();
 			gestureTriggered = false;
 		}
+		UpdateUIandHandleControl();
     }
-
-
-
-	/* =============================================
-	 * 
-	 *  And now for the BasedGestureHandle scripts:
-	 * 
-	 * =============================================
-	 */
-
-//	protected string GetDefaultIntructionText() {
-//		return DEFAULT_INSTRUCTION_TEXT;
-//	}
-
-	// All for updating the AirSig UI gesture match results, from the Demo scene:
-
-//	protected void ToggleGestureImage(string target) {
-//		if ("All".Equals(target)) {
-//			cHeartDown.SetActive(true);
-//			foreach (Transform child in cHeartDown.transform) {
-//				child.gameObject.SetActive(true);
-//			}
-//		} else if ("Heart".Equals(target)) {
-//			cHeartDown.SetActive(true);
-//			foreach (Transform child in cHeartDown.transform) {
-//				if (child.name == "Heart") {
-//					child.gameObject.SetActive(true);
-//				} else {
-//					child.gameObject.SetActive(false);
-//				}
-//			}
-//		} else if ("C".Equals(target)) {
-//			cHeartDown.SetActive(true);
-//			foreach (Transform child in cHeartDown.transform) {
-//				if (child.name == "C") {
-//					child.gameObject.SetActive(true);
-//				} else {
-//					child.gameObject.SetActive(false);
-//				}
-//			}
-//		} else if ("Down".Equals(target)) {
-//			cHeartDown.SetActive(true);
-//			foreach (Transform child in cHeartDown.transform) {
-//				if (child.name == "Down") {
-//					child.gameObject.SetActive(true);
-//				} else {
-//					child.gameObject.SetActive(false);
-//				}
-//			}
-//		} else {
-//			cHeartDown.SetActive(false);
-//		}
-//	}
-//
-//	protected IEnumerator setResultTextForSeconds(string text, float seconds, string defaultText = "") {
-//		string temp = textResult.text;
-//		textResult.text = text;
-//		yield return new WaitForSeconds(seconds);
-//		textResult.text = defaultText;
-//	}
 
 	protected void checkDbExist() {
 		bool isDbExist = airsigManager.IsDbExist;
@@ -197,60 +131,109 @@ public class DeveloperDefined : MonoBehaviour {
 		}
 	}
 
-	protected Vector3 UpdateUIandHandleControl() {
-		if (Input.GetKeyUp(KeyCode.Escape)) {
-			Application.Quit();
+	protected void UpdateUIandHandleControl() {
+		
+		if (leftAttackReady || rightAttackReady) {
+			leftAttackReady = false;
+			rightAttackReady = false;
 		}
 
-
-		Vector3 starter = Vector3.one;
-		Vector3 end = Vector3.one;
 		if (rightDevice != null && leftDevice != null) {
-			if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
-				starter = rightDevice.transform.pos;
+			if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) {
+				rightStart = headset.transform.position;
+				rightStart.y -= 0.2f;
 				rightParticles.Clear ();
 				rightParticles.Play ();
-			} else if (rightDevice.GetPressUp (SteamVR_Controller.ButtonMask.Grip)) {
-				end = rightDevice.transform.pos;
+			} else if (rightDevice.GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) {
+				rightEnd = rightController.transform.position;
+				rightAttackReady = true;
+				rightDir = rightEnd - rightStart;
 				rightParticles.Stop ();
 			}
 
-			if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Grip)) {
-				starter = leftDevice.transform.pos;
+			if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) {
+				leftStart = headset.transform.position;
+				leftStart.y -= 0.2f;
 				leftParticles.Clear ();
 				leftParticles.Play ();
-			} else if (leftDevice.GetPressUp (SteamVR_Controller.ButtonMask.Grip)) {
-				end = leftDevice.transform.pos;
+			} else if (leftDevice.GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) {
+				leftEnd = leftController.transform.position;
+				leftAttackReady = true;
+				leftDir = leftEnd - leftStart;
 				leftParticles.Stop ();
 			}
 
-			Vector3 dir = end - starter;
-			return dir;
 		}
 
-// More script for the AirSig Demo UI:
-//		if (null != textToUpdate) {
-//			if(uiFeedback != null) StopCoroutine(uiFeedback);
-//			uiFeedback = setResultTextForSeconds(textToUpdate, 5.0f, defaultResultText);
-//			StartCoroutine(uiFeedback);
-//			textToUpdate = null;
-//		}
-//
-//		if (nextUiAction != null) {
-//			nextUiAction();
-//			nextUiAction = null;
-//		}
+		// More script for the AirSig Demo UI:
+		//		if (null != textToUpdate) {
+		//			if(uiFeedback != null) StopCoroutine(uiFeedback);
+		//			uiFeedback = setResultTextForSeconds(textToUpdate, 5.0f, defaultResultText);
+		//			StartCoroutine(uiFeedback);
+		//			textToUpdate = null;
+		//		}
+		//
+		//		if (nextUiAction != null) {
+		//			nextUiAction();
+		//			nextUiAction = null;
+		//		}
 	}
 
+	//	protected string GetDefaultIntructionText() {
+	//		return DEFAULT_INSTRUCTION_TEXT;
+	//	}
+
+	// All for updating the AirSig UI gesture match results, from the Demo scene:
+
+	//	protected void ToggleGestureImage(string target) {
+	//		if ("All".Equals(target)) {
+	//			cHeartDown.SetActive(true);
+	//			foreach (Transform child in cHeartDown.transform) {
+	//				child.gameObject.SetActive(true);
+	//			}
+	//		} else if ("Heart".Equals(target)) {
+	//			cHeartDown.SetActive(true);
+	//			foreach (Transform child in cHeartDown.transform) {
+	//				if (child.name == "Heart") {
+	//					child.gameObject.SetActive(true);
+	//				} else {
+	//					child.gameObject.SetActive(false);
+	//				}
+	//			}
+	//		} else if ("C".Equals(target)) {
+	//			cHeartDown.SetActive(true);
+	//			foreach (Transform child in cHeartDown.transform) {
+	//				if (child.name == "C") {
+	//					child.gameObject.SetActive(true);
+	//				} else {
+	//					child.gameObject.SetActive(false);
+	//				}
+	//			}
+	//		} else if ("Down".Equals(target)) {
+	//			cHeartDown.SetActive(true);
+	//			foreach (Transform child in cHeartDown.transform) {
+	//				if (child.name == "Down") {
+	//					child.gameObject.SetActive(true);
+	//				} else {
+	//					child.gameObject.SetActive(false);
+	//				}
+	//			}
+	//		} else {
+	//			cHeartDown.SetActive(false);
+	//		}
+	//	}
+	//
+	//	protected IEnumerator setResultTextForSeconds(string text, float seconds, string defaultText = "") {
+	//		string temp = textResult.text;
+	//		textResult.text = text;
+	//		yield return new WaitForSeconds(seconds);
+	//		textResult.text = defaultText;
+	//	}
+	
 
 
-	/* =================================================================
-	 * 
-	 *  Lastly, here are any necessary custom scripts to network AirSig:
-	 * 
-	 * =================================================================
-	 */
 
+	// Called by Network.cs once WaitForRig() has gound all the pieces:
 	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn) {
 		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>();
 		rightDevice = SteamVR_Controller.Input((int)rightController.index);
@@ -264,26 +247,35 @@ public class DeveloperDefined : MonoBehaviour {
 	}
 
 	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
-	public void GestureResponse(GameObject headset, Vector3 attackVec) {
+	public void GestureResponse() {
 		// Get the position one unit in front of the headset:
-		Vector3 Vector = headset.transform.position + (headset.transform.forward * 1f);
+		Vector3 spawnVector = headset.transform.position + (headset.transform.forward * 1f);
 
 		if (attackTriggered) { // Attack!
-			GameObject gestureResult = PhotonNetwork.Instantiate (attack, attackVec, Quaternion.identity, 0);
-			gestureResult.GetComponent<GestureBehavior> ().attack = true;
-			// Pass Camera eye and children (hopefully) as the player here, for special properties
-			gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
-			// 'Activate' the prefab
-			gestureResult.GetComponent<GestureBehavior> ().Spawn (headset.transform.forward);
+			// Instantiate the prefab GameObject on network, at the calling controller:
+			if (rightAttackReady) {
+				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", rightController.transform.position, Quaternion.identity, 0);
+				// Give the GameObject traits to be handled by GestureBehavior:
+				gestureResult.GetComponent<GestureBehavior> ().attack = true; // Is an attack.
+				gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				gestureResult.GetComponent<GestureBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
+			}
+			else if (leftAttackReady) {
+				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
+				// Give the GameObject traits to be handled by GestureBehavior:
+				gestureResult.GetComponent<GestureBehavior> ().attack = true; // Is an attack.
+				gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				gestureResult.GetComponent<GestureBehavior> ().DoAfterStart (leftDir);
+			}
 			attackTriggered = false;
 		}
 
-		if (defenseTriggered) { // Defend!
-			GameObject gestureResult = PhotonNetwork.Instantiate (defenseWall, Vector, Quaternion.identity, 0);
+		else if (defenseTriggered) { // Defend!
+			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", spawnVector, Quaternion.identity, 0);
 			Debug.Log (headset);
 			gestureResult.GetComponent<GestureBehavior> ().defense = true;
 			gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
-			gestureResult.GetComponent<GestureBehavior> ().Spawn (headset.transform.forward);
+			gestureResult.GetComponent<GestureBehavior> ().DoAfterStart (headset.transform.forward);
 			defenseTriggered = false;
 		}
 

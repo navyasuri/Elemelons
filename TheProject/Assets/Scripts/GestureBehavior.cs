@@ -68,6 +68,7 @@ public class GestureBehavior : Photon.MonoBehaviour {
 //				collision.gameObject.GetComponent<PlayerBehavior> ().hit();
 //			}
 //        }
+		Debug.Log("Fireball destroyed itself on " + collision.gameObject.tag);
 		Destroy(gameObject); // Destroy the attack on any collision.
 	}
 
@@ -84,17 +85,18 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		}
 	}
 
-	public void Spawn(Vector3 direction) {
+	public void DoAfterStart(Vector3 direction) {
 		// Orient the new object:
-		Quaternion rotation = Quaternion.FromToRotation (Vector3.back, direction);
-		transform.rotation = rotation;
+		Quaternion rotationForTrails = Quaternion.FromToRotation (Vector3.back, direction);
+		transform.rotation = rotationForTrails;
 
 		// Send attacks flying!
 		if (attack) {
 			rb = gameObject.GetComponent<Rigidbody> ();
 			rb.AddForce (direction * 1250f);
-			flameWoosh = gameObject.GetComponent<AudioSource> ();
-			flameWoosh.Play ();
+			// Prefab already has audio set to play on awake
+//			flameWoosh = gameObject.GetComponent<AudioSource>().Play();
+//			flameWoosh.Play ();
 		}
 	}
 
