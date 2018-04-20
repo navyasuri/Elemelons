@@ -17,5 +17,5 @@
 ### New Ideas and moving forward
 - Apart from the solutions proposed to the user testing feedback
   - Have a series of islands, connected by bridges / seperated by gates, and each island would have a skill stone in the middle of it
-  - Have an open world where you would need to cross many gates in order to reach your final destiantion. Each gate cross would require a new skill set. Final reward would be a sunset tea with Iroh (a character in the game)
+  - Have an open world where you would need to cross many gates in order to reach your final destiantion. Each gate cross would require a new skill set. Final reward would be a sunset tea with Iroh (a wise character in the original show)
   
