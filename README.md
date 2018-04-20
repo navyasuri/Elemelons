@@ -7,4 +7,4 @@ A repo to collaborate on trying to work with Photon Unity Networking on Unity
 ## Important Files - 
 - [Project Proposal](ProjectProposal.md)
 - [Technical Specifications](TechnicalSpecifications.md)
-- [User Testing Results](../blob/master/UserTestingResults.md)
+- [User Testing Results](UserTestingUpdates.md)
