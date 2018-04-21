@@ -15,7 +15,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
     void Start () {
 		// Initialize health and healthbar:
 		health = 100f;
-		gameObject.GetComponentInChildren<OverheadHealth>().targetPlayer = gameObject;
+		gameObject.GetComponentInChildren<HealthBar>().player = gameObject;
 
         // Pick a random, saturated and not-too-dark color
         playerColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f); // Results in an RGBA value.

@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 114268880178270060}
   - component: {fileID: 114503825142819708}
   m_Layer: 5
-  m_Name: OverheadHealthBar
+  m_Name: PlayerViewBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -355,16 +355,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443240789a54d694fa0d0d450fc02281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayer: {fileID: 0}
-  greenHealthBar:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
+  player: {fileID: 0}
+  greenHealthBar: {x: 0, y: 0, z: 0}
   greenBarWidth: 0
-  playerHealth: 0
-  headOffset: 0
+  playerHP: 0
 --- !u!114 &114212685631533290
 MonoBehaviour:
   m_ObjectHideFlags: 1
