@@ -261,7 +261,7 @@ public class DeveloperDefined : MonoBehaviour {
 				gestureResult.GetComponent<GestureBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
 			}
 			else if (leftAttackReady) {
-				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", leftController.transform.position, Quaternion.identity, 0);
+				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
 				gestureResult.GetComponent<GestureBehavior> ().attack = true; // Is an attack.
 				gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.

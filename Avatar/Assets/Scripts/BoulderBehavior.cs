@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//using Photon;
+using Photon;
 
-public class BoulderBehavior : MonoBehaviour {
+public class BoulderBehavior : Photon.MonoBehaviour {
 
 	//public AudioSource rumbling;
 	AudioSource rumbling;
@@ -12,6 +12,7 @@ public class BoulderBehavior : MonoBehaviour {
 	public float highPitch;
 	public GameObject explosionPrefab;
 	float startTime;
+	public bool isLive = false;
 
 
 	// Use this for initialization
@@ -26,21 +27,15 @@ public class BoulderBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 //		if (rumbling.time > 4.0f) {
 //			rumbling.Stop ();
 //			rumbling.time = 3f;
 //		}
 
 		if (gameObject.transform.position.y < -10f) {
+			isLive = false;
 			Destroy (this.gameObject);
 		}
-
-
-//		if (Time.time - startTime > 2f) {
-//			GameObject.Instantiate(parentPrefab, transform.position, Quaternion.identity);
-//			Destroy (this.gameObject);
-//		}
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -50,15 +45,30 @@ public class BoulderBehavior : MonoBehaviour {
 		if (!rumbling.isPlaying) {
 			rumbling.Play ();
 		}
-
-		//Debug.Log (col.gameObject.tag);
-
+		Debug.Log ("Boulder hit " + col.gameObject);
 		// If the boulder hits anything not tagged 'environment':
 		if (!col.gameObject.CompareTag("Environment")) {
-			// get parent, play audio source
-			//PhotonNetwork.Instantiate(parentPrefab.name, transform.position, Quaternion.identity, 0);
-			GameObject.Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+			PhotonNetwork.Instantiate(explosionPrefab.name, transform.position, Quaternion.identity, 0);
+			isLive = false;
 			Destroy (this.gameObject);
+
+			//SelfDestruct();
+		}
+	}
+
+	public void SelfDestruct() {
+		// get parent, play audio source
+		//PhotonNetwork.Instantiate(explosionPrefab.name, transform.position, Quaternion.identity, 0);
+		GameObject.Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+		isLive = false;
+		Destroy (this.gameObject);
+	}
+
+	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			stream.SendNext (isLive);
+		} else {
+			this.isLive = (bool)stream.ReceiveNext ();
 		}
 	}
 

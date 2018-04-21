@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 82301843017246876}
   m_Layer: 0
   m_Name: AttackBlue
-  m_TagString: attack
+  m_TagString: fireball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14644,8 +14644,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.7882353, g: 0.5803922, b: 0.31764707, a: 1}
-        key1: {r: 1, g: 0.27058825, b: 0, a: 1}
+        key0: {r: 0.31764707, g: 0.7298175, b: 0.7882353, a: 1}
+        key1: {r: 0, g: 0.006896496, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -17064,7 +17064,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44a96966048f3b8439e76c71bed55a08, type: 2}
+  - {fileID: 2100000, guid: aeb3a7a29f869474e9ab94ed114266ea, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -17172,7 +17172,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44a96966048f3b8439e76c71bed55a08, type: 2}
+  - {fileID: 2100000, guid: aeb3a7a29f869474e9ab94ed114266ea, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
