@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - attack
+  - left
+  - right
+  - Environment
+  - boulder
+  - fireball
+  - defense
+  - flames
+  - health
   layers:
   - Default
   - TransparentFX

@@ -254,7 +254,7 @@ public class DeveloperDefined : MonoBehaviour {
 		if (attackTriggered) { // Attack!
 			// Instantiate the prefab GameObject on network, at the calling controller:
 			if (rightAttackReady) {
-				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", rightController.transform.position, Quaternion.identity, 0);
+				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
 				gestureResult.GetComponent<GestureBehavior> ().attack = true; // Is an attack.
 				gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.

@@ -15,11 +15,13 @@ public class GestureBehavior : Photon.MonoBehaviour {
 
 	public bool attack = false;
 	public bool defense = false;
+	public bool isLive = false;
 
 	void Start() {
 		//GetComponent<Renderer>().material.color = attackerColor;
 		rb = gameObject.GetComponent<Rigidbody>();
 		startTime = Time.time;
+		isLive = true;
 
 	    // Old code for colorizing, kept here for RPC example:
 //        Vector3 serializedColor;
@@ -47,12 +49,14 @@ public class GestureBehavior : Photon.MonoBehaviour {
 
 		if (attack) {
 			if (currentTime - startTime > 3f) {
+				isLive = false;
 				Destroy (gameObject);
 			}
 		}
 
 		if (defense) {
 			if (currentTime - startTime > 2f) {
+				isLive = false;
 				Destroy (gameObject);
 			}
 		}
@@ -61,14 +65,8 @@ public class GestureBehavior : Photon.MonoBehaviour {
 	// For attack:
 	void OnCollisionEnter(Collision collision)
 	{
-//        if (collision.gameObject.CompareTag("Player")) // Check for a Player.
-//        {
-//            // If the attack is not colliding with the Player who sent it, hurt them:
-//			if (collision.gameObject.GetInstanceID () != playerID) {
-//				collision.gameObject.GetComponent<PlayerBehavior> ().hit();
-//			}
-//        }
 		Debug.Log("Fireball destroyed itself on " + collision.gameObject.tag);
+		isLive = false;
 		Destroy(gameObject); // Destroy the attack on any collision.
 	}
 
@@ -94,20 +92,15 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		if (attack) {
 			rb = gameObject.GetComponent<Rigidbody> ();
 			rb.AddForce (direction * 1250f);
-			// Prefab already has audio set to play on awake
-//			flameWoosh = gameObject.GetComponent<AudioSource>().Play();
-//			flameWoosh.Play ();
 		}
 	}
 
-    //[PunRPC] // Used to flag methods as remote-callable.
-    //void Attack(Vector3 dir)
-    //{
-
-    //    GetComponent<Rigidbody>().AddForce(dir * 8, ForceMode.Impulse);
-
-    //    if (photonView.isMine)
-    //        photonView.RPC("ForceJump", PhotonTargets.Others, dir);
-    //}
+	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			stream.SendNext (isLive);
+		} else {
+			this.isLive = (bool)stream.ReceiveNext ();
+		}
+	}
 
 }

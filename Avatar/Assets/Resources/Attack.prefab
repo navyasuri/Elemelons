@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 82391426175010140}
   m_Layer: 0
   m_Name: Attack
-  m_TagString: attack
+  m_TagString: fireball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -334,6 +334,7 @@ MonoBehaviour:
   playerID: 0
   attack: 0
   defense: 0
+  isLive: 0
 --- !u!114 &114932734867111888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,6 +356,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114033951860836712}
+  - {fileID: 114911627856037740}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

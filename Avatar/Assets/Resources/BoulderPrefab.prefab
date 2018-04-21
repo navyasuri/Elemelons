@@ -23,13 +23,13 @@ GameObject:
   - component: {fileID: 33852250362723420}
   - component: {fileID: 23467717503289254}
   - component: {fileID: 135482243130992642}
-  - component: {fileID: 114673346339494188}
   - component: {fileID: 82626438629261660}
+  - component: {fileID: 114673346339494188}
   - component: {fileID: 114834706765955942}
   - component: {fileID: 114509734995633132}
   m_Layer: 0
   m_Name: BoulderPrefab
-  m_TagString: attack
+  m_TagString: boulder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -230,6 +230,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114509734995633132}
+  - {fileID: 114673346339494188}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
