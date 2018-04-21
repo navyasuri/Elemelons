@@ -256,16 +256,16 @@ public class DeveloperDefined : MonoBehaviour {
 			if (rightAttackReady) {
 				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
-				gestureResult.GetComponent<GestureBehavior> ().attack = true; // Is an attack.
-				gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-				gestureResult.GetComponent<GestureBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
+				gestureResult.GetComponent<AllFireBehavior> ().attack = true; // Is an attack.
+				gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
 			}
 			else if (leftAttackReady) {
 				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
-				gestureResult.GetComponent<GestureBehavior> ().attack = true; // Is an attack.
-				gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-				gestureResult.GetComponent<GestureBehavior> ().DoAfterStart (leftDir);
+				gestureResult.GetComponent<AllFireBehavior> ().attack = true; // Is an attack.
+				gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (leftDir);
 			}
 			attackTriggered = false;
 		}
@@ -273,9 +273,9 @@ public class DeveloperDefined : MonoBehaviour {
 		else if (defenseTriggered) { // Defend!
 			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", spawnVector, Quaternion.identity, 0);
 			Debug.Log (headset);
-			gestureResult.GetComponent<GestureBehavior> ().defense = true;
-			gestureResult.GetComponent<GestureBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
-			gestureResult.GetComponent<GestureBehavior> ().DoAfterStart (headset.transform.forward);
+			gestureResult.GetComponent<AllFireBehavior> ().defense = true;
+			gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
+			gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (headset.transform.forward);
 			defenseTriggered = false;
 		}
 

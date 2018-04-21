@@ -7,31 +7,31 @@ using Photon;
 public class BoulderBehavior : Photon.MonoBehaviour {
 
 	//public AudioSource rumbling;
-	AudioSource rumbling;
-	public float lowPitch;
-	public float highPitch;
-	public GameObject explosionPrefab;
-	float startTime;
-	public bool isLive = false;
+	public AudioSource rumbling;
+	public AudioSource explode;
+	float lowPitch = 0.45f;
+	float highPitch = 0.85f;
+	float randomPitch;
+	//public GameObject explosionPrefab;
+	float timeSinceDestruct;
+	public bool isLive = true;
 
-
-	// Use this for initialization
+	// Set audio starts to 0, apply a random scale and pitch to this boulder:
 	void Start () {
-//		this.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
-		rumbling = GetComponent<AudioSource>();
 		rumbling.time = 0f;
+		explode.time = 0f;
 		float randomScale = Random.Range (0.01f, 0.03f);
 		gameObject.transform.localScale += new Vector3 (randomScale, randomScale, randomScale);
-		float startTime = Time.time;
+		randomPitch = Random.Range (lowPitch, highPitch);
 	}
 	
-	// Update is called once per frame
 	void Update () {
-//		if (rumbling.time > 4.0f) {
-//			rumbling.Stop ();
-//			rumbling.time = 3f;
-//		}
+		// If the boulder has died, process the explosion:
+		if (!isLive) {
+			SelfDestruct ();
+		}
 
+		// If the boulder falls off the map, destroy it silently:
 		if (gameObject.transform.position.y < -10f) {
 			isLive = false;
 			Destroy (this.gameObject);
@@ -39,31 +39,41 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		//float randomPitch = Random.Range (lowPitch, highPitch);
-		//rumbling.pitch = randomPitch;
-		//rumbling.time = 0f;
+		// Rumble on each collision if silent:
 		if (!rumbling.isPlaying) {
+			rumbling.pitch = randomPitch;
+			Debug.Log ("Rumbling!");
 			rumbling.Play ();
 		}
-		Debug.Log ("Boulder hit " + col.gameObject);
+
+		//Debug.Log ("Boulder hit " + col.gameObject);
 		// If the boulder hits anything not tagged 'environment':
 		if (!col.gameObject.CompareTag("Environment")) {
-			PhotonNetwork.Instantiate(explosionPrefab.name, transform.position, Quaternion.identity, 0);
 			isLive = false;
-			Destroy (this.gameObject);
-
-			//SelfDestruct();
+			SelfDestruct();
 		}
 	}
 
 	public void SelfDestruct() {
-		// get parent, play audio source
-		//PhotonNetwork.Instantiate(explosionPrefab.name, transform.position, Quaternion.identity, 0);
-		GameObject.Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-		isLive = false;
-		Destroy (this.gameObject);
+		// If the explosion clip has finished playing, destroy the boulder prefab:
+		timeSinceDestruct += Time.deltaTime;
+		if (timeSinceDestruct > explode.clip.length + 0.1f) {
+			Destroy (gameObject);
+		}
+
+		// If the clip is not playing (this is SelfDestruct's first call), play it,
+		// turn off the Renderer/Collider, and turn on the explosion particle effect:
+		if (!explode.isPlaying) {
+			gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			gameObject.GetComponent<SphereCollider> ().enabled = false;
+			//gameObject.GetComponent<ParticleSystem> ().IsAlive = true;
+			explode.pitch = randomPitch;
+			Debug.Log ("Exploding!");
+			explode.Play ();
+		}
 	}
 
+	// Communicate the boulder over the network:
 	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
 		if (stream.isWriting) {
 			stream.SendNext (isLive);

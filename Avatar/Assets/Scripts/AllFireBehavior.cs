@@ -3,25 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon;
 
-public class GestureBehavior : Photon.MonoBehaviour {
+public class AllFireBehavior : Photon.MonoBehaviour {
 
 	GameObject player;
 	Rigidbody rb;
     public int playerID;
-	AudioSource flameWoosh;
+	public AudioSource fireballWhoosh;
+	public AudioSource fireballImpact;
+	public AudioSource defenseWoosh;
+	public AudioSource flamethrowerWhoosh;
+	public ParticleSystem fireballPoof;
+	public float lowPitch = 0.45f;
+	public float highPitch = 0.85f;
+	float randomPitch;
+
     //public Color attackerColor;
 	float startTime;
 	float currentTime;
+	float startDestruct;
+	float timeSinceDestruct;
 
 	public bool attack = false;
 	public bool defense = false;
-	public bool isLive = false;
+	public bool isLive = true;
 
 	void Start() {
 		//GetComponent<Renderer>().material.color = attackerColor;
 		rb = gameObject.GetComponent<Rigidbody>();
 		startTime = Time.time;
-		isLive = true;
+		randomPitch = Random.Range (lowPitch, highPitch);
 
 	    // Old code for colorizing, kept here for RPC example:
 //        Vector3 serializedColor;
@@ -50,14 +60,15 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		if (attack) {
 			if (currentTime - startTime > 3f) {
 				isLive = false;
-				Destroy (gameObject);
+				startDestruct = Time.time;
+				SelfDestruct ();
 			}
 		}
 
 		if (defense) {
 			if (currentTime - startTime > 2f) {
 				isLive = false;
-				Destroy (gameObject);
+				Destroy(gameObject); // End the shield without a destruction sound.
 			}
 		}
 	}
@@ -65,7 +76,7 @@ public class GestureBehavior : Photon.MonoBehaviour {
 	// For attack:
 	void OnCollisionEnter(Collision collision)
 	{
-		Debug.Log("Fireball destroyed itself on " + collision.gameObject.tag);
+		//Debug.Log("Fireball destroyed itself on " + collision.gameObject.tag);
 		isLive = false;
 		Destroy(gameObject); // Destroy the attack on any collision.
 	}
@@ -76,13 +87,14 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		if (collision.gameObject.CompareTag("attack")) // Check for attacking objects
 		{
 			// Destroy any attacks that are not this player's:
-			if (collision.gameObject.GetComponent<GestureBehavior> ().playerID != playerID) {
+			if (collision.gameObject.GetComponent<AllFireBehavior> ().playerID != playerID) {
 				Destroy (collision.gameObject);
-				flameWoosh.Play ();
+				fireballImpact.Play ();
 			}
 		}
 	}
 
+	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
 	public void DoAfterStart(Vector3 direction) {
 		// Orient the new object:
 		Quaternion rotationForTrails = Quaternion.FromToRotation (Vector3.back, direction);
@@ -95,6 +107,27 @@ public class GestureBehavior : Photon.MonoBehaviour {
 		}
 	}
 
+	// Handler for fireball destruction effects:
+	public void SelfDestruct() {
+		// If the explosion clip has finished playing, destroy the fireball prefab:
+		timeSinceDestruct += Time.deltaTime;
+		if (timeSinceDestruct > fireballImpact.clip.length + 0.1f) {
+			Destroy (gameObject);
+		}
+
+		// If the clip is not playing (this is SelfDestruct's first call), play it,
+		// turn off the Renderer/Collider, and turn on the explosion particle effect:
+		if (!fireballImpact.isPlaying) {
+			//gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			gameObject.GetComponent<SphereCollider> ().enabled = false;
+			//fireballPoof.IsAlive = true;
+			fireballImpact.pitch = randomPitch;
+			Debug.Log ("Exploding!");
+			fireballImpact.Play ();
+		}
+	}
+
+	// Burn down the network:
 	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
 		if (stream.isWriting) {
 			stream.SendNext (isLive);
