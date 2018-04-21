@@ -15,6 +15,7 @@ public class GestureBehavior : Photon.MonoBehaviour {
 
 	public bool attack = false;
 	public bool defense = false;
+	public bool isLive = false;
 
 	void Start() {
 		//GetComponent<Renderer>().material.color = attackerColor;
@@ -97,6 +98,14 @@ public class GestureBehavior : Photon.MonoBehaviour {
 			// Prefab already has audio set to play on awake
 //			flameWoosh = gameObject.GetComponent<AudioSource>().Play();
 //			flameWoosh.Play ();
+		}
+	}
+
+	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			stream.SendNext (isLive);
+		} else {
+			this.isLive = (bool)stream.ReceiveNext ();
 		}
 	}
 

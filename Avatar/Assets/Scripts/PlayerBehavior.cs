@@ -6,7 +6,12 @@ using Photon;
 public class PlayerBehavior : Photon.MonoBehaviour {
 
     protected Color playerColor;
-	public int health;
+	public float health;
+	public GameObject overheadHealth;
+
+	void Awake() {
+		DontDestroyOnLoad (this.gameObject);
+	}
 
     void Start () {
         // Pick a random, saturated and not-too-dark color
@@ -18,14 +23,17 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         serializedColor.z = playerColor.b;
         // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
         PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
-		health = 3;
+
+		health = 3f;
+		GameObject healthUI = Instantiate (overheadHealth) as GameObject;
+		healthUI.SendMessage ("SetTarget", this, SendMessageOptions.RequireReceiver);
     }
 
 	void Update() {
-		if (health == 0) {
+		if (health <= 0f) {
 			Destroy (gameObject.GetComponentInParent<Camera>());
 			GameObject.Find ("NetworkManager").GetComponent<Network> ().OnJoinedRoom ();
-			health = 3;
+			health = 3f;
 		}
 	}
 
@@ -41,34 +49,46 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         }
     }
 
-	void OnCollisionEnter(Collision col) {
-		if (col.gameObject.CompareTag("attack")) {
-			health -= 1;
-			Debug.Log ("You were hit! Health: " + health);
+	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			stream.SendNext (health);
+		} else {
+			this.health = (float)stream.ReceiveNext ();
 		}
 	}
 
-//	public void hit() {
-//
-//	}
+	void OnTriggerEnter(Collider other) {
+		// Ignore the collision if the trigger is happening to somebody else:
+		if (!photonView.isMine) {
+			return;
+		}
 
-	// The following is dead code, previously used to move players in the space:
-//	void Update () {
-//        if (photonView.isMine) //Check if this is part of this application which called 'PhotonNetwork.Instantiate()'
-//            Movement();
-//    }
-//
-//    float speed = 5f;
-//
-//    void Movement()
-//    {
-//        if (Input.GetKey(KeyCode.UpArrow)) // Move forward.
-//            transform.position += transform.forward * Time.deltaTime * speed;
-//        if (Input.GetKey(KeyCode.DownArrow)) // Move back.
-//            transform.position -= transform.forward * Time.deltaTime * speed;
-//        if (Input.GetKey(KeyCode.RightArrow)) // Turn right.
-//            transform.Rotate(Vector3.up * (Time.deltaTime + speed)); // Rotate at 5 degrees per second
-//        if (Input.GetKey(KeyCode.LeftArrow)) // Turn left.
-//            transform.Rotate(Vector3.up * -1 * (Time.deltaTime + speed));
-//	}
+		// Also ignore if the collision is not an attack:
+		if(!other.gameObject.CompareTag("attack")) {
+			return;
+		}
+
+		if (other.gameObject.CompareTag ("boulder")) {
+			health -= 1.5f;
+			Debug.Log ("You were hit by a boulder! Health: " + health);
+		}
+
+		if(other.gameObject.CompareTag("fireball")) {
+			health -= 1f;
+			Debug.Log ("You were hit by a fireball! Health: " + health);
+		}
+	}
+
+	void OnTriggerStay(Collider other) 
+	{
+		if (!photonView.isMine) {
+			return;
+		}
+		// Slow damage if sitting still in flames.
+		if(other.gameObject.CompareTag("flames")) {
+			health -= 0.1f*Time.deltaTime; 
+		}
+	
+	}
+		
 }

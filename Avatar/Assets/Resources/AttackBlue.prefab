@@ -342,8 +342,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114241153893981788}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 1
-  instantiationId: 1
+  viewIdField: 0
+  instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114856463749535870
@@ -360,6 +360,7 @@ MonoBehaviour:
   playerID: 0
   attack: 0
   defense: 0
+  isLive: 0
 --- !u!135 &135243761245816462
 SphereCollider:
   m_ObjectHideFlags: 1
