@@ -26,9 +26,11 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         serializedColor.z = playerColor.b;
         // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
         PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
+		PhotonView.Get (this).RPC ("UpdateHealth", PhotonTargets.All, health);
     }
 
 	void Update() {
+		// Broken respawn code:
 		if (health <= 0f) {
 			Destroy (gameObject.GetComponentInParent<Camera>());
 			GameObject.Find ("NetworkManager").GetComponent<Network> ().OnJoinedRoom ();
@@ -47,6 +49,15 @@ public class PlayerBehavior : Photon.MonoBehaviour {
             photonView.RPC("SetColor", PhotonTargets.OthersBuffered, color);
         }
     }
+
+	[PunRPC]
+	public void UpdateHealth(float newHealth) {
+		health = newHealth;
+		if (PhotonNetwork.isMasterClient) {
+		//	PhotonNetwork.Destroy (gameObject);
+			// This will have to do more, accounting for resetting the camera and all...
+		}
+	}
 
 	// 
 	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {

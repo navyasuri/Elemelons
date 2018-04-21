@@ -48,4 +48,6 @@ MonoBehaviour:
   - DetachParent
   - MoveTo
   - SetNewParent
+  - NetworkDestroy
+  - UpdateHealth
   DisableAutoOpenWizard: 1

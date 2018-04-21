@@ -20,7 +20,6 @@ public class AllFireBehavior : Photon.MonoBehaviour {
     //public Color attackerColor;
 	float startTime;
 	float currentTime;
-	float startDestruct;
 	float timeSinceDestruct;
 
 	public bool attack = false;
@@ -60,7 +59,6 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 		if (attack) {
 			if (currentTime - startTime > 3f) {
 				isLive = false;
-				startDestruct = Time.time;
 				SelfDestruct ();
 			}
 		}
@@ -68,7 +66,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 		if (defense) {
 			if (currentTime - startTime > 2f) {
 				isLive = false;
-				Destroy(gameObject); // End the shield without a destruction sound.
+				PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
 			}
 		}
 	}
@@ -78,7 +76,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 	{
 		//Debug.Log("Fireball destroyed itself on " + collision.gameObject.tag);
 		isLive = false;
-		Destroy(gameObject); // Destroy the attack on any collision.
+		SelfDestruct (); // Destroy the attack, with effects, on any collision.
 	}
 
 	// For defense:
@@ -86,9 +84,9 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 	{
 		if (collision.gameObject.CompareTag("attack")) // Check for attacking objects
 		{
-			// Destroy any attacks that are not this player's:
+			// Destroy (ON NETWORK) any attacks that are not this player's:
 			if (collision.gameObject.GetComponent<AllFireBehavior> ().playerID != playerID) {
-				Destroy (collision.gameObject);
+				PhotonView.Get(collision.gameObject).RPC("NetworkDestroy", PhotonTargets.All);
 				fireballImpact.Play ();
 			}
 		}
@@ -112,7 +110,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 		// If the explosion clip has finished playing, destroy the fireball prefab:
 		timeSinceDestruct += Time.deltaTime;
 		if (timeSinceDestruct > fireballImpact.clip.length + 0.1f) {
-			Destroy (gameObject);
+			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
 		}
 
 		// If the clip is not playing (this is SelfDestruct's first call), play it,
@@ -127,13 +125,20 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 		}
 	}
 
-	// Burn down the network:
-	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
-		if (stream.isWriting) {
-			stream.SendNext (isLive);
-		} else {
-			this.isLive = (bool)stream.ReceiveNext ();
+	[PunRPC] // Flag this function as a special indirectly callable network script.
+	void NetworkDestroy() {
+		if (PhotonNetwork.isMasterClient) {
+			PhotonNetwork.Destroy (gameObject);
 		}
 	}
+
+	// Burn down the network:
+//	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
+//		if (stream.isWriting) {
+//			stream.SendNext (isLive);
+//		} else {
+//			this.isLive = (bool)stream.ReceiveNext ();
+//		}
+//	}
 
 }

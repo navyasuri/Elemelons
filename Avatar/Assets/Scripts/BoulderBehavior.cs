@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +34,8 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		// If the boulder falls off the map, destroy it silently:
 		if (gameObject.transform.position.y < -10f) {
 			isLive = false;
-			Destroy (this.gameObject);
+			// Call the NetworkDestroy RPC via the PhotonView component to destroy ON NETWORK:
+			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
 		}
 	}
 
@@ -58,7 +59,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		// If the explosion clip has finished playing, destroy the boulder prefab:
 		timeSinceDestruct += Time.deltaTime;
 		if (timeSinceDestruct > explode.clip.length + 0.1f) {
-			Destroy (gameObject);
+			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
 		}
 
 		// If the clip is not playing (this is SelfDestruct's first call), play it,
@@ -70,6 +71,13 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			explode.pitch = randomPitch;
 			Debug.Log ("Exploding!");
 			explode.Play ();
+		}
+	}
+		
+	[PunRPC] // Flag this function as a special indirectly callable network script.
+	void NetworkDestroy() {
+		if (PhotonNetwork.isMasterClient) {
+			PhotonNetwork.Destroy (gameObject);
 		}
 	}
 
