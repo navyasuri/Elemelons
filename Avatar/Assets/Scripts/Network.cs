@@ -24,14 +24,20 @@ public class Network : Photon.PunBehaviour
     public GameObject spawnPoint1;
     public GameObject spawnPoint2;
 
+	public bool offlineMode = false;
+
     // Arrays to track spawn points locations and 'taken' status:
     public Transform[] spawnPoints;
     public bool[] spawnPointTaken;
 
     void Start()
     {
+		if (offlineMode) {
+			PhotonNetwork.offlineMode = true;
+		} else {
+			PhotonNetwork.ConnectUsingSettings("0.2.1");
+		}
         // Allows us to connect to the network. The only argument is the version of this application.
-        PhotonNetwork.ConnectUsingSettings("0.1.2");
 
         PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.automaticallySyncScene = true;

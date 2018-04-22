@@ -13,6 +13,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 	public AudioSource defenseWoosh;
 	public AudioSource flamethrowerWhoosh;
 	public ParticleSystem fireballPoof;
+	public ParticleSystem fire;
 	public float lowPitch = 0.45f;
 	public float highPitch = 0.85f;
 	float randomPitch;
@@ -41,7 +42,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 //        PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
     }
 
-//    [PunRPC] // As a photon serialized view, only send floats/ints/vectors/quaternions.
+//    [PunRPC] // As a photon serialize view, only send floats/ints/vectors/quaternions.
 //    public void SetColor(Vector3 color)
 //    {
 //        // Sets this Player to the color sent with the call:
@@ -117,8 +118,11 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 		// turn off the Renderer/Collider, and turn on the explosion particle effect:
 		if (!fireballImpact.isPlaying) {
 			//gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
 			gameObject.GetComponent<SphereCollider> ().enabled = false;
-			//fireballPoof.IsAlive = true;
+			fire.Stop();
+			//fireballPoof.Play;
 			fireballImpact.pitch = randomPitch;
 			Debug.Log ("Exploding!");
 			fireballImpact.Play ();
@@ -127,13 +131,16 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 
 	[PunRPC] // Flag this function as a special indirectly callable network script.
 	void NetworkDestroy() {
+		if (GetComponent<PhotonView> ().instantiationId == 0) {
+			Destroy (gameObject);
+		}
 		if (PhotonNetwork.isMasterClient) {
 			PhotonNetwork.Destroy (gameObject);
 		}
 	}
 
 	// Burn down the network:
-//	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
+//	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 //		if (stream.isWriting) {
 //			stream.SendNext (isLive);
 //		} else {

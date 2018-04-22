@@ -82,12 +82,12 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	}
 
 	// Communicate the boulder over the network:
-	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
-		if (stream.isWriting) {
-			stream.SendNext (isLive);
-		} else {
-			this.isLive = (bool)stream.ReceiveNext ();
-		}
-	}
+//	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+//		if (stream.isWriting) {
+//			stream.SendNext (isLive);
+//		} else {
+//			this.isLive = (bool)stream.ReceiveNext ();
+//		}
+//	}
 
 }

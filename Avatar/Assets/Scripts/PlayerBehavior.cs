@@ -60,7 +60,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	}
 
 	// 
-	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 		if (stream.isWriting) {
 			stream.SendNext (health);
 		} else {
