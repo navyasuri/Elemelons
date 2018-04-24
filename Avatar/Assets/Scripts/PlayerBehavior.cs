@@ -74,7 +74,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
 		if (other.gameObject.CompareTag ("boulder")) {
 			health -= 20f;
-			other.gameObject.GetComponent<BoulderBehavior>().SelfDestruct();
+			other.gameObject.GetComponent<BoulderBehavior>().PlayExplosion();
 			Debug.Log ("You were hit by a boulder! Health: " + health);
 		}
 

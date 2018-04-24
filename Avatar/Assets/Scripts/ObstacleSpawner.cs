@@ -13,7 +13,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		delay = 5.0f;
+		delay = 4.0f;
 		startTime = Time.time;
 		currPos = this.transform.position;
 		float zForce;

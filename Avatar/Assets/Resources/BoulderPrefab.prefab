@@ -288,6 +288,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rumbling: {fileID: 82626438629261660}
   explode: {fileID: 82094317995195856}
+  lowPitch: 0.5
+  highPitch: 0.85
   isLive: 1
 --- !u!114 &114834706765955942
 MonoBehaviour:
