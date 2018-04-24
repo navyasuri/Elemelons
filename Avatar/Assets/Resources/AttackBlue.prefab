@@ -572,8 +572,9 @@ MonoBehaviour:
   defenseWoosh: {fileID: 82726019945344280}
   flamethrowerWhoosh: {fileID: 82458782790726178}
   fireballPoof: {fileID: 0}
-  lowPitch: 0.45
-  highPitch: 0.85
+  fire: {fileID: 198987965418427600}
+  lowPitch: 0.9
+  highPitch: 1.1
   attack: 0
   defense: 0
   isLive: 1

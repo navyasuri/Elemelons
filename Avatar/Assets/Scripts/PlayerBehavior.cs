@@ -53,20 +53,20 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	[PunRPC]
 	public void UpdateHealth(float newHealth) {
 		health = newHealth;
-		if (PhotonNetwork.isMasterClient) {
-		//	PhotonNetwork.Destroy (gameObject);
-			// This will have to do more, accounting for resetting the camera and all...
-		}
+//		if (PhotonNetwork.isMasterClient) {
+//			PhotonNetwork.Destroy (gameObject);
+//			// This will have to do more, accounting for resetting the camera and all...
+//		}
 	}
 
 	// 
-	public void OnPhotonSerializedView(PhotonStream stream, PhotonMessageInfo info) {
-		if (stream.isWriting) {
-			stream.SendNext (health);
-		} else {
-			this.health = (float)stream.ReceiveNext ();
-		}
-	}
+//	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+//		if (stream.isWriting) {
+//			stream.SendNext (health);
+//		} else {
+//			this.health = (float)stream.ReceiveNext ();
+//		}
+//	}
 
 	void OnTriggerEnter(Collider other) {
 		Debug.Log(other.gameObject);

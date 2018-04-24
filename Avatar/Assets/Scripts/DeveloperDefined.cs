@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using AirSig;
+using Photon;
 
-public class DeveloperDefined : MonoBehaviour {
+public class DeveloperDefined : Photon.MonoBehaviour {
 
 	// Reference to AirSigManager for setting operation mode and registering listener
 	public AirSigManager airsigManager;
