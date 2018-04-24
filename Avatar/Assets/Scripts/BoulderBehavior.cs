@@ -77,9 +77,15 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 
 	}
 		
-	[PunRPC] // Flag this function as a special indirectly callable network script.
+	// Remote Procedure Calls happen indirectly on all network clients as follows:
+	//PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+	[PunRPC]
 	void NetworkDestroy() {
-		Destroy (this.gameObject);
+		// Only destroy on one client, the rest will be updated.
+		// This eliminates duplicate calls:
+		if (PhotonNetwork.isMasterClient) {
+			PhotonNetwork.Destroy (gameObject);
+		}
 	}
 
 	// Communicate the boulder over the network:

@@ -5,12 +5,12 @@ using Photon; // To use Photon-specific methods
 
 /*
     Network should only run once, called by the NetworkManager GameObject in the scene!
-    All objects to be displayed over Photon
 */
 
 
 // MonoBehaviour -> Photon.PunBehaviour
 // Now we can override Photon methods.
+// Photon.PunBehavior vs Photon.MonoBehavior also inherits IPunCallbacks
 public class Network : Photon.PunBehaviour
 {
     private const string roomName = "ElemelonsClosedBeta";

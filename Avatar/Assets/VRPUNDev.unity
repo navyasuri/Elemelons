@@ -510,7 +510,7 @@ MonoBehaviour:
     type: 2}
   spawnPoint1: {fileID: 377441744}
   spawnPoint2: {fileID: 1841121034}
-  offlineMode: 1
+  offlineMode: 0
   spawnPoints: []
   spawnPointTaken: 
 --- !u!4 &1294115367
