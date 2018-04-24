@@ -76,9 +76,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		
 	[PunRPC] // Flag this function as a special indirectly callable network script.
 	void NetworkDestroy() {
-		if (PhotonNetwork.isMasterClient) {
-			PhotonNetwork.Destroy (gameObject);
-		}
+		Destroy (this.gameObject);
 	}
 
 	// Communicate the boulder over the network:
