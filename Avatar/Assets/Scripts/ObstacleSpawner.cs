@@ -13,7 +13,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		delay = 4.0f;
+		delay = 40.0f;
 		startTime = Time.time;
 		currPos = this.transform.position;
 		float zForce;
@@ -29,7 +29,7 @@ public class ObstacleSpawner : MonoBehaviour {
 	void FixedUpdate () {
 		if (Time.time - startTime > delay) {
 
-			newObstacle = GameObject.Instantiate (obstacle, currPos, Quaternion.identity);
+			newObstacle = PhotonNetwork.Instantiate (obstacle.name, currPos, Quaternion.identity, 0);
 			startTime = Time.time;
 			newObstacle.GetComponent<Rigidbody> ().AddForce (mForce, ForceMode.Force);
 		}

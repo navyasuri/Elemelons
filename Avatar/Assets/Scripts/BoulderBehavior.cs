@@ -56,12 +56,6 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	}
 
 	public void SelfDestruct() {
-		// If the explosion clip has finished playing, destroy the boulder prefab:
-		timeSinceDestruct += Time.deltaTime;
-		if (timeSinceDestruct > explode.clip.length + 0.1f) {
-			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
-		}
-
 		// If the clip is not playing (this is SelfDestruct's first call), play it,
 		// turn off the Renderer/Collider, and turn on the explosion particle effect:
 		if (!explode.isPlaying) {
@@ -72,6 +66,15 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			Debug.Log ("Exploding!");
 			explode.Play ();
 		}
+
+		// If the explosion clip has finished playing, destroy the boulder prefab:
+		Debug.Log(timeSinceDestruct);
+		timeSinceDestruct += Time.deltaTime;
+		if (timeSinceDestruct > explode.clip.length) {
+			Debug.Log ("Calling network destroy");
+			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+		}
+
 	}
 		
 	[PunRPC] // Flag this function as a special indirectly callable network script.
