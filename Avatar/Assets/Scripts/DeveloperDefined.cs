@@ -139,11 +139,13 @@ public class DeveloperDefined : MonoBehaviour {
 		}
 
 		if (rightDevice != null && leftDevice != null) {
+			
 			if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) {
 				rightStart = headset.transform.position;
 				rightStart.y -= 0.2f;
 				rightParticles.Clear ();
 				rightParticles.Play ();
+
 			} else if (rightDevice.GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) {
 				rightEnd = rightController.transform.position;
 				rightAttackReady = true;
