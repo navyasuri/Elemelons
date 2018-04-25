@@ -13,7 +13,7 @@ using Photon; // To use Photon-specific methods
 // Photon.PunBehavior vs Photon.MonoBehavior also inherits IPunCallbacks
 public class Network : Photon.PunBehaviour
 {
-    private const string roomName = "ElemelonsClosedBeta";
+    private const string roomName = "ElemelonsPublicBeta";
     private RoomInfo[] roomsList;
 
     // Prefab references for objects to be Instantiated by this script:

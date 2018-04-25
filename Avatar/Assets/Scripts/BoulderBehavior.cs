@@ -57,12 +57,6 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		}
 
 		StartCoroutine ("SelfDestruct", explode.clip.length);
-		// The following is a BAD way to handle it, since PlayExplosion() is only called once, on collision.
-//		timeSinceDestruct += Time.deltaTime;
-//		if (timeSinceDestruct > explode.clip.length) {
-//			Debug.Log ("Calling network destroy");
-//			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
-//		}
 	}
 
 	IEnumerator SelfDestruct(float clipLength) {
@@ -74,14 +68,13 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	//PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
 	[PunRPC]
 	void NetworkDestroy() {
-		// Call destroy once on the master client, the rest will be updated.
-		// This eliminates duplicate calls:
-		if (PhotonNetwork.isMasterClient) {
+		// If this is the client's copy of the object, destroy it:
+		if (GetComponent<PhotonView>().isMine) {
 			PhotonNetwork.Destroy (gameObject);
 		}
 	}
 
-	public float Map (float oldMin, float oldMax, float newMin, float newMax, float val){
+	float Map (float oldMin, float oldMax, float newMin, float newMax, float val){
 		float oldRange = (oldMax - oldMin);
 		float newRange = (newMax - newMin);
 		float newVal = (((val - oldMin) * newRange) / oldRange) + newMin;

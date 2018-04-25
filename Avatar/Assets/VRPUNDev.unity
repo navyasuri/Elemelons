@@ -510,7 +510,7 @@ MonoBehaviour:
     type: 2}
   spawnPoint1: {fileID: 377441744}
   spawnPoint2: {fileID: 1841121034}
-  offlineMode: 1
+  offlineMode: 0
   spawnPoints: []
   spawnPointTaken: 
 --- !u!4 &1294115367
@@ -565,7 +565,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4167741480380714, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 8.62
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4167741480380714, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
       propertyPath: m_LocalPosition.z

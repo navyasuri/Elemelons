@@ -207,7 +207,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7c4a655deab5c374c80dca8ae54e272b, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.669
   m_Pitch: 1
   Loop: 1
@@ -367,7 +367,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 873bbd7f06691624b8a415016a77d708, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.669
   m_Pitch: 1
   Loop: 1
@@ -447,7 +447,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dbf64a3ef97001e4c94d5c5fb0496d1a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.669
   m_Pitch: 1
   Loop: 1
@@ -542,15 +542,15 @@ MonoBehaviour:
   playerID: 0
   fireballWhoosh: {fileID: 82391426175010140}
   fireballImpact: {fileID: 82346252244071252}
-  defenseWoosh: {fileID: 82384727661066632}
+  defenseWhoosh: {fileID: 82384727661066632}
   flamethrowerWhoosh: {fileID: 82070254764472866}
   fireballPoof: {fileID: 0}
-  fire: {fileID: 198974383447890550}
+  fireParticles: {fileID: 198974383447890550}
   lowPitch: 0.9
   highPitch: 1.1
-  attack: 0
+  fireball: 0
   defense: 0
-  isLive: 1
+  flamethrower: 0
 --- !u!114 &114932734867111888
 MonoBehaviour:
   m_ObjectHideFlags: 1

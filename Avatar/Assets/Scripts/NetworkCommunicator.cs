@@ -9,20 +9,12 @@ public class NetworkCommunicator : Photon.MonoBehaviour
     // To store the position and rotation of our GameObject as received from the network:
     Vector3 targetPosition;
     Quaternion targetRotation;
-    Color objectColor;
 
-    void Start()
-    {
-    //    objectColor = gameObject.GetComponent<Renderer>().material.color;
-    }
-
-    void Update()
-    {
+    void Update() {
         // Check if we control this GameObject. If not, deal with data that doesn't update smoothly
         // by constantly Lerping between the position of the GameObject as we see it,
         // and the position that we get from stream.RecieveNext of OnPhotonSerializeView.
-        if (!photonView.isMine)
-        {
+        if (!photonView.isMine) {
             this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * 5f);
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 5f);
         }
@@ -30,10 +22,9 @@ public class NetworkCommunicator : Photon.MonoBehaviour
 
     // This method allows us to serialize data and send/receive it over the network,
     // This is what updates the position of this object for everybody:
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        { // If we own this GameObject, send the data to other players (Use: float/ints/vectors/quaternions)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if (stream.isWriting) { 
+			// If we own this GameObject, send the data to other players (Use: float/ints/vectors/quaternions)
             stream.SendNext(transform.position); // Send the position.
             stream.SendNext(transform.rotation); // Send the rotation.
         }

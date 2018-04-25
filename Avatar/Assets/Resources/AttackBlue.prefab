@@ -287,7 +287,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7c4a655deab5c374c80dca8ae54e272b, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.669
   m_Pitch: 1
   Loop: 1
@@ -367,7 +367,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 873bbd7f06691624b8a415016a77d708, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.669
   m_Pitch: 1
   Loop: 1
@@ -447,7 +447,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dbf64a3ef97001e4c94d5c5fb0496d1a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.669
   m_Pitch: 1
   Loop: 1
@@ -569,15 +569,15 @@ MonoBehaviour:
   playerID: 0
   fireballWhoosh: {fileID: 82809208701322494}
   fireballImpact: {fileID: 82429605943821272}
-  defenseWoosh: {fileID: 82726019945344280}
+  defenseWhoosh: {fileID: 82726019945344280}
   flamethrowerWhoosh: {fileID: 82458782790726178}
   fireballPoof: {fileID: 0}
-  fire: {fileID: 198987965418427600}
+  fireParticles: {fileID: 198987965418427600}
   lowPitch: 0.9
   highPitch: 1.1
-  attack: 0
+  fireball: 0
   defense: 0
-  isLive: 1
+  flamethrower: 0
 --- !u!135 &135243761245816462
 SphereCollider:
   m_ObjectHideFlags: 1
