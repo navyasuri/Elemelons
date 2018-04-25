@@ -23,13 +23,13 @@ GameObject:
   - component: {fileID: 65463786067173958}
   - component: {fileID: 54131011589261774}
   - component: {fileID: 23365423077646802}
-  - component: {fileID: 114407983968317106}
-  - component: {fileID: 114781939471851330}
   - component: {fileID: 114467552155488992}
   - component: {fileID: 82215721822469950}
   - component: {fileID: 82910131461267364}
   - component: {fileID: 82897448631867898}
   - component: {fileID: 82698770117441442}
+  - component: {fileID: 114407983968317106}
+  - component: {fileID: 114781939471851330}
   m_Layer: 0
   m_Name: DefenseWall
   m_TagString: defense
@@ -459,7 +459,6 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114781939471851330}
-  - {fileID: 114467552155488992}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

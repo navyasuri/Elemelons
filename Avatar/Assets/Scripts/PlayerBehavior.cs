@@ -59,15 +59,6 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 //		}
 	}
 
-	// 
-//	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-//		if (stream.isWriting) {
-//			stream.SendNext (health);
-//		} else {
-//			this.health = (float)stream.ReceiveNext ();
-//		}
-//	}
-
 	void OnTriggerEnter(Collider other) {
 		Debug.Log(other.gameObject);
 

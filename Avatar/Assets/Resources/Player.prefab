@@ -99,9 +99,9 @@ GameObject:
   - component: {fileID: 135416733930709244}
   - component: {fileID: 23719576054374948}
   - component: {fileID: 54766194772088112}
+  - component: {fileID: 114723890327287346}
   - component: {fileID: 114779366722577708}
   - component: {fileID: 114877085831832344}
-  - component: {fileID: 114723890327287346}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -413,7 +413,6 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114877085831832344}
-  - {fileID: 114723890327287346}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class Player : Photon.MonoBehaviour {
 
-
-	public float speed = 10f;
-
 	PhotonView photonView;
 
 	void Start(){
