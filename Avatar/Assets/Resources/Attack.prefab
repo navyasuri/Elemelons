@@ -39,15 +39,15 @@ GameObject:
   - component: {fileID: 33536690566770920}
   - component: {fileID: 135351532629835962}
   - component: {fileID: 54415309900942782}
-  - component: {fileID: 114932734867111888}
   - component: {fileID: 114159269814446378}
-  - component: {fileID: 114033951860836712}
-  - component: {fileID: 198974383447890550}
   - component: {fileID: 199432253482062962}
   - component: {fileID: 82391426175010140}
   - component: {fileID: 82346252244071252}
   - component: {fileID: 82384727661066632}
   - component: {fileID: 82070254764472866}
+  - component: {fileID: 198974383447890550}
+  - component: {fileID: 114932734867111888}
+  - component: {fileID: 114033951860836712}
   m_Layer: 0
   m_Name: Attack
   m_TagString: fireball
