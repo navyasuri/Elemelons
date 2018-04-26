@@ -14,6 +14,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 	public AudioSource flamethrowerWhoosh;
 	public ParticleSystem fireballPoof;
 	public ParticleSystem fireParticles;
+	ParticleSystem throwerLeft, throwerRight;
 	public float lowPitch = 0.45f;
 	public float highPitch = 0.85f;
 
@@ -21,10 +22,18 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 	public bool defense = false;
 	public bool flamethrower = false;
 	float startTime;
+	float throwerStartTime;
 
 	void Start() {
 		startTime = Time.time; // Keep track of how long this move has been alive.
-    }
+
+		throwerRight = transform.Find ("PlayerRightFire/FlameThrower/Flames").gameObject.GetComponent<ParticleSystem> ();
+		throwerLeft = transform.Find ("PlayerLeftFire/FlameThrower/Flames").gameObject.GetComponent<ParticleSystem> ();
+//		throwerRight = GameObject.Find ("PlayerRightFire/FlameThrower/Flames").GetComponent<ParticleSystem> ();
+//		throwerLeft = GameObject.Find ("PlayerLeftFire/FlameThrower/Flames").GetComponent<ParticleSystem> ();
+		Debug.Log ("right thrower" + throwerRight);
+		Debug.Log ("lefty thrower" + throwerLeft);
+	}
 
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
 	public void DoAfterStart(Vector3 direction) {
@@ -56,6 +65,22 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 			if (Time.time - startTime > 2f) {
 				// Call the network to destroy the defense right off the bat:
 				PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+			}
+		}
+
+		if (flamethrower) {
+			// Play the flamethrowers if not already playing
+			if (!throwerRight.isPlaying) {
+				throwerRight.Play ();
+				throwerLeft.Play ();
+			}
+
+			// Stop playing after 3 seconds of infinite POWERRR
+			if ((Time.time - throwerStartTime > 3)) {
+				//Stop throwing flames
+				flamethrower = false;
+				throwerRight.Stop ();
+				throwerLeft.Stop ();
 			}
 		}
 	}
