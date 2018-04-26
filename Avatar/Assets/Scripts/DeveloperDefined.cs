@@ -34,6 +34,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	bool gestureTriggered = false;
 	bool attackTriggered = false;
 	bool defenseTriggered = false;
+	bool throwerTriggered = false;
 
 	// UI for displaying current status and operation results 
 	//public Text textMode;
@@ -75,7 +76,12 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 				defenseTriggered = true;
 				gestureTriggered = true;
 			}
-		
+
+			if (gesture.Trim ().Equals ("C")) {
+				throwerTriggered = true;
+				gestureTriggered = true;
+			}
+
 		// Try again...
 		} else {
 			Debug.Log(string.Format ("<color=red>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
@@ -94,8 +100,8 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 		// Configure AirSig by specifying target 
 		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
-		airsigManager.SetClassifier("NewAttackDefense", "");
-		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunchSimple", "DefenseShieldCross" });
+		airsigManager.SetClassifier("AtDefThrow", "");
+		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunchSimple", "DefenseShieldCross", "C" });
         developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
         airsigManager.onDeveloperDefinedMatch += developerDefined;
         checkDbExist();
@@ -240,11 +246,11 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn) {
 		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>();
 		rightDevice = SteamVR_Controller.Input((int)rightController.index);
-		rightParticles = rightPassedIn.GetComponent<ParticleSystem>();
+		rightParticles = GameObject.Find("RightFlames").GetComponent<ParticleSystem> ();
 
 		leftController = leftPassedIn.GetComponent<SteamVR_TrackedObject>();
 		leftDevice = SteamVR_Controller.Input((int)leftController.index);
-		leftParticles = leftPassedIn.GetComponent<ParticleSystem>();
+		leftParticles = GameObject.Find("LeftFlames").GetComponent<ParticleSystem> ();
 
 		headset = headsetPassedIn;
 	}
@@ -262,8 +268,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 				gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
 				gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
 				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
-			}
-			else if (leftAttackReady) {
+			} else if (leftAttackReady) {
 				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
 				gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
@@ -271,14 +276,20 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (leftDir);
 			}
 			attackTriggered = false;
-		}
-
-		else if (defenseTriggered) { // Defend!
+		} else if (defenseTriggered) { // Defend!
 			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", spawnVector, Quaternion.identity, 0);
 			gestureResult.GetComponent<AllFireBehavior> ().defense = true;
 			gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
 			gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (headset.transform.forward);
 			defenseTriggered = false;
+		} else if (throwerTriggered) {
+			GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
+			// Give the GameObject traits to be handled by GestureBehavior:
+			gestureResult.GetComponent<AllFireBehavior> ().flamethrower = true; // Shooting flames now
+			gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+//			gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir);
+			throwerTriggered = false;
+
 		}
 
 		// Set a timer with something of .2 seconds to avoid double attacking using both controllers.
