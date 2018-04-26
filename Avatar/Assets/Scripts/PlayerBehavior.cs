@@ -9,7 +9,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
     protected Color playerColor;
 	public float health;
 
-	protected string[] flameOptions = new string[5] {"Yellow", "Blue", "Green", "Purple", "White"};
+	protected string[] flameOptions = new string[5] {"yellow", "blue", "green", "purple", "white"};
 
 	void Awake() {
 		DontDestroyOnLoad (this.gameObject);

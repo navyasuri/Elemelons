@@ -88,6 +88,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 	// Use this for initialization
 	void Awake() {
+		
 		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
 		// Update the display text
