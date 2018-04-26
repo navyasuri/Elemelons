@@ -36,6 +36,9 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	bool defenseTriggered = false;
 	bool throwerTriggered = false;
 
+	//ENABLED bools
+	bool leftAttackEnabled = true, rightAttackEnabled = true, defenseEnabled = true, throwerEnabled = true;
+
 	// UI for displaying current status and operation results 
 	//public Text textMode;
 	//public Text textResult;
@@ -262,34 +265,43 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 		if (attackTriggered) { // Attack!
 			// Instantiate the prefab GameObject on network, at the calling controller:
+
 			if (rightAttackReady) {
-				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
-				// Give the GameObject traits to be handled by GestureBehavior:
-				gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
-				gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
+				if (rightAttackEnabled) {
+					GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
+					// Give the GameObject traits to be handled by GestureBehavior:
+					gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
+					gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+					gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
+				}
 			} else if (leftAttackReady) {
-				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
-				// Give the GameObject traits to be handled by GestureBehavior:
-				gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
-				gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (leftDir);
+				if (leftAttackEnabled) {
+					GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
+					// Give the GameObject traits to be handled by GestureBehavior:
+					gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
+					gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+					gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (leftDir);
+				}
 			}
 			attackTriggered = false;
-		} else if (defenseTriggered) { // Defend!
-			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", spawnVector, Quaternion.identity, 0);
-			gestureResult.GetComponent<AllFireBehavior> ().defense = true;
-			gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
-			gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (headset.transform.forward);
+		} else if (defenseTriggered) {// Defend!
+			if (defenseEnabled) {
+				GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", spawnVector, Quaternion.identity, 0);
+				gestureResult.GetComponent<AllFireBehavior> ().defense = true;
+				gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
+				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (headset.transform.forward);
+			}
 			defenseTriggered = false;
 		} else if (throwerTriggered) {
+			if (throwerEnabled){
 			GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
 			// Give the GameObject traits to be handled by GestureBehavior:
 			gestureResult.GetComponent<AllFireBehavior> ().flamethrower = true; // Shooting flames now
 			gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
 //			gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir);
-			throwerTriggered = false;
+			}
 
+			throwerTriggered = false;
 		}
 
 		// Set a timer with something of .2 seconds to avoid double attacking using both controllers.
