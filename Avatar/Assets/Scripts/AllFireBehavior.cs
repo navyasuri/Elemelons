@@ -13,7 +13,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 	public AudioSource defenseWhoosh;
 	public AudioSource flamethrowerWhoosh;
 	public ParticleSystem fireballPoof;
-	public ParticleSystem fireParticles;
+	public ParticleSystem fireballParticles;
 	ParticleSystem throwerLeft, throwerRight;
 	public float lowPitch = 0.45f;
 	public float highPitch = 0.85f;
@@ -27,10 +27,10 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 	void Start() {
 		startTime = Time.time; // Keep track of how long this move has been alive.
 
-		throwerRight = transform.Find ("PlayerRightFire/FlameThrower/Flames").gameObject.GetComponent<ParticleSystem> ();
-		throwerLeft = transform.Find ("PlayerLeftFire/FlameThrower/Flames").gameObject.GetComponent<ParticleSystem> ();
-//		throwerRight = GameObject.Find ("PlayerRightFire/FlameThrower/Flames").GetComponent<ParticleSystem> ();
-//		throwerLeft = GameObject.Find ("PlayerLeftFire/FlameThrower/Flames").GetComponent<ParticleSystem> ();
+		//throwerRight = transform.Find ("PlayerRightFire/FlameThrower/Flames").gameObject.GetComponent<ParticleSystem> ();
+		//throwerLeft = transform.Find ("PlayerLeftFire/FlameThrower/Flames").gameObject.GetComponent<ParticleSystem> ();
+		throwerRight = GameObject.Find ("RightFlamethrower").GetComponent<ParticleSystem> ();
+		throwerLeft = GameObject.Find ("LeftFlamethrower").GetComponent<ParticleSystem> ();
 		Debug.Log ("right thrower" + throwerRight);
 		Debug.Log ("lefty thrower" + throwerLeft);
 	}
@@ -108,7 +108,7 @@ public class AllFireBehavior : Photon.MonoBehaviour {
 		if (!fireballImpact.isPlaying) {
 			gameObject.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 			gameObject.GetComponent<SphereCollider> ().enabled = false;
-			fireParticles.Stop();
+			fireballParticles.Stop();
 			//fireballPoof.Play;
 			fireballImpact.pitch = Random.Range (lowPitch, highPitch);
 			fireballImpact.Play ();

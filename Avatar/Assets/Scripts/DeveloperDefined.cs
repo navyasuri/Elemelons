@@ -29,15 +29,13 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	Vector3 leftStart;
 	Vector3 leftEnd;
 	Vector3 leftDir;
-	bool rightAttackReady = false;
-	bool leftAttackReady = false;
-	bool gestureTriggered = false;
-	bool attackTriggered = false;
+	bool gestureTriggered = false, rightTriggered = false, leftTriggered = false;
+	bool fireballTriggered = false;
 	bool defenseTriggered = false;
 	bool throwerTriggered = false;
 
-	//ENABLED bools
-	bool leftAttackEnabled = true, rightAttackEnabled = true, defenseEnabled = true, throwerEnabled = true;
+	// Bools for skill stone progression (public for debugging)
+	public bool leftEnabled = true, fireballEnabled = true, defenseEnabled = true, throwerEnabled = true;
 
 	// UI for displaying current status and operation results 
 	//public Text textMode;
@@ -52,87 +50,88 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	protected Action nextUiAction;
 	protected IEnumerator uiFeedback;
 
-    // Callback for receiving signature/gesture progression or identification results
-    AirSigManager.OnDeveloperDefinedMatch developerDefined;
+	// Callback for receiving signature/gesture progression or identification results
+	AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
 
 
-    // Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.
-    // gestureId - a serial number
-    // gesture - gesture matched or null if no match. Only gesture in SetDeveloperDefinedTarget list will be verified against
-    // score - the confidence level of this identification. Above 1 is generally considered a match
-    public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
+	// Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.
+	// gestureId - a serial number
+	// gesture - gesture matched or null if no match. Only gesture in SetDeveloperDefinedTarget list will be verified against
+	// score - the confidence level of this identification. Above 1 is generally considered a match
+	public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		// Good Match!
-		if (score > 0.8) {
+		if (score > 0.95) {
 			Debug.Log(string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
-			//textToUpdate = string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score);
+
+			// Actions are then triggered by Update() based on these flags:
+			gestureTriggered = true;
 
 			// Launch fireball
 			if (gesture.Trim().Equals ("AttackPunchSimple")) {
-				// Actions are then triggered by Update() based on these flags:
-				attackTriggered = true;
-				gestureTriggered = true;
+				fireballTriggered = true;
 			}
-
 			// Defend yo self
 			if (gesture.Trim ().Equals ("DefenseShieldCross")) {
 				defenseTriggered = true;
-				gestureTriggered = true;
 			}
-
+			// Flamethrower!
 			if (gesture.Trim ().Equals ("C")) {
 				throwerTriggered = true;
-				gestureTriggered = true;
 			}
 
-		// Try again...
+			// Try again...
 		} else {
 			Debug.Log(string.Format ("<color=red>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 		}
-    }
+	}
 
-    // Use this for initialization
-    void Awake() {
-        Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+	// Use this for initialization
+	void Awake() {
+		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
-        // Update the display text
-//        textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
-//        textResult.text = defaultResultText = "Pressing grip and write symbol in the air\nReleasing grip when finished.";
-//        textResult.alignment = TextAnchor.UpperCenter;
-//        instruction.SetActive(false);
+		// Update the display text
+		//        textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
+		//        textResult.text = defaultResultText = "Pressing grip and write symbol in the air\nReleasing grip when finished.";
+		//        textResult.alignment = TextAnchor.UpperCenter;
+		//        instruction.SetActive(false);
 
 		// Configure AirSig by specifying target 
 		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
 		airsigManager.SetClassifier("AtDefThrow", "");
-		airsigManager.SetDeveloperDefinedTarget(new List<string> { "AttackPunchSimple", "DefenseShieldCross", "C" });
-        developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
-        airsigManager.onDeveloperDefinedMatch += developerDefined;
-        checkDbExist();
+		airsigManager.SetDeveloperDefinedTarget(new List<string> { "C", "AttackPunchSimple", "DefenseShieldCross" }); // Just in case the order here matters, list them in the order they were added to the pack on the AirSig website.
+		developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
+		airsigManager.onDeveloperDefinedMatch += developerDefined;
+		checkDbExist();
 
 		// Set each controller as an AirSig gesture trigger, and which button activates the recording
-        airsigManager.SetTriggerStartKeys(
-            AirSigManager.Controller.RIGHT_HAND,
+		airsigManager.SetTriggerStartKeys(
+			AirSigManager.Controller.RIGHT_HAND,
 			SteamVR_Controller.ButtonMask.Trigger,
-            AirSigManager.PressOrTouch.PRESS);
+			AirSigManager.PressOrTouch.PRESS);
 
-        airsigManager.SetTriggerStartKeys(
-            AirSigManager.Controller.LEFT_HAND,
+		airsigManager.SetTriggerStartKeys(
+			AirSigManager.Controller.LEFT_HAND,
 			SteamVR_Controller.ButtonMask.Trigger,
-            AirSigManager.PressOrTouch.PRESS);
-    }
-		
-    void OnDestroy() {
-        // Unregistering callback
-        airsigManager.onDeveloperDefinedMatch -= developerDefined;
-    }
+			AirSigManager.PressOrTouch.PRESS);
+	}
 
-    void Update() {
+	void OnDestroy() {
+		// Unregistering callback
+		airsigManager.onDeveloperDefinedMatch -= developerDefined;
+	}
+
+	void Update() {
+		// If a gesture matched above the threshold, run the response and reset:
 		if (gestureTriggered) {
-			GestureResponse ();
 			gestureTriggered = false;
+			GestureResponse ();
 		}
+		// Reset controller triggers before checking for new gesture updates:
+		rightTriggered = false;
+		leftTriggered = false;
 		UpdateUIandHandleControl();
-    }
+	}
 
 	protected void checkDbExist() {
 		bool isDbExist = airsigManager.IsDbExist;
@@ -142,42 +141,39 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	}
 
 	protected void UpdateUIandHandleControl() {
-		
-		if (leftAttackReady || rightAttackReady) {
-			leftAttackReady = false;
-			rightAttackReady = false;
-		}
-
+		// Check that devices are found before trying to trigger gestures:
 		if (rightDevice != null && leftDevice != null) {
-			
+
+			// If the right controller trigger is held down:
 			if (rightDevice.GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) {
 				rightStart = headset.transform.position;
-				rightStart.y -= 0.2f;
+				rightStart.y -= 0.2f;  // Log the starting position as a little below the headset. (May need tweaks)
 				rightParticles.Clear ();
-				rightParticles.Play ();
-
+				rightParticles.Play ();  // Play the gesture tracking particles.
 			} else if (rightDevice.GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) {
-				rightEnd = rightController.transform.position;
-				rightAttackReady = true;
-				rightDir = rightEnd - rightStart;
-				rightParticles.Stop ();
+				rightEnd = rightController.transform.position; // Log where the right controller lets go of the trigger.
+				rightDir = rightEnd - rightStart; // Determine vector to launch fireballs along.
+				rightParticles.Stop (); // Stop gesture particles.
+				rightTriggered = true;
 			}
 
-			if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) {
-				leftStart = headset.transform.position;
-				leftStart.y -= 0.2f;
-				leftParticles.Clear ();
-				leftParticles.Play ();
-			} else if (leftDevice.GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) {
-				leftEnd = leftController.transform.position;
-				leftAttackReady = true;
-				leftDir = leftEnd - leftStart;
-				leftParticles.Stop ();
+			// If the left controller trigger is held down:
+			if (leftEnabled) {
+				if (leftDevice.GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) {
+					leftStart = headset.transform.position;
+					leftStart.y -= 0.2f;
+					leftParticles.Clear ();
+					leftParticles.Play ();
+				} else if (leftDevice.GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) {
+					leftEnd = leftController.transform.position;
+					leftDir = leftEnd - leftStart;
+					leftParticles.Stop ();
+					leftTriggered = true;
+				}
 			}
-
 		}
 
-		// More script for the AirSig Demo UI:
+		// More script from the AirSig Demo UI, for feedback to players:
 		//		if (null != textToUpdate) {
 		//			if(uiFeedback != null) StopCoroutine(uiFeedback);
 		//			uiFeedback = setResultTextForSeconds(textToUpdate, 5.0f, defaultResultText);
@@ -241,76 +237,95 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	//		yield return new WaitForSeconds(seconds);
 	//		textResult.text = defaultText;
 	//	}
-	
 
 
 
-	// Called by Network.cs once WaitForRig() has gound all the pieces:
+
+	// Called by Network.cs once WaitForRig() has found all the pieces:
 	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn) {
-		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>();
-		rightDevice = SteamVR_Controller.Input((int)rightController.index);
-		rightParticles = GameObject.Find("RightFlames").GetComponent<ParticleSystem> ();
+		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>(); // Get SteamVR script from the "controller (left)" GameObject.
+		rightDevice = SteamVR_Controller.Input((int)rightController.index); // Automatically (safely) track whatever index SteamVR has assigned to the rightController today.
+		rightParticles = rightPassedIn.transform.GetChild(0).Find("RightFlames").gameObject.GetComponent<ParticleSystem> (); // Note that you must go down one layer first, into the Hand prefab, to get the RightFlames child.
 
 		leftController = leftPassedIn.GetComponent<SteamVR_TrackedObject>();
 		leftDevice = SteamVR_Controller.Input((int)leftController.index);
-		leftParticles = GameObject.Find("LeftFlames").GetComponent<ParticleSystem> ();
+		leftParticles = leftPassedIn.transform.GetChild(0).Find("LeftFlames").gameObject.GetComponent<ParticleSystem> ();
 
 		headset = headsetPassedIn;
 	}
 
 	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
 	public void GestureResponse() {
-		// Get the position one unit in front of the headset:
-		Vector3 spawnVector = headset.transform.position + (headset.transform.forward * 2f);
+		// Get the position two units in front of the headset:
+		Vector3 inFrontOfPlayer = headset.transform.position + (headset.transform.forward * 2f);
 
-		if (attackTriggered) { // Attack!
-			// Instantiate the prefab GameObject on network, at the calling controller:
+		// Attack!
+//		if (fireballTriggered && fireballEnabled) {
+//			// Instantiate the prefab GameObject on network, at the calling controller:
+//			if (rightTriggered) {
+//				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
+//				// Give the GameObject traits to be handled by GestureBehavior:
+//				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+//				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
+//			} else if (leftEnabled && leftTriggered) {
+//				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
+//				// Give the GameObject traits to be handled by GestureBehavior:
+//				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+//				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (leftDir);
+//			}
+//			// Fireball has been launched, untrigger until next gesture match:
+//			fireballTriggered = false;
+//		}
 
-			if (rightAttackReady) {
-				if (rightAttackEnabled) {
-					GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
-					// Give the GameObject traits to be handled by GestureBehavior:
-					gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
-					gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-					gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
-				}
-			} else if (leftAttackReady) {
-				if (leftAttackEnabled) {
-					GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
-					// Give the GameObject traits to be handled by GestureBehavior:
-					gestureResult.GetComponent<AllFireBehavior> ().fireball = true; // Is an attack.
-					gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-					gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (leftDir);
-				}
-			}
-			attackTriggered = false;
-		} else if (defenseTriggered) {// Defend!
-			if (defenseEnabled) {
-				GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", spawnVector, Quaternion.identity, 0);
-				gestureResult.GetComponent<AllFireBehavior> ().defense = true;
-				gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
-				gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (headset.transform.forward);
-			}
+		// Defend!
+		if (defenseTriggered && defenseEnabled) {
+			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", inFrontOfPlayer, Quaternion.identity, 0);
+			gestureResult.GetComponent<DefenseBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
+			gestureResult.GetComponent<DefenseBehavior> ().DoAfterStart (headset.transform.forward);
+			// Defense has been activated, untrigger until next gesture match:
 			defenseTriggered = false;
-		} else if (throwerTriggered) {
-			if (throwerEnabled){
-			GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
-			// Give the GameObject traits to be handled by GestureBehavior:
-			gestureResult.GetComponent<AllFireBehavior> ().flamethrower = true; // Shooting flames now
-			gestureResult.GetComponent<AllFireBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-//			gestureResult.GetComponent<AllFireBehavior> ().DoAfterStart (rightDir);
-			}
-
-			throwerTriggered = false;
 		}
 
-		// Set a timer with something of .2 seconds to avoid double attacking using both controllers.
-
+		// Flamethrower!
+		if (throwerTriggered && throwerEnabled) {
+			// Instantiate the prefab GameObject on network, at the calling controller:
+			if (rightTriggered) {
+				//GameObject.Find("RightFlamethrower").GetComponent<ParticleSystem> ().Play();
+				rightController.gameObject.transform.GetChild(0).Find("Flamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
+			} else if (leftEnabled && leftTriggered) {
+				//GameObject.Find("RightFlamethrower").GetComponent<ParticleSystem> ().Play();
+				leftController.gameObject.transform.GetChild(0).Find("LeftFlamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
+			}
+			// Flamethrower has been activated, untrigger until next gesture match:
+			throwerTriggered = false;
+		}
 
 		// =======================================
 		// TODO: Turn this bug into a feature:
 		//       When shoot fireballs is not set to false right away,
 		//       the player spawns a fire storm.
 		//       Hook this up to a for(loop) with a counter up to, say 20, before setting to false.
+
+// Needs work, currently launches too fast and in a strange fan
+//		if (firestormTriggered && firestormEnabled) {
+//			if (rightTriggered) {
+//				for (int i = 0; i < 20; i++) {
+//					GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
+//					// Give the GameObject traits to be handled by GestureBehavior:
+//					gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+//					gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
+//				}
+//			} else if (leftEnabled && leftTriggered) {
+//				for (int i = 0; i < 20; i++) {
+//					GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
+//					// Give the GameObject traits to be handled by GestureBehavior:
+//					gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+//					gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (leftDir);
+//				}
+//			}
+//			// Firestorm unleashed, untrigger until next gesture match:
+//			firestormTriggered = false;
+//		}
+
 	}
 }

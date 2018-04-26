@@ -467,6 +467,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1850298020453610, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
   m_IsPrefabParent: 0
@@ -586,58 +590,6 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 19550eb52b1ec774590a3ede846e05fe, type: 2}
-  m_IsPrefabParent: 0
---- !u!1001 &912395473
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0.035
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.133
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.107
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0.3716354
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.32741067
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.62204784
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.6064206
-      objectReference: {fileID: 0}
-    - target: {fileID: 4076230056865554, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 114173928914299288, guid: 8c268c6a1131b4941800fa36555934d4,
-        type: 2}
-      propertyPath: viewIdField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114173928914299288, guid: 8c268c6a1131b4941800fa36555934d4,
-        type: 2}
-      propertyPath: instantiationId
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 8c268c6a1131b4941800fa36555934d4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1016964444 stripped
 GameObject:
@@ -1140,6 +1092,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airsigManager: {fileID: 1262120278}
+  leftEnabled: 1
+  fireballEnabled: 1
+  defenseEnabled: 1
+  throwerEnabled: 1
 --- !u!4 &1898191621
 Transform:
   m_ObjectHideFlags: 0
