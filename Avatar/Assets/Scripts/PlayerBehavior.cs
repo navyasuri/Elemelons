@@ -5,8 +5,11 @@ using Photon;
 
 public class PlayerBehavior : Photon.MonoBehaviour {
 
+	protected string flameType;
     protected Color playerColor;
 	public float health;
+
+	protected string[] flameOptions = new string[5] {"Yellow", "Blue", "Green", "Purple", "White"};
 
 	void Awake() {
 		DontDestroyOnLoad (this.gameObject);
@@ -27,6 +30,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
         // Run a Remote Procedure Call for only currently connected users, sending the values to SetColor:
         PhotonView.Get(this).RPC("SetColor", PhotonTargets.All, serializedColor);
 		PhotonView.Get (this).RPC ("UpdateHealth", PhotonTargets.All, health);
+		flameType = flameOptions[(int) Random.Range(0,4)];
+		Debug.Log ("FlameChoice is" + flameType);
     }
 
 	void Update() {
