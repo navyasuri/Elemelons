@@ -125,6 +125,8 @@ GameObject:
   - component: {fileID: 114255090850806216}
   - component: {fileID: 198454594470814186}
   - component: {fileID: 82066605387088352}
+  - component: {fileID: 114555196431951016}
+  - component: {fileID: 114368191505702910}
   m_Layer: 0
   m_Name: Flamethrower
   m_TagString: Untagged
@@ -415,6 +417,43 @@ MonoBehaviour:
   throwerParticles: {fileID: 198454594470814186}
   lowPitch: 0.65
   highPitch: 0.85
+--- !u!114 &114368191505702910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1943790776151832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c6a57a3a5ca9a46985e1ee2887de1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114555196431951016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1943790776151832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 2
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114368191505702910}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114742353947415102
 MonoBehaviour:
   m_ObjectHideFlags: 1
