@@ -28,13 +28,13 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 
 	void Update() {
 		// Check for an active flamethrower:
-//		if (throwerParticles.isPlaying) {
-//			// Stop playing after 3 seconds of infinite POWERRR
-//			if ((Time.time - startTime > 5)) {
-//				throwerParticles.Stop ();
-//				flamethrowerWhoosh.Stop ();
-//			}
-//		}
+		if (throwerParticles.isPlaying) {
+			// Stop playing after 3 seconds of infinite POWERRR
+			if ((Time.time - startTime > 5)) {
+				throwerParticles.Stop ();
+				flamethrowerWhoosh.Stop ();
+			}
+		}
 	}
 
 	// TODO: Figure out how to damage objects here.
