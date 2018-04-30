@@ -569,15 +569,15 @@ MonoBehaviour:
   playerID: 0
   fireballWhoosh: {fileID: 82736947586606426}
   fireballImpact: {fileID: 82178822136820424}
-  defenseWoosh: {fileID: 82181798855363312}
+  defenseWhoosh: {fileID: 0}
   flamethrowerWhoosh: {fileID: 82924049010313258}
   fireballPoof: {fileID: 0}
-  fire: {fileID: 198411917288606560}
+  fireballParticles: {fileID: 0}
   lowPitch: 0.9
   highPitch: 1.1
-  attack: 0
+  fireball: 0
   defense: 0
-  isLive: 1
+  flamethrower: 0
 --- !u!135 &135641140346785182
 SphereCollider:
   m_ObjectHideFlags: 1

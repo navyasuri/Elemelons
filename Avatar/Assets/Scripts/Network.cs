@@ -168,11 +168,17 @@ public class Network : Photon.PunBehaviour
 			GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
 			player.transform.SetParent(headset.transform);
 
+			GameObject leftFix = GameObject.Find ("LeftHandTransformFixer");
 			GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
 			playerHandLeft.transform.SetParent(leftController.transform);
+			playerHandLeft.transform.localPosition = leftFix.transform.position;
+			playerHandLeft.transform.localRotation = leftFix.transform.localRotation;
 
+			GameObject rightFix = GameObject.Find ("RightHandTransformFixer");
 			GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
 			playerHandRight.transform.SetParent(rightController.transform);
+			playerHandRight.transform.localPosition = rightFix.transform.position;
+			playerHandRight.transform.localRotation = rightFix.transform.localRotation;
 
 			// Once the player is instantiated in the game room, update the controller references for AirSig:
 			GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset);

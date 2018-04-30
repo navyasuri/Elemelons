@@ -128,9 +128,6 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			gestureTriggered = false;
 			GestureResponse ();
 		}
-		// Reset controller triggers before checking for new gesture updates:
-		rightTriggered = false;
-		leftTriggered = false;
 		UpdateUIandHandleControl();
 	}
 
@@ -261,22 +258,22 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		Vector3 inFrontOfPlayer = headset.transform.position + (headset.transform.forward * 2f);
 
 		// Attack!
-//		if (fireballTriggered && fireballEnabled) {
-//			// Instantiate the prefab GameObject on network, at the calling controller:
-//			if (rightTriggered) {
-//				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
-//				// Give the GameObject traits to be handled by GestureBehavior:
-//				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-//				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
-//			} else if (leftEnabled && leftTriggered) {
-//				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
-//				// Give the GameObject traits to be handled by GestureBehavior:
-//				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
-//				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (leftDir);
-//			}
-//			// Fireball has been launched, untrigger until next gesture match:
-//			fireballTriggered = false;
-//		}
+		if (fireballTriggered && fireballEnabled) {
+			// Instantiate the prefab GameObject on network, at the calling controller:
+			if (rightTriggered) {
+				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
+				// Give the GameObject traits to be handled by GestureBehavior:
+				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
+			} else if (leftEnabled && leftTriggered) {
+				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
+				// Give the GameObject traits to be handled by GestureBehavior:
+				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (leftDir);
+			}
+			// Fireball has been launched, untrigger until next gesture match:
+			fireballTriggered = false;
+		}
 
 		// Defend!
 		if (defenseTriggered && defenseEnabled) {
@@ -290,16 +287,23 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		// Flamethrower!
 		if (throwerTriggered && throwerEnabled) {
 			// Instantiate the prefab GameObject on network, at the calling controller:
+			Debug.Log("Right triggered " + rightTriggered);
+
 			if (rightTriggered) {
-				//GameObject.Find("RightFlamethrower").GetComponent<ParticleSystem> ().Play();
+				//GameObject.Find("Flamethrower").GetComponent<ParticleSystem> ().Play();
+				Debug.Log("Right flamethrower");
 				rightController.gameObject.transform.GetChild(0).Find("Flamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
 			} else if (leftEnabled && leftTriggered) {
-				//GameObject.Find("RightFlamethrower").GetComponent<ParticleSystem> ().Play();
-				leftController.gameObject.transform.GetChild(0).Find("LeftFlamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
+				//GameObject.Find("Flamethrower").GetComponent<ParticleSystem> ().Play();
+				leftController.gameObject.transform.GetChild(0).Find("Flamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
 			}
 			// Flamethrower has been activated, untrigger until next gesture match:
 			throwerTriggered = false;
 		}
+
+		// Reset controller triggers before checking for new gesture updates:
+		rightTriggered = false;
+		leftTriggered = false;
 
 		// =======================================
 		// TODO: Turn this bug into a feature:
