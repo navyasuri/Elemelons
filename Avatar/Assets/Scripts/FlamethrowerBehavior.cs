@@ -19,21 +19,37 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
 	public void DoAfterStart() {
 		startTime = Time.time; // Keep track of how long this move has been alive.
-		// Orient the new object so particle effects display properly:
-//		Quaternion rotationForTrails = Quaternion.FromToRotation (Vector3.back, direction);
-//		transform.rotation = rotationForTrails;
-		throwerParticles.Play();
-		flamethrowerWhoosh.Play ();
+		isActive = true; // Boolean flag for network effects
 	}
-
+		
 	void Update() {
 		// Check for an active flamethrower:
 		if (throwerParticles.isPlaying) {
-			// Stop playing after 3 seconds of infinite POWERRR
-			if ((Time.time - startTime > 5)) {
+			// Stop playing after 4 seconds of infinite POWAAAA
+			if ((Time.time - startTime > 4)) {
 				throwerParticles.Stop ();
 				flamethrowerWhoosh.Stop ();
+				isActive = false;
 			}
+		}
+
+		// If this flamethrower should be active, activate it's effects:
+		if (isActive && !throwerParticles.isPlaying) {
+			throwerParticles.Play(); // Start the particle effects
+			flamethrowerWhoosh.Play (); // Sound like a flamethrower
+		}
+			
+		if (!photonView.isMine) {
+			isActive = isActive;
+		}
+	}
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			stream.SendNext (isActive);
+		} 
+		else {
+			isActive = (bool)stream.ReceiveNext ();
 		}
 	}
 
