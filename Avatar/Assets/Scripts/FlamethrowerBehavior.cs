@@ -20,7 +20,8 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
 	public void DoAfterStart() {
 		startTime = Time.time; // Keep track of how long this move has been alive.
-		PhotonView.Get (this).RPC ("ActivateFlamethrower", PhotonTargets.All);
+		isActive = true;
+		PhotonView.Get (this).RPC ("ActivateFlamethrower", PhotonTargets.All, isActive);
 	}
 
 	void Update() {
@@ -42,7 +43,7 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	}
 
 	[PunRPC]
-	public void ActivateFlamethrower() {
-		isActive = true; // Set this flamethrower active across the network.
+	public void ActivateFlamethrower(bool isActiveOnNetwork) {
+		isActive = isActiveOnNetwork; // Set this flamethrower active across the network.
 	}
 }
