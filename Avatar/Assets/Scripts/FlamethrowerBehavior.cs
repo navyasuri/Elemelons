@@ -12,7 +12,6 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	public float highPitch = 0.85f;
 	float startTime;
 	public bool isActive = false;
-	public bool isActiveOnNetwork = false;
 
 	void Start() {
 		//throwerParticles = transform.gameObject.Find("Flamethrower").gameObject.GetComponent<ParticleSystem> (); // Find thrower particles.
@@ -21,9 +20,9 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
 	public void DoAfterStart() {
 		startTime = Time.time; // Keep track of how long this move has been alive.
-		isActive = true; // Boolean flag for network effects
+		PhotonView.Get (this).RPC ("ActivateFlamethrower", PhotonTargets.All);
 	}
-		
+
 	void Update() {
 		// Check for an active flamethrower:
 		if (throwerParticles.isPlaying) {
@@ -40,18 +39,10 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 			throwerParticles.Play(); // Start the particle effects
 			flamethrowerWhoosh.Play (); // Sound like a flamethrower
 		}
-			
-		if (!photonView.isMine) {
-			isActive = isActiveOnNetwork;
-		}
 	}
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-		if (stream.isWriting) {
-			stream.SendNext (isActive);
-		} 
-		else {
-			isActiveOnNetwork = (bool)stream.ReceiveNext ();
-		}
+	[PunRPC]
+	public void ActivateFlamethrower() {
+		isActive = true; // Set this flamethrower active across the network.
 	}
 }
