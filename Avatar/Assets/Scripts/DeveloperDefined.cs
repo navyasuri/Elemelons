@@ -13,7 +13,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	public AirSigManager airsigManager;
 
 	// Vive objects
-	protected GameObject headset;
+	protected GameObject headset, player;
 	protected SteamVR_TrackedObject rightController;
 	protected SteamVR_Controller.Device rightDevice;
 	protected ParticleSystem rightParticles;
@@ -278,7 +278,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		// Defend!
 		if (defenseTriggered && defenseEnabled) {
 			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", inFrontOfPlayer, Quaternion.identity, 0);
-			gestureResult.GetComponent<DefenseBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset.
+			gestureResult.GetComponent<DefenseBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset (Camera (eye)).
 			gestureResult.GetComponent<DefenseBehavior> ().DoAfterStart (headset.transform.forward);
 			// Defense has been activated, untrigger until next gesture match:
 			defenseTriggered = false;
@@ -287,11 +287,8 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		// Flamethrower!
 		if (throwerTriggered && throwerEnabled) {
 			// Instantiate the prefab GameObject on network, at the calling controller:
-			Debug.Log("Right triggered " + rightTriggered);
-
 			if (rightTriggered) {
 				//GameObject.Find("Flamethrower").GetComponent<ParticleSystem> ().Play();
-				Debug.Log("Right flamethrower");
 				rightController.gameObject.transform.GetChild(0).Find("Flamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
 			} else if (leftEnabled && leftTriggered) {
 				//GameObject.Find("Flamethrower").GetComponent<ParticleSystem> ().Play();

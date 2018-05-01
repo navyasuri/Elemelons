@@ -36,10 +36,12 @@ public class FireballBehavior : Photon.MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		// If the colliding object does not belong to this player (or their firestorm), then destroy it:
-		if (collision.gameObject.GetComponent<FireballBehavior>().playerID != playerID) {
-			PlayFireballExplosion (); // Destroy the fireball, with effects, on any other collision.
+		// If the fireball hits the player or something they spawned, do nothing:
+		if(collision.gameObject.GetPhotonView().isMine) {
+			return;
 		}
+		// Destroy the fireball, with effects, on any other collision.
+		PlayFireballExplosion ();
 	}
 
 	// Handler for fireball destruction effects:

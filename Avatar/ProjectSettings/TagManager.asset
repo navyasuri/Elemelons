@@ -13,6 +13,7 @@ TagManager:
   - defense
   - flames
   - health
+  - flamethrower
   layers:
   - Default
   - TransparentFX
