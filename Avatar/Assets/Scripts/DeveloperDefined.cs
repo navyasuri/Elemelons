@@ -187,7 +187,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		// Attack!
 		if (fireballTriggered && fireballEnabled) {
 			// Instantiate the prefab GameObject on network, at the calling controller:
-			string playerFireball = playerColor + "Attack";
+			string playerFireball = "Fireball" + playerColor;
 			if (rightTriggered) {
 				GameObject gestureResult = PhotonNetwork.Instantiate (playerFireball, rightController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
@@ -221,10 +221,6 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 				rightController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
 			} else if (leftEnabled && leftTriggered) {
 				//GameObject.Find("Flamethrower").GetComponent<ParticleSystem> ().Play();
-				Debug.Log(leftController.gameObject.transform.GetChild(0));
-				Debug.Log(leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower));
-				Debug.Log(leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject);
-				Debug.Log(leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject.GetComponent<FlamethrowerBehavior> ());
 				leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
 			}
 			// Flamethrower has been activated, untrigger until next gesture match:

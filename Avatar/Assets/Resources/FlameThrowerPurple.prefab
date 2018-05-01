@@ -90,8 +90,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1486082437138620}
-  m_LocalRotation: {x: 0, y: 0.47424182, z: 0, w: 0.8803947}
-  m_LocalPosition: {x: -0.53, y: 0.21, z: 0.04}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 4877819549447494}
@@ -99,7 +99,7 @@ Transform:
   - {fileID: 4546854537894168}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4546854537894168
 Transform:
   m_ObjectHideFlags: 1
@@ -284,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flamethrowerWhoosh: {fileID: 82624810757575998}
   throwerParticles: {fileID: 198173764551493828}
+  playerID: 0
   lowPitch: 0.65
   highPitch: 0.85
 --- !u!198 &198173764551493828

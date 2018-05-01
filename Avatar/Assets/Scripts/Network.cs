@@ -193,30 +193,32 @@ public class Network : Photon.PunBehaviour
 			GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
 			player.transform.SetParent(headset.transform);
 
-			GameObject leftFix = GameObject.Find ("LeftHandTransformFixer");
+			// Instantiate hand prefab and set as child of controller:
 			GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
-			Transform tempLeft = playerHandLeft.transform.Find ("Flamethrower");
-			Debug.Log(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers);
-			GameObject throwerLeft = GameObject.Instantiate(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers [playerColor]);
-			throwerLeft.transform.SetParent(playerHandLeft.transform);
 			playerHandLeft.transform.SetParent(leftController.transform);
+			// Fix the orientation by resetting it's local space relative to the helper GameObject in the scene:
+			GameObject leftFix = GameObject.Find ("LeftHandTransformFixer");
 			playerHandLeft.transform.localPosition = leftFix.transform.position;
 			playerHandLeft.transform.localRotation = leftFix.transform.localRotation;
-			throwerLeft.transform.localPosition = tempLeft.localPosition;
-			throwerLeft.transform.localRotation = tempLeft.localRotation;
+			// Add the flamethrower to the hand, using the orientations of the calibrated flamethrower already on the hand prefab:
+			Transform leftFlameFix = playerHandLeft.transform.Find ("Flamethrower");
+			GameObject throwerLeft = PhotonNetwork.Instantiate(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers [playerColor].name, leftFlameFix.position, leftFlameFix.rotation, 0);
+			throwerLeft.transform.SetParent(playerHandLeft.transform);
+			// Remove the extra flamethrower from the prefab:
+			Destroy (leftFlameFix.gameObject);
+			// Finally, give the new flamethrower the playerID to avoid self-damage:
 			throwerLeft.GetComponent<FlamethrowerBehavior> ().playerID = headset.GetInstanceID();
 
-			GameObject rightFix = GameObject.Find ("RightHandTransformFixer");
+			// Same as above, but for the right hand:
 			GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
-			Transform tempRight = playerHandRight.transform.Find ("Flamethrower");
-			Debug.Log(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers);
-			GameObject throwerRight = GameObject.Instantiate(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers [playerColor]);
-			throwerRight.transform.SetParent(playerHandRight.transform);
 			playerHandRight.transform.SetParent(rightController.transform);
+			GameObject rightFix = GameObject.Find ("RightHandTransformFixer");
 			playerHandRight.transform.localPosition = rightFix.transform.position;
 			playerHandRight.transform.localRotation = rightFix.transform.localRotation;
-			throwerRight.transform.localPosition = tempRight.localPosition;
-			throwerRight.transform.localRotation = tempRight.localRotation;
+			Transform rightFlameFix = playerHandRight.transform.Find ("Flamethrower");
+			GameObject throwerRight = PhotonNetwork.Instantiate(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers [playerColor].name, rightFlameFix.position, rightFlameFix.rotation, 0);
+			throwerRight.transform.SetParent(playerHandRight.transform);
+			Destroy (rightFlameFix.gameObject);
 			throwerRight.GetComponent<FlamethrowerBehavior> ().playerID = headset.GetInstanceID();
 
 			// Once the player is instantiated in the game room, update the controller references for AirSig:
