@@ -7,8 +7,8 @@ public class FlamesManager : MonoBehaviour {
 	public GameObject yellowAttack, blueAttack, greenAttack, purpleAttack, whiteAttack;
 	public GameObject yellowThrower, blueThrower, greenThrower, purpleThrower, whiteThrower;
 
-	Dictionary<string, GameObject> attacks;
-	Dictionary<string, GameObject> throwers;
+	public Dictionary<string, GameObject> attacks;
+	public Dictionary<string, GameObject> throwers;
 
 	// Use this for initialization
 	void Start () {

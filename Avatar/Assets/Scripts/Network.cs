@@ -23,15 +23,34 @@ public class Network : Photon.PunBehaviour
     public GameObject rightHandPrefab;
     public GameObject spawnPoint1;
     public GameObject spawnPoint2;
+	protected static Dictionary<string, GameObject> attacks;
+	protected static Dictionary<string, GameObject> throwers;
+
+	public class SpawnPoint{
+		public GameObject spawnPoint;
+		public string flameType;
+		public GameObject attack, thrower;
+
+		public SpawnPoint(string FlameType){
+			flameType = FlameType;
+			attack = attacks[flameType];
+			thrower = throwers[flameType];
+		}
+	}
+
+	SpawnPoint sp1; 
+	SpawnPoint sp2;
 
 	public bool offlineMode = false;
 
     // Arrays to track spawn points locations and 'taken' status:
-    public Transform[] spawnPoints;
+	public SpawnPoint[] spawnPoints;
     public bool[] spawnPointTaken;
 
     void Start()
     {
+		attacks = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().attacks;
+		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
 		if (offlineMode) {
 			PhotonNetwork.offlineMode = true;
 		} else {
@@ -42,11 +61,14 @@ public class Network : Photon.PunBehaviour
         PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.automaticallySyncScene = true;
 
-        if (spawnPoint1 && spawnPoint2)
+		sp1 = new SpawnPoint ("purple");
+		sp2 = new SpawnPoint ("green");
+
+		if (sp1.spawnPoint && sp2.spawnPoint)
         {
-            spawnPoints = new Transform[2];
-            spawnPoints[0] = spawnPoint1.transform;
-            spawnPoints[1] = spawnPoint2.transform;
+			spawnPoints = new SpawnPoint[2];
+            spawnPoints[0] = sp1;
+            spawnPoints[1] = sp2;
         }
 
         spawnPointTaken = new bool[2];
@@ -85,16 +107,18 @@ public class Network : Photon.PunBehaviour
     {
         // Get the spawn point location to place the rig
         Vector3 spawnLocation;
+		GameObject thrower;
         if (spawnPoints.Length > 0)
         {
             if (!spawnPointTaken[0])
             {
-                spawnLocation = spawnPoints[0].position;
+				spawnLocation = spawnPoints[0].spawnPoint.transform.position;
                 spawnPointTaken[0] = true;
+				thrower = sp1.thrower;
             }
             else
             {
-                spawnLocation = spawnPoints[1].position;
+				spawnLocation = spawnPoints[1].spawnPoint.transform.position;
                 spawnPointTaken[1] = true;
             }
         }
@@ -123,7 +147,7 @@ public class Network : Photon.PunBehaviour
     void onLeftRoom()
     {
         GameObject playerRemaining = GameObject.FindGameObjectWithTag("Player");
-        if (playerRemaining.transform.position == spawnPoint1.transform.position)
+        if (playerRemaining.transform.position == sp1.spawnPoint.transform.position)
         {
             spawnPointTaken[1] = false;
         }
