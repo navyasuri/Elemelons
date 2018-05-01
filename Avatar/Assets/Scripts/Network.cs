@@ -30,18 +30,6 @@ public class Network : Photon.PunBehaviour
 	protected static Dictionary<string, GameObject> attacks;
 	protected static Dictionary<string, GameObject> throwers;
 
-//	public class SpawnPoint{
-//		public GameObject spawnPoint;
-//		public string flameType;
-//		public GameObject attack, thrower;
-//
-//		public SpawnPoint(string FlameType){
-//			flameType = FlameType;
-//			attack = attacks[flameType];
-//			thrower = throwers[flameType];
-//		}
-//	}
-
 	public bool offlineMode = false;
 
     // Arrays to track spawn points locations and 'taken' status:
@@ -52,7 +40,7 @@ public class Network : Photon.PunBehaviour
 		if (offlineMode) {
 			PhotonNetwork.offlineMode = true;
 		} else {
-			PhotonNetwork.ConnectUsingSettings("0.2.1");
+			PhotonNetwork.ConnectUsingSettings("0.3.1");
 		}
         // Allows us to connect to the network. The only argument is the version of this application.
 
@@ -102,23 +90,29 @@ public class Network : Photon.PunBehaviour
     public override void OnJoinedRoom() {
         // Get the spawn point location to place the rig, assign player color based on that location:
         Vector3 spawnLocation;
+		Debug.Log (spawnPointTaken [0]);
+		Debug.Log (spawnPointTaken [1]);
+		Debug.Log (spawnPointTaken [2]);
+		Debug.Log (spawnPointTaken [3]);
+		Debug.Log (spawnPointTaken [4]);
+
         if (spawnPoints.Length > 0) {
             if (!spawnPointTaken[0]) {
 				spawnLocation = spawnPoints[0].position;
                 spawnPointTaken[0] = true;
 				playerColor = "Yellow";
             }
-			if (!spawnPointTaken[1]) {
+			else if (!spawnPointTaken[1]) {
 				spawnLocation = spawnPoints[1].position;
 				spawnPointTaken[1] = true;
 				playerColor = "Blue";
 			}
-			if (!spawnPointTaken[2]) {
+			else if (!spawnPointTaken[2]) {
 				spawnLocation = spawnPoints[2].position;
 				spawnPointTaken[2] = true;
 				playerColor = "Green";
 			}
-			if (!spawnPointTaken[3]) {
+			else if (!spawnPointTaken[3]) {
 				spawnLocation = spawnPoints[3].position;
 				spawnPointTaken[3] = true;
 				playerColor = "Purple";

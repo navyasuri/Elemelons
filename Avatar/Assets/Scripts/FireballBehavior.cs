@@ -37,8 +37,10 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		// If the fireball hits the player or something they spawned, do nothing:
-		if(collision.gameObject.GetPhotonView().isMine) {
-			return;
+		if(collision.gameObject.GetPhotonView() != null) {
+			if (collision.gameObject.GetPhotonView ().isMine) {
+				return;
+			}
 		}
 		// Destroy the fireball, with effects, on any other collision.
 		PlayFireballExplosion ();

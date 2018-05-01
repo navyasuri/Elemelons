@@ -12,6 +12,7 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	public float highPitch = 0.85f;
 	float startTime;
 	bool isActive = false;
+	bool isActiveOnNetwork = false;
 
 	void Start() {
 		//throwerParticles = transform.gameObject.Find("Flamethrower").gameObject.GetComponent<ParticleSystem> (); // Find thrower particles.
@@ -41,7 +42,7 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 		}
 			
 		if (!photonView.isMine) {
-			isActive = isActive;
+			isActive = isActiveOnNetwork;
 		}
 	}
 
@@ -50,7 +51,7 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 			stream.SendNext (isActive);
 		} 
 		else {
-			isActive = (bool)stream.ReceiveNext ();
+			isActiveOnNetwork = (bool)stream.ReceiveNext ();
 		}
 	}
 
