@@ -13,7 +13,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	public AirSigManager airsigManager;
 
 	// Vive objects
-	protected GameObject headset, player;
+	protected GameObject headset;
 	protected SteamVR_TrackedObject rightController;
 	protected SteamVR_Controller.Device rightDevice;
 	protected ParticleSystem rightParticles;
@@ -33,6 +33,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	bool fireballTriggered = false;
 	bool defenseTriggered = false;
 	bool throwerTriggered = false;
+	public string playerColor;
 
 	// Bools for skill stone progression (public for debugging)
 	public bool leftEnabled = true, fireballEnabled = true, defenseEnabled = true, throwerEnabled = true;
@@ -54,7 +55,53 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
 
+	// Use this for initialization
+	void Awake() {
+		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
+		// Configure AirSig by specifying target 
+		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
+		airsigManager.SetClassifier("AtDefThrow", "");
+		airsigManager.SetDeveloperDefinedTarget(new List<string> { "C", "AttackPunchSimple", "DefenseShieldCross" }); // Just in case the order here matters, list them in the order they were added to the pack on the AirSig website.
+		developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
+		airsigManager.onDeveloperDefinedMatch += developerDefined;
+		checkDbExist();
+
+		// Set each controller as an AirSig gesture trigger, and which button activates the recording
+		airsigManager.SetTriggerStartKeys(
+			AirSigManager.Controller.RIGHT_HAND,
+			SteamVR_Controller.ButtonMask.Trigger,
+			AirSigManager.PressOrTouch.PRESS);
+
+		airsigManager.SetTriggerStartKeys(
+			AirSigManager.Controller.LEFT_HAND,
+			SteamVR_Controller.ButtonMask.Trigger,
+			AirSigManager.PressOrTouch.PRESS);
+	}
+		
+	// Necessary function for AirSig. Called by Network.cs once its WaitForRig() has found all the pieces:
+	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn, string playerColorPassedIn) {
+		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>(); // Get SteamVR script from the "controller (left)" GameObject.
+		rightDevice = SteamVR_Controller.Input((int)rightController.index); // Automatically (safely) track whatever index SteamVR has assigned to the rightController today.
+		rightParticles = rightPassedIn.transform.GetChild(0).Find("RightFlames").gameObject.GetComponent<ParticleSystem> (); // Note that you must go down one layer first, into the Hand prefab, to get the RightFlames child.
+
+		leftController = leftPassedIn.GetComponent<SteamVR_TrackedObject>();
+		leftDevice = SteamVR_Controller.Input((int)leftController.index);
+		leftParticles = leftPassedIn.transform.GetChild(0).Find("LeftFlames").gameObject.GetComponent<ParticleSystem> ();
+
+		headset = headsetPassedIn;
+		playerColor = playerColorPassedIn;
+	}
+
+	void Update() {
+		// If a gesture matched above the threshold, run the response and reset:
+		if (gestureTriggered) {
+			gestureTriggered = false;
+			GestureResponse ();
+		}
+		UpdateUIandHandleControl();
+	}
+		
 	// Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.
 	// gestureId - a serial number
 	// gesture - gesture matched or null if no match. Only gesture in SetDeveloperDefinedTarget list will be verified against
@@ -86,51 +133,6 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		}
 	}
 
-	// Use this for initialization
-	void Awake() {
-		
-		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
-
-		// Update the display text
-		//        textMode.text = string.Format("Mode: {0}", AirSigManager.Mode.DeveloperDefined.ToString());
-		//        textResult.text = defaultResultText = "Pressing grip and write symbol in the air\nReleasing grip when finished.";
-		//        textResult.alignment = TextAnchor.UpperCenter;
-		//        instruction.SetActive(false);
-
-		// Configure AirSig by specifying target 
-		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
-		airsigManager.SetClassifier("AtDefThrow", "");
-		airsigManager.SetDeveloperDefinedTarget(new List<string> { "C", "AttackPunchSimple", "DefenseShieldCross" }); // Just in case the order here matters, list them in the order they were added to the pack on the AirSig website.
-		developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
-		airsigManager.onDeveloperDefinedMatch += developerDefined;
-		checkDbExist();
-
-		// Set each controller as an AirSig gesture trigger, and which button activates the recording
-		airsigManager.SetTriggerStartKeys(
-			AirSigManager.Controller.RIGHT_HAND,
-			SteamVR_Controller.ButtonMask.Trigger,
-			AirSigManager.PressOrTouch.PRESS);
-
-		airsigManager.SetTriggerStartKeys(
-			AirSigManager.Controller.LEFT_HAND,
-			SteamVR_Controller.ButtonMask.Trigger,
-			AirSigManager.PressOrTouch.PRESS);
-	}
-
-	void OnDestroy() {
-		// Unregistering callback
-		airsigManager.onDeveloperDefinedMatch -= developerDefined;
-	}
-
-	void Update() {
-		// If a gesture matched above the threshold, run the response and reset:
-		if (gestureTriggered) {
-			gestureTriggered = false;
-			GestureResponse ();
-		}
-		UpdateUIandHandleControl();
-	}
-
 	protected void checkDbExist() {
 		bool isDbExist = airsigManager.IsDbExist;
 		if (!isDbExist) {
@@ -138,6 +140,11 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		}
 	}
 
+	void OnDestroy() {
+		// Unregistering callback
+		airsigManager.onDeveloperDefinedMatch -= developerDefined;
+	}
+		
 	protected void UpdateUIandHandleControl() {
 		// Check that devices are found before trying to trigger gestures:
 		if (rightDevice != null && leftDevice != null) {
@@ -170,86 +177,6 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 				}
 			}
 		}
-
-		// More script from the AirSig Demo UI, for feedback to players:
-		//		if (null != textToUpdate) {
-		//			if(uiFeedback != null) StopCoroutine(uiFeedback);
-		//			uiFeedback = setResultTextForSeconds(textToUpdate, 5.0f, defaultResultText);
-		//			StartCoroutine(uiFeedback);
-		//			textToUpdate = null;
-		//		}
-		//
-		//		if (nextUiAction != null) {
-		//			nextUiAction();
-		//			nextUiAction = null;
-		//		}
-	}
-
-	//	protected string GetDefaultIntructionText() {
-	//		return DEFAULT_INSTRUCTION_TEXT;
-	//	}
-
-	// All for updating the AirSig UI gesture match results, from the Demo scene:
-
-	//	protected void ToggleGestureImage(string target) {
-	//		if ("All".Equals(target)) {
-	//			cHeartDown.SetActive(true);
-	//			foreach (Transform child in cHeartDown.transform) {
-	//				child.gameObject.SetActive(true);
-	//			}
-	//		} else if ("Heart".Equals(target)) {
-	//			cHeartDown.SetActive(true);
-	//			foreach (Transform child in cHeartDown.transform) {
-	//				if (child.name == "Heart") {
-	//					child.gameObject.SetActive(true);
-	//				} else {
-	//					child.gameObject.SetActive(false);
-	//				}
-	//			}
-	//		} else if ("C".Equals(target)) {
-	//			cHeartDown.SetActive(true);
-	//			foreach (Transform child in cHeartDown.transform) {
-	//				if (child.name == "C") {
-	//					child.gameObject.SetActive(true);
-	//				} else {
-	//					child.gameObject.SetActive(false);
-	//				}
-	//			}
-	//		} else if ("Down".Equals(target)) {
-	//			cHeartDown.SetActive(true);
-	//			foreach (Transform child in cHeartDown.transform) {
-	//				if (child.name == "Down") {
-	//					child.gameObject.SetActive(true);
-	//				} else {
-	//					child.gameObject.SetActive(false);
-	//				}
-	//			}
-	//		} else {
-	//			cHeartDown.SetActive(false);
-	//		}
-	//	}
-	//
-	//	protected IEnumerator setResultTextForSeconds(string text, float seconds, string defaultText = "") {
-	//		string temp = textResult.text;
-	//		textResult.text = text;
-	//		yield return new WaitForSeconds(seconds);
-	//		textResult.text = defaultText;
-	//	}
-
-
-
-
-	// Called by Network.cs once WaitForRig() has found all the pieces:
-	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn) {
-		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>(); // Get SteamVR script from the "controller (left)" GameObject.
-		rightDevice = SteamVR_Controller.Input((int)rightController.index); // Automatically (safely) track whatever index SteamVR has assigned to the rightController today.
-		rightParticles = rightPassedIn.transform.GetChild(0).Find("RightFlames").gameObject.GetComponent<ParticleSystem> (); // Note that you must go down one layer first, into the Hand prefab, to get the RightFlames child.
-
-		leftController = leftPassedIn.GetComponent<SteamVR_TrackedObject>();
-		leftDevice = SteamVR_Controller.Input((int)leftController.index);
-		leftParticles = leftPassedIn.transform.GetChild(0).Find("LeftFlames").gameObject.GetComponent<ParticleSystem> ();
-
-		headset = headsetPassedIn;
 	}
 
 	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
@@ -260,13 +187,14 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		// Attack!
 		if (fireballTriggered && fireballEnabled) {
 			// Instantiate the prefab GameObject on network, at the calling controller:
+			string playerFireball = playerColor + "Attack";
 			if (rightTriggered) {
-				GameObject gestureResult = PhotonNetwork.Instantiate ("AttackBlue", rightController.transform.position, Quaternion.identity, 0);
+				GameObject gestureResult = PhotonNetwork.Instantiate (playerFireball, rightController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
 				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
 				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
 			} else if (leftEnabled && leftTriggered) {
-				GameObject gestureResult = PhotonNetwork.Instantiate ("Attack", leftController.transform.position, Quaternion.identity, 0);
+				GameObject gestureResult = PhotonNetwork.Instantiate (playerFireball, leftController.transform.position, Quaternion.identity, 0);
 				// Give the GameObject traits to be handled by GestureBehavior:
 				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
 				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (leftDir);
@@ -287,12 +215,17 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		// Flamethrower!
 		if (throwerTriggered && throwerEnabled) {
 			// Instantiate the prefab GameObject on network, at the calling controller:
+			string playerFlameThrower = "FlameThrower" + playerColor + "(Clone)";
 			if (rightTriggered) {
 				//GameObject.Find("Flamethrower").GetComponent<ParticleSystem> ().Play();
-				rightController.gameObject.transform.GetChild(0).Find("Flamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
+				rightController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
 			} else if (leftEnabled && leftTriggered) {
 				//GameObject.Find("Flamethrower").GetComponent<ParticleSystem> ().Play();
-				leftController.gameObject.transform.GetChild(0).Find("Flamethrower").gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
+				Debug.Log(leftController.gameObject.transform.GetChild(0));
+				Debug.Log(leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower));
+				Debug.Log(leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject);
+				Debug.Log(leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject.GetComponent<FlamethrowerBehavior> ());
+				leftController.gameObject.transform.GetChild(0).Find(playerFlameThrower).gameObject.GetComponent<FlamethrowerBehavior> ().DoAfterStart();
 			}
 			// Flamethrower has been activated, untrigger until next gesture match:
 			throwerTriggered = false;

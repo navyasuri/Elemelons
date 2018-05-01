@@ -21,36 +21,34 @@ public class Network : Photon.PunBehaviour
 	public GameObject playerHeadPrefab;
     public GameObject leftHandPrefab;
     public GameObject rightHandPrefab;
-    public GameObject spawnPoint1;
-    public GameObject spawnPoint2;
+    public GameObject yellowSpawn;
+	public GameObject blueSpawn;
+	public GameObject greenSpawn;
+	public GameObject purpleSpawn;
+	public GameObject whiteSpawn;
+	string playerColor;
 	protected static Dictionary<string, GameObject> attacks;
 	protected static Dictionary<string, GameObject> throwers;
 
-	public class SpawnPoint{
-		public GameObject spawnPoint;
-		public string flameType;
-		public GameObject attack, thrower;
-
-		public SpawnPoint(string FlameType){
-			flameType = FlameType;
-			attack = attacks[flameType];
-			thrower = throwers[flameType];
-		}
-	}
-
-	SpawnPoint sp1; 
-	SpawnPoint sp2;
+//	public class SpawnPoint{
+//		public GameObject spawnPoint;
+//		public string flameType;
+//		public GameObject attack, thrower;
+//
+//		public SpawnPoint(string FlameType){
+//			flameType = FlameType;
+//			attack = attacks[flameType];
+//			thrower = throwers[flameType];
+//		}
+//	}
 
 	public bool offlineMode = false;
 
     // Arrays to track spawn points locations and 'taken' status:
-	public SpawnPoint[] spawnPoints;
+	public Transform[] spawnPoints;
     public bool[] spawnPointTaken;
 
-    void Start()
-    {
-		attacks = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().attacks;
-		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
+    void Start() {
 		if (offlineMode) {
 			PhotonNetwork.offlineMode = true;
 		} else {
@@ -61,40 +59,38 @@ public class Network : Photon.PunBehaviour
         PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.automaticallySyncScene = true;
 
-		sp1 = new SpawnPoint ("purple");
-		sp2 = new SpawnPoint ("green");
+		attacks = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().attacks;
+		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
 
-		if (sp1.spawnPoint && sp2.spawnPoint)
-        {
-			spawnPoints = new SpawnPoint[2];
-            spawnPoints[0] = sp1;
-            spawnPoints[1] = sp2;
-        }
+		spawnPoints = new Transform[5];
+		spawnPoints[0] = yellowSpawn.transform;
+		spawnPoints[1] = blueSpawn.transform;
+		spawnPoints[2] = greenSpawn.transform;
+		spawnPoints[3] = purpleSpawn.transform;
+		spawnPoints[4] = whiteSpawn.transform;
 
-        spawnPointTaken = new bool[2];
+        spawnPointTaken = new bool[5];
     }
 
-    void Update()
-    {
+    void Update() {
 
     }
 
     // This is a simple way to display the connection state on the screen itself, instead of in the Console:
-    void OnGUI()
-    {
-        if (!PhotonNetwork.connected)
-        { // If the player isn't currently connected to the Photon Cloud:
+    void OnGUI() {
+		// If the player isn't currently connected to the Photon Cloud:
+        if (!PhotonNetwork.connected) { 
             GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString()); // Display log messages.
         }
-        else if (PhotonNetwork.room == null)
-        { // Else, if you're connected and not yet in a room, display a clickable button to create a room:
+		// Else, if you're connected and not yet in a room, display a clickable button to create a room:
+        else if (PhotonNetwork.room == null) { 
             if (GUI.Button(new Rect(100, 100, 250, 100), "Create a Room")) // This line creates a GUI Button.
                 PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 6, IsVisible = true }, null); // This line is called on click.
 
-            if (roomsList != null)
-            { // If we have some rooms to display:
-                for (int i = 0; i < roomsList.Length; i++)
-                { // Loop and create buttons for each available room:
+			// If we have some rooms to display:
+            if (roomsList != null) { 
+				// Loop and create buttons for each available room:
+                for (int i = 0; i < roomsList.Length; i++) { 
                     if (GUI.Button(new Rect(100, 250 + (110 * i), 250, 100), "Join " + roomsList[i].Name))
                         PhotonNetwork.JoinRoom(roomsList[i].Name); // Join the room that the user clicked on!
                 }
@@ -103,80 +99,91 @@ public class Network : Photon.PunBehaviour
     }
 
     // Once we've joined our room, we want to instantiate an object for our player to control:
-    public override void OnJoinedRoom()
-    {
-        // Get the spawn point location to place the rig
+    public override void OnJoinedRoom() {
+        // Get the spawn point location to place the rig, assign player color based on that location:
         Vector3 spawnLocation;
-		GameObject thrower;
-        if (spawnPoints.Length > 0)
-        {
-            if (!spawnPointTaken[0])
-            {
-				spawnLocation = spawnPoints[0].spawnPoint.transform.position;
+        if (spawnPoints.Length > 0) {
+            if (!spawnPointTaken[0]) {
+				spawnLocation = spawnPoints[0].position;
                 spawnPointTaken[0] = true;
-				thrower = sp1.thrower;
+				playerColor = "Yellow";
             }
-            else
-            {
-				spawnLocation = spawnPoints[1].spawnPoint.transform.position;
-                spawnPointTaken[1] = true;
+			if (!spawnPointTaken[1]) {
+				spawnLocation = spawnPoints[1].position;
+				spawnPointTaken[1] = true;
+				playerColor = "Blue";
+			}
+			if (!spawnPointTaken[2]) {
+				spawnLocation = spawnPoints[2].position;
+				spawnPointTaken[2] = true;
+				playerColor = "Green";
+			}
+			if (!spawnPointTaken[3]) {
+				spawnLocation = spawnPoints[3].position;
+				spawnPointTaken[3] = true;
+				playerColor = "Purple";
+			}
+            else {
+				spawnLocation = spawnPoints[4].position;
+                spawnPointTaken[4] = true;
+				playerColor = "White";
             }
         }
-        else
-        {
+        else {
             Debug.Log("No Spawn points assigned! Instantiating at 0, 0, 0");
             spawnLocation = Vector3.zero;
+			playerColor = "Yellow";
         }
 
         //Waiting for rig to come into the network and connect the player:
         StartCoroutine(WaitForRig());
 
-        //Debug.Log("Creating new player and spawn position is " + spawnLocation);
+		Debug.Log("Creating new " + playerColor + " player at " + spawnLocation);
 
 		GameObject.Instantiate(teleportRig, spawnLocation, Quaternion.identity);
-        // NOTE: Prefab should be located in the Assets/Resources folder.
     }
 
     // Photon automatically calls this function when a room is created or removed:
-    public override void OnReceivedRoomListUpdate()
-    {
+    public override void OnReceivedRoomListUpdate() {
         roomsList = PhotonNetwork.GetRoomList();
     }
 
     // Function to free up spawn points on disconnect
-    void onLeftRoom()
-    {
+    void onLeftRoom() {
         GameObject playerRemaining = GameObject.FindGameObjectWithTag("Player");
-        if (playerRemaining.transform.position == sp1.spawnPoint.transform.position)
-        {
+		if (playerRemaining.transform.position == blueSpawn.transform.position) {
             spawnPointTaken[1] = false;
         }
-        else
-        {
+		if (playerRemaining.transform.position == greenSpawn.transform.position) {
+			spawnPointTaken[2] = false;
+		}
+		if (playerRemaining.transform.position == purpleSpawn.transform.position) {
+			spawnPointTaken[3] = false;
+		}
+		if (playerRemaining.transform.position == whiteSpawn.transform.position) {
+			spawnPointTaken[4] = false;
+		}
+        else {
             spawnPointTaken[0] = false;
         }
     }
 
     // By Photon default, we join a lobby. This will join a room right away:
-    public override void OnJoinedLobby()
-    {
+    public override void OnJoinedLobby() {
         // Once we've joined the lobby, (tick the Auto-Join Lobby setting in Assets>Resources>PhotonServerSettings)
         // tell Photon to join a random room inside our application.
         // Essentially, that means that if a room is available, we will join it.
         // If that fails, Photon will call OnPhotonRandomJoinFailed() below, creating a room.
-
         PhotonNetwork.JoinRandomRoom();
     }
 
     // If no room is available, then create a new one (so at least one room will be available for future users to join):
-    public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
-    {
+    public override void OnPhotonRandomJoinFailed(object[] codeAndMsg) {
         PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 8 }, null);
     }
 
     // Helper function to find the rig
-    IEnumerator WaitForRig()
-    {
+    IEnumerator WaitForRig() {
         yield return new WaitForSeconds(1);
 
         //Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
@@ -194,18 +201,32 @@ public class Network : Photon.PunBehaviour
 
 			GameObject leftFix = GameObject.Find ("LeftHandTransformFixer");
 			GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);
+			Transform tempLeft = playerHandLeft.transform.Find ("Flamethrower");
+			Debug.Log(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers);
+			GameObject throwerLeft = GameObject.Instantiate(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers [playerColor]);
+			throwerLeft.transform.SetParent(playerHandLeft.transform);
 			playerHandLeft.transform.SetParent(leftController.transform);
 			playerHandLeft.transform.localPosition = leftFix.transform.position;
 			playerHandLeft.transform.localRotation = leftFix.transform.localRotation;
+			throwerLeft.transform.localPosition = tempLeft.localPosition;
+			throwerLeft.transform.localRotation = tempLeft.localRotation;
+			throwerLeft.GetComponent<FlamethrowerBehavior> ().playerID = headset.GetInstanceID();
 
 			GameObject rightFix = GameObject.Find ("RightHandTransformFixer");
 			GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
+			Transform tempRight = playerHandRight.transform.Find ("Flamethrower");
+			Debug.Log(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers);
+			GameObject throwerRight = GameObject.Instantiate(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers [playerColor]);
+			throwerRight.transform.SetParent(playerHandRight.transform);
 			playerHandRight.transform.SetParent(rightController.transform);
 			playerHandRight.transform.localPosition = rightFix.transform.position;
 			playerHandRight.transform.localRotation = rightFix.transform.localRotation;
+			throwerRight.transform.localPosition = tempRight.localPosition;
+			throwerRight.transform.localRotation = tempRight.localRotation;
+			throwerRight.GetComponent<FlamethrowerBehavior> ().playerID = headset.GetInstanceID();
 
 			// Once the player is instantiated in the game room, update the controller references for AirSig:
-			GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset);
+			GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset, playerColor);
 		}
     }
 

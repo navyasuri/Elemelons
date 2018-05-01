@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4511829968854396}
   - component: {fileID: 198524196263363066}
   - component: {fileID: 199560350021748042}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftFlames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4724976000133818}
   - component: {fileID: 198646046843898222}
   - component: {fileID: 199325173956737296}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4512105989345686}
   - component: {fileID: 198413984438725064}
   - component: {fileID: 199155218731731302}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4345992330967666}
   - component: {fileID: 198422377572181394}
   - component: {fileID: 199939700788230694}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FireEmbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 82590722461120392}
   - component: {fileID: 114304369025069488}
   - component: {fileID: 114567495032353802}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flamethrower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4287220252639622}
   - component: {fileID: 198597675905548260}
   - component: {fileID: 199656542284760276}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: IgnitionFlame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 4542826371497210}
   - component: {fileID: 198374346150991630}
   - component: {fileID: 199798389379135462}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ember
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,13 +143,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4076230056865554}
-  - component: {fileID: 54524456519249426}
   - component: {fileID: 33470790714409768}
   - component: {fileID: 23601165152230810}
   - component: {fileID: 114173928914299288}
   - component: {fileID: 114350033667798188}
   - component: {fileID: 114575223855428048}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerLeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,21 +307,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1789407906519474}
   m_Mesh: {fileID: 4300000, guid: ccd07120fd532b944b5da29338f45426, type: 3}
---- !u!54 &54524456519249426
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1789407906519474}
-  serializedVersion: 2
-  m_Mass: 0.0000001
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!54 &54835850168311612
 Rigidbody:
   m_ObjectHideFlags: 1
