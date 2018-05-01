@@ -77,9 +77,9 @@ GameObject:
   - component: {fileID: 65353974661691008}
   - component: {fileID: 54493178633160748}
   - component: {fileID: 23467675436832710}
-  - component: {fileID: 114389076581786798}
-  - component: {fileID: 114411803116793514}
   - component: {fileID: 138997143318071650}
+  - component: {fileID: 114951580330874450}
+  - component: {fileID: 114344781489216994}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Player
@@ -95,10 +95,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4062927469566196}
+  - component: {fileID: 54766194772088112}
   - component: {fileID: 33570334120532492}
   - component: {fileID: 135416733930709244}
   - component: {fileID: 23719576054374948}
-  - component: {fileID: 54766194772088112}
   - component: {fileID: 114723890327287346}
   - component: {fileID: 114779366722577708}
   - component: {fileID: 114877085831832344}
@@ -118,7 +118,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4678498040973920}
   - component: {fileID: 114744555548127480}
-  - component: {fileID: 114199989525238916}
   m_Layer: 0
   m_Name: PlayerHealth
   m_TagString: Untagged
@@ -292,32 +291,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114199989525238916
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1906787521942826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 114744555548127480}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114244869865203762
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -334,33 +307,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114389076581786798
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1789518569244380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 114411803116793514}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
---- !u!114 &114411803116793514
+--- !u!114 &114344781489216994
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -508,6 +455,32 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &114951580330874450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1789518569244380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 1
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114344781489216994}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!135 &135416733930709244
 SphereCollider:
   m_ObjectHideFlags: 1
