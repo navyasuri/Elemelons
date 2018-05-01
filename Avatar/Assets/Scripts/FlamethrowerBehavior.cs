@@ -11,8 +11,8 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	public float lowPitch = 0.45f;
 	public float highPitch = 0.85f;
 	float startTime;
-	bool isActive = false;
-	bool isActiveOnNetwork = false;
+	public bool isActive = false;
+	public bool isActiveOnNetwork = false;
 
 	void Start() {
 		//throwerParticles = transform.gameObject.Find("Flamethrower").gameObject.GetComponent<ParticleSystem> (); // Find thrower particles.
@@ -54,7 +54,4 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 			isActiveOnNetwork = (bool)stream.ReceiveNext ();
 		}
 	}
-
-	// TODO: Figure out how to damage objects here.
-
 }
