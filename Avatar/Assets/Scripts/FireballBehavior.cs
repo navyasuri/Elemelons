@@ -79,16 +79,14 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	IEnumerator SelfDestruct(float clipLength) {
 		yield return new WaitForSeconds(clipLength);
-		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All, photonView.owner);
+		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 	}
 
 	[PunRPC]
-	void NetworkDestroy(PhotonPlayer owner) {
-		if (owner == photonView.owner) {
-			PhotonView thisView = PhotonView.Get (this);
-			PhotonNetwork.RemoveRPCs (thisView);
-			PhotonNetwork.Destroy (gameObject);
-		}
+	void NetworkDestroy() {
+		PhotonView thisView = PhotonView.Get (this);
+		PhotonNetwork.RemoveRPCs(thisView);
+		PhotonNetwork.Destroy (gameObject);
 	}
 
 }
