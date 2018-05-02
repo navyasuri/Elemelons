@@ -50,4 +50,5 @@ MonoBehaviour:
   - SetNewParent
   - NetworkDestroy
   - UpdateHealth
+  - ActivateFlamethrower
   DisableAutoOpenWizard: 1
