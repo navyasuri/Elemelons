@@ -36,21 +36,21 @@ public class DefenseBehavior : Photon.MonoBehaviour {
 		if (collision.gameObject.CompareTag("attack")) { // Check for attacking objects
 			// Destroy (ON NETWORK) any colliding attacks that are not this player's:
 			if (collision.gameObject.GetComponent<AllFireBehavior> ().playerID != playerID) {
-				PhotonView.Get(collision.gameObject).RPC("NetworkDestroy", PhotonTargets.All);
+				PhotonView.Get(collision.gameObject).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 			}
 		}
 	}
 
 	IEnumerator SelfDestruct(float clipLength) {
 		yield return new WaitForSeconds(clipLength);
-		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 	}
 
 	[PunRPC]
 	void NetworkDestroy() {
-		if (GetComponent<PhotonView> ().isMine) {
-			PhotonNetwork.Destroy (gameObject);
-		}
+		PhotonView thisView = PhotonView.Get (this);
+		PhotonNetwork.RemoveRPCs(thisView);
+		PhotonNetwork.Destroy (gameObject);
 	}
 
 }

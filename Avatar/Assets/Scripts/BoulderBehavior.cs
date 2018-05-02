@@ -69,6 +69,8 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	// In this case the PhotonTarget is MasterClient, reducing network traffic by only telling the master to delete the object from the network's scene.
 	[PunRPC]
 	void NetworkDestroy() {
+		PhotonView thisView = PhotonView.Get (this);
+		PhotonNetwork.RemoveRPCs(thisView);
 		PhotonNetwork.Destroy (gameObject);
 	}
 
