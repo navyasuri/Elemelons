@@ -22,11 +22,17 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
 	public void DoAfterStart(Vector3 direction) {
+		// Send attacks flying!
+		gameObject.GetComponent<Rigidbody> ().AddForce (direction * 1750f);
 		// Orient the new object so particle effects display properly:
 		Quaternion rotationForTrails = Quaternion.FromToRotation (Vector3.back, direction);
 		transform.rotation = rotationForTrails;
-		// Send attacks flying!
-		gameObject.GetComponent<Rigidbody> ().AddForce (direction * 1350f);
+		StartCoroutine ("EnableCollider", 0.1f);
+	}
+
+	IEnumerator EnableCollider(float smallPause) {
+		yield return new WaitForSeconds (smallPause);
+		gameObject.GetComponent<SphereCollider> ().enabled = true;
 	}
 
 	void Update() {

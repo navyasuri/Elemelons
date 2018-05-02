@@ -344,15 +344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d941bdd678ed1fa4a93583b573825eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yellowAttack: {fileID: 1692108525017562, guid: 1cf7edb88feb8934eabdd756a2b9da2e,
-    type: 2}
-  blueAttack: {fileID: 1337548105452814, guid: c93ddfc2c86b9d34295200af7dfff4ef, type: 2}
-  greenAttack: {fileID: 1873691991540380, guid: a2a033e2c4faa874b8a663af3b72f7af,
-    type: 2}
-  purpleAttack: {fileID: 1867900197224342, guid: 69dfa5809e0656743b28483d04859147,
-    type: 2}
-  whiteAttack: {fileID: 1751871565170546, guid: 5613c385f58701a478b08f21f6b55b96,
-    type: 2}
   yellowThrower: {fileID: 1535469483376558, guid: 8c2594ab9e64f9d43adda9c8a0a555b7,
     type: 2}
   blueThrower: {fileID: 1567528948839684, guid: ca8e1fb6cfe4878448d0893ff83d8fed,
@@ -754,7 +745,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1850298020453610, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
@@ -1242,7 +1233,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1850298020453610, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a053b3eb220f029408caf29f2e93e316, type: 2}

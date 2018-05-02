@@ -11,7 +11,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
 	// To maintain player status between scenes. May belong higher up, on the Teleporting Rig instead..
 	void Awake() {
-		DontDestroyOnLoad (this.gameObject);
+		//DontDestroyOnLoad (this.gameObject);
 	}
 
     void Start () {

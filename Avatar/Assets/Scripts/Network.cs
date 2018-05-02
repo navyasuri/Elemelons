@@ -27,7 +27,7 @@ public class Network : Photon.PunBehaviour
 	public GameObject purpleSpawn;
 	public GameObject whiteSpawn;
 	string playerColor;
-	protected static Dictionary<string, GameObject> attacks;
+	int playerCount;
 	protected static Dictionary<string, GameObject> throwers;
 
 	public bool offlineMode = false;
@@ -47,7 +47,6 @@ public class Network : Photon.PunBehaviour
         PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.automaticallySyncScene = true;
 
-		attacks = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().attacks;
 		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
 
 		spawnPoints = new Transform[5];
@@ -57,7 +56,7 @@ public class Network : Photon.PunBehaviour
 		spawnPoints[3] = purpleSpawn.transform;
 		spawnPoints[4] = whiteSpawn.transform;
 
-        spawnPointTaken = new bool[5];
+        //spawnPointTaken = new bool[5];
     }
 
     void Update() {
@@ -90,36 +89,37 @@ public class Network : Photon.PunBehaviour
     public override void OnJoinedRoom() {
         // Get the spawn point location to place the rig, assign player color based on that location:
         Vector3 spawnLocation;
-		Debug.Log (spawnPointTaken [0]);
-		Debug.Log (spawnPointTaken [1]);
-		Debug.Log (spawnPointTaken [2]);
-		Debug.Log (spawnPointTaken [3]);
-		Debug.Log (spawnPointTaken [4]);
+		playerCount = PhotonNetwork.playerList.Length;
 
         if (spawnPoints.Length > 0) {
-            if (!spawnPointTaken[0]) {
+			if (playerCount == 1) {
 				spawnLocation = spawnPoints[0].position;
-                spawnPointTaken[0] = true;
+                //spawnPointTaken[0] = true;
+				playerCount = 2;
 				playerColor = "Yellow";
             }
-			else if (!spawnPointTaken[1]) {
+			else if (playerCount == 2) {
 				spawnLocation = spawnPoints[1].position;
-				spawnPointTaken[1] = true;
+				//spawnPointTaken[1] = true;
+				playerCount = 3;
 				playerColor = "Blue";
 			}
-			else if (!spawnPointTaken[2]) {
+			else if (playerCount == 3) {
 				spawnLocation = spawnPoints[2].position;
-				spawnPointTaken[2] = true;
+				//spawnPointTaken[2] = true;
+				playerCount = 4;
 				playerColor = "Green";
 			}
-			else if (!spawnPointTaken[3]) {
+			else if (playerCount == 4) {
 				spawnLocation = spawnPoints[3].position;
-				spawnPointTaken[3] = true;
+				//spawnPointTaken[3] = true;
+				playerCount = 4;
 				playerColor = "Purple";
 			}
             else {
 				spawnLocation = spawnPoints[4].position;
-                spawnPointTaken[4] = true;
+                //spawnPointTaken[4] = true;
+				playerCount = 5;
 				playerColor = "White";
             }
         }

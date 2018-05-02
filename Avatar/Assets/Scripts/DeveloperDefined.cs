@@ -108,27 +108,31 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	// score - the confidence level of this identification. Above 1 is generally considered a match
 	public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		// Good Match!
-		if (score > 0.95) {
-			Debug.Log(string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
+		// Actions are then triggered by Update() based on these flags:
 
-			// Actions are then triggered by Update() based on these flags:
+		// Launch fireball above 0.85 match:
+		if (score > 0.85 && gesture.Trim ().Equals ("AttackPunchSimple")) {
+			Debug.Log (string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 			gestureTriggered = true;
+			fireballTriggered = true;
+		}
 
-			// Launch fireball
-			if (gesture.Trim().Equals ("AttackPunchSimple")) {
-				fireballTriggered = true;
-			}
-			// Defend yo self
-			if (gesture.Trim ().Equals ("DefenseShieldCross")) {
-				defenseTriggered = true;
-			}
-			// Flamethrower!
-			if (gesture.Trim ().Equals ("C")) {
-				throwerTriggered = true;
-			}
+		// Active defense above 1 match:
+		else if(score > 1 && gesture.Trim ().Equals ("DefenseShieldCross")) {
+			Debug.Log (string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
+			gestureTriggered = true;
+			defenseTriggered = true;
+		}
 
-			// Try again...
-		} else {
+		// Flamethrower! (if above 0.9 match)
+		else if (score > 0.9 && gesture.Trim ().Equals ("C")) {
+			Debug.Log (string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
+			gestureTriggered = true;
+			throwerTriggered = true;
+		}
+
+		// Try again...
+		else {
 			Debug.Log(string.Format ("<color=red>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 		}
 	}
