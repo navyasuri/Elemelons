@@ -9,7 +9,7 @@ using Photon;
 
 public class DefenseBehavior : Photon.MonoBehaviour {
 
-	GameObject player;
+	public PhotonPlayer defensePlayer;
 	public int playerID; // Must be public for Photon, no need to provide a value.
 
 	public AudioSource defenseWhoosh;
@@ -17,6 +17,7 @@ public class DefenseBehavior : Photon.MonoBehaviour {
 
 	void Start() {
 		startTime = Time.time; // Keep track of how long this defense has been alive.
+		defensePlayer = gameObject.GetComponent<PhotonView> ().owner;
 	}
 
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
@@ -32,17 +33,17 @@ public class DefenseBehavior : Photon.MonoBehaviour {
 	}
 
 	// Behavior for when fireballs hit the shield:
-	void OnTriggerEnter(Collider collision) {
-		if (collision.gameObject.CompareTag("attack")) { // Check for attacking objects
+	void OnCollisionEnter(Collision collision) {
+		if (collision.gameObject.CompareTag("fireball")) { // Check for attacking objects
 			// Destroy (ON NETWORK) any colliding attacks that are not this player's:
-			if (collision.gameObject.GetComponent<AllFireBehavior> ().playerID != playerID) {
+			if (collision.gameObject.GetComponent<FireballBehavior> ().fireballPlayer != defensePlayer) {
 				PhotonView.Get(collision.gameObject).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 			}
 		}
 	}
 
 	IEnumerator SelfDestruct(float clipLength) {
-		yield return new WaitForSeconds(clipLength);
+		yield return new WaitForSeconds(clipLength + 1f);
 		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 	}
 

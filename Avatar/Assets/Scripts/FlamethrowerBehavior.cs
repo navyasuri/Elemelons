@@ -8,8 +8,6 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	public AudioSource flamethrowerWhoosh;
 	public ParticleSystem throwerParticles;
 	public int playerID; // Must be public for Photon, no need to provide a value.
-	public float lowPitch = 0.45f;
-	public float highPitch = 0.85f;
 	float startTime;
 	public bool isActive = false;
 

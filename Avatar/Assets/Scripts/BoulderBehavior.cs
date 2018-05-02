@@ -37,8 +37,8 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			rumbling.pitch = randomPitch;
 			rumbling.Play ();
 		}
-		// If the boulder hits anything other than the environment or another boulder:
-		if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder")) {
+		// Boulders should bounce off of: the environment, other boulders, and shields. Explode otherwise.
+		if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense")) {
 			PlayExplosion ();
 		}
 	}
