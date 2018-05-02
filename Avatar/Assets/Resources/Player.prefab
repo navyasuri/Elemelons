@@ -118,6 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4678498040973920}
   - component: {fileID: 114744555548127480}
+  - component: {fileID: 114698127319333616}
   m_Layer: 0
   m_Name: PlayerHealth
   m_TagString: Untagged
@@ -339,6 +340,32 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114698127319333616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1906787521942826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114723890327287346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -352,6 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flameType: 
   health: 0
+  cameraID: 0
 --- !u!114 &114744555548127480
 MonoBehaviour:
   m_ObjectHideFlags: 1

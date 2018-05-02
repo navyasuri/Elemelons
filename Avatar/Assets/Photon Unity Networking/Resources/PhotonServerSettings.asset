@@ -51,4 +51,6 @@ MonoBehaviour:
   - NetworkDestroy
   - UpdateHealth
   - ActivateFlamethrower
+  - UpdateHealthBar
+  - UpdateHealthBarAllClients
   DisableAutoOpenWizard: 1
