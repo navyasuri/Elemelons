@@ -42,9 +42,13 @@ public class FireballBehavior : Photon.MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
+		Debug.Log ("Fireball hit object named: " + collision.gameObject.name);
 		if(collision.gameObject.GetPhotonView() != null) { // if the colliding game object is networked (has a photon view)
+			Debug.Log("Object has photon view");
 			if (collision.gameObject.CompareTag("Player")) { // if the collision is with a player
+				Debug.Log("Object was a player");
 				if (collision.gameObject.GetComponent<PlayerBehavior> ().cameraID == playerID) { // if this is the player who launched the fireball
+					Debug.Log("Fireball matched to sending player's ID, did nothing.");
 					return; // Do nothing
 				}
 			}
@@ -75,14 +79,16 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	IEnumerator SelfDestruct(float clipLength) {
 		yield return new WaitForSeconds(clipLength);
-		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
+		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All, photonView.owner);
 	}
 
 	[PunRPC]
-	void NetworkDestroy() {
-		PhotonView thisView = PhotonView.Get (this);
-		PhotonNetwork.RemoveRPCs(thisView);
-		PhotonNetwork.Destroy (gameObject);
+	void NetworkDestroy(PhotonPlayer owner) {
+		if (owner == photonView.owner) {
+			PhotonView thisView = PhotonView.Get (this);
+			PhotonNetwork.RemoveRPCs (thisView);
+			PhotonNetwork.Destroy (gameObject);
+		}
 	}
 
 }
