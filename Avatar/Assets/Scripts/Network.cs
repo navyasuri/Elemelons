@@ -72,9 +72,9 @@ public class Network : Photon.PunBehaviour
         }
 		// Else, if you're connected and not yet in a room, display a clickable button to create a room:
         else if (PhotonNetwork.room == null) { 
-            if (GUI.Button(new Rect(100, 100, 250, 100), "Create a Room")) // This line creates a GUI Button.
-                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 6, IsVisible = true }, null); // This line is called on click.
-
+//            if (GUI.Button(new Rect(100, 100, 250, 100), "Create a Room")) // This line creates a GUI Button.
+//                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 5, IsVisible = true }, null); // This line is called on click.
+//
 			// If we have some rooms to display:
             if (roomsList != null) { 
 				// Loop and create buttons for each available room:
@@ -168,7 +168,7 @@ public class Network : Photon.PunBehaviour
         // tell Photon to join a random room inside our application.
         // Essentially, that means that if a room is available, we will join it.
         // If that fails, Photon will call OnPhotonRandomJoinFailed() below, creating a room.
-        PhotonNetwork.JoinRandomRoom();
+		PhotonNetwork.JoinRandomRoom();
     }
 
     // If no room is available, then create a new one (so at least one room will be available for future users to join):
@@ -178,7 +178,7 @@ public class Network : Photon.PunBehaviour
 
     // Helper function to find the rig
     IEnumerator WaitForRig() {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
 
         //Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
         GameObject headset = GameObject.Find("Camera (eye)");

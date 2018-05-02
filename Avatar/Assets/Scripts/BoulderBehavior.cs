@@ -26,7 +26,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		// If the boulder falls off the map, destroy it silently:
 		if (gameObject.transform.position.y < -20f) {
 			// Call the NetworkDestroy RPC via the PhotonView component to destroy ON NETWORK:
-			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+			PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 		}
 	}
 
@@ -37,8 +37,8 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			rumbling.pitch = randomPitch;
 			rumbling.Play ();
 		}
-		// If the boulder hits anything not tagged 'environment':
-		if (!col.gameObject.CompareTag("Environment")) {
+		// If the boulder hits anything other than the environment or another boulder:
+		if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder")) {
 			PlayExplosion ();
 		}
 	}
@@ -61,17 +61,15 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 
 	IEnumerator SelfDestruct(float clipLength) {
 		yield return new WaitForSeconds(clipLength);
-		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 	}
 		
-	// Remote Procedure Calls happen indirectly on all network clients as follows:
-	//PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+	// Remote Procedure Calls happen indirectly on set network clients as follows:
+	// PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+	// In this case the PhotonTarget is MasterClient, reducing network traffic by only telling the master to delete the object from the network's scene.
 	[PunRPC]
 	void NetworkDestroy() {
-		// If this is the client's copy of the object, destroy it:
-		if (GetComponent<PhotonView>().isMine) {
-			PhotonNetwork.Destroy (gameObject);
-		}
+		PhotonNetwork.Destroy (gameObject);
 	}
 
 	float Map (float oldMin, float oldMax, float newMin, float newMax, float val){

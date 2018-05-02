@@ -36,10 +36,16 @@ public class FireballBehavior : Photon.MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		// If the fireball hits the player or something they spawned, do nothing:
-		if(collision.gameObject.GetPhotonView() != null) {
-			if (collision.gameObject.GetPhotonView ().isMine) {
-				return;
+		if(collision.gameObject.GetPhotonView() != null) { // if the colliding game object is networked (has a photon view)
+			if (collision.gameObject.CompareTag("Player")) { // if the collision is with a player
+				if (collision.gameObject.GetComponent<PlayerBehavior> ().cameraID == playerID) { // if this is the player who launched the fireball
+					return; // Do nothing
+				}
+			}
+			if (collision.gameObject.CompareTag ("fireball")) { // if the collision is with another fireball
+				if (collision.gameObject.GetComponent<FireballBehavior> ().playerID == playerID) { // if two fireballs from the same player somehow hit,
+					return; // Do nothing
+				}
 			}
 		}
 		// Destroy the fireball, with effects, on any other collision.
@@ -63,14 +69,12 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	IEnumerator SelfDestruct(float clipLength) {
 		yield return new WaitForSeconds(clipLength);
-		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
+		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
 	}
 
 	[PunRPC]
 	void NetworkDestroy() {
-		if (GetComponent<PhotonView> ().isMine) {
-			PhotonNetwork.Destroy (gameObject);
-		}
+		PhotonNetwork.Destroy (gameObject);
 	}
 
 }
