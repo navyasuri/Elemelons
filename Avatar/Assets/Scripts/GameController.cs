@@ -37,9 +37,10 @@ public class GameController : Photon.MonoBehaviour {
 
     private void endLevel(int level)
     {
+		Debug.Log ("level " + level);
         // turn off boulder spawner
-        BoulderSpawner1.SetActive(false);
-        BoulderSpawner2.SetActive(false);
+//        BoulderSpawner1.SetActive(false);
+//        BoulderSpawner2.SetActive(false);
         remainingBoulders = GameObject.FindGameObjectsWithTag("boulder");
 
         if (remainingBoulders.Length < 1)
@@ -86,6 +87,7 @@ public class GameController : Photon.MonoBehaviour {
 
 	[PunRPC]
 	public void BoulderCountUpdate() {
+		Debug.Log ("boulder count " + boulderCount);
 		boulderCount++;
 	}
 }

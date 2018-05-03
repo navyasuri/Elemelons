@@ -171,6 +171,14 @@ Prefab:
       propertyPath: CollisionModule.collisionMessages
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1250926291661092, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626968856923576, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
   m_IsPrefabParent: 0
@@ -314,6 +322,10 @@ Prefab:
       propertyPath: m_Name
       value: Japanese_Arch_Low (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 2c7646457e6244c61839ef25d35573d4, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c7646457e6244c61839ef25d35573d4, type: 3}
   m_IsPrefabParent: 0
@@ -328,7 +340,7 @@ GameObject:
   - component: {fileID: 158017620}
   m_Layer: 0
   m_Name: FlamesManager
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -773,7 +785,7 @@ GameObject:
   - component: {fileID: 561741947}
   m_Layer: 0
   m_Name: LeftHandTransformFixer
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1096,7 +1108,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1850298020453610, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a053b3eb220f029408caf29f2e93e316, type: 2}
@@ -1215,7 +1227,7 @@ GameObject:
   - component: {fileID: 1118382754}
   m_Layer: 0
   m_Name: RightHandTransformFixer
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1357,6 +1369,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1325258767593004, guid: a184e38fb5254bd48ba431c1b4a25d30, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a184e38fb5254bd48ba431c1b4a25d30, type: 2}
   m_IsPrefabParent: 0
@@ -1375,9 +1391,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1294115367}
   - component: {fileID: 1294115366}
+  - component: {fileID: 1294115368}
   m_Layer: 0
   m_Name: NetworkManager
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1422,6 +1439,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1294115368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1294115365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 2
+  instantiationId: 2
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!1001 &1319245097
 Prefab:
   m_ObjectHideFlags: 0
@@ -1483,7 +1526,7 @@ GameObject:
   - component: {fileID: 1337604483}
   m_Layer: 0
   m_Name: Directional Light
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1589,6 +1632,22 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1443272183302784, guid: 8eed66c26c117954583b06d5554f1f2c, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553414127491740, guid: 8eed66c26c117954583b06d5554f1f2c, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667894701281080, guid: 8eed66c26c117954583b06d5554f1f2c, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1143591872352172, guid: 8eed66c26c117954583b06d5554f1f2c, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8eed66c26c117954583b06d5554f1f2c, type: 2}
   m_IsPrefabParent: 0
@@ -1630,6 +1689,18 @@ Prefab:
     - target: {fileID: 4935905172917016, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
       propertyPath: m_RootOrder
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250926291661092, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280007442271104, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626968856923576, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb49fb5d52da85648b7c2f7ce798c6f5, type: 2}
@@ -1769,6 +1840,10 @@ Prefab:
     - target: {fileID: 400006, guid: 2c7646457e6244c61839ef25d35573d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 2c7646457e6244c61839ef25d35573d4, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c7646457e6244c61839ef25d35573d4, type: 3}
