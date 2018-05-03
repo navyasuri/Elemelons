@@ -25,7 +25,6 @@ public class SceneLoader : MonoBehaviour {
 
 		Debug.Log("Button being clicked");
 		SceneManager.LoadScene(sceneNumber);
-		// Application.LoadLevel("about-us");
 	}
 
 	public void LoadScene(int level)
