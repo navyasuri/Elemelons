@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon;
 
-public class SkillStoneBehavior : MonoBehaviour {
+public class SkillStoneBehavior : Photon.MonoBehaviour {
 	float startTime;
-
+	bool playerReady = false;
 
 	// Use this for initialization
 	void Start () {
@@ -21,12 +22,14 @@ public class SkillStoneBehavior : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if (col.gameObject.tag == "player") {
+		if (col.gameObject.CompareTag("Player")) {
 			//start UI tutorial
 			//when tutorial ends, stop particle system
 
-			if (SceneManager.GetActiveScene ().name == "Lobby")
-				GameObject.Find ("SceneManager").GetComponent<SceneLoader> ().goToScene ("VRPunScene");
+			if (!playerReady && SceneManager.GetActiveScene ().name == "Lobby") {
+				playerReady = true;
+				GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.MasterClient);
+			}
 			else {
 				
 				StartCoroutine ("resetter");
