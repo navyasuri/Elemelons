@@ -74,6 +74,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	[PunRPC]
 	void NetworkDestroy(PhotonView viewToDestroy) {
 		if (viewToDestroy.isMine) {
+			GameObject.Find ("GameManager").GetPhotonView ().RPC ("BoulderCountUpdate", PhotonTargets.MasterClient);
 			PhotonNetwork.RemoveRPCs(viewToDestroy);
 			PhotonNetwork.Destroy (viewToDestroy);
 		}

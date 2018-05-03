@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
     private float timeOflevel;
     private float startTime;
     private int level;
+	private int boulderCount = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -68,4 +69,9 @@ public class GameController : MonoBehaviour {
         
         
     }
+
+	[PunRPC]
+	public void BoulderCountUpdate() {
+		boulderCount++;
+	}
 }
