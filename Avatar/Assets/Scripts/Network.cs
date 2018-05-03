@@ -28,6 +28,7 @@ public class Network : Photon.PunBehaviour
 	public GameObject whiteSpawn;
 	string playerColor;
 	int playerCount;
+	int playersReady;
 	protected static Dictionary<string, GameObject> throwers;
 
 	public bool offlineMode = false;
@@ -60,6 +61,9 @@ public class Network : Photon.PunBehaviour
     }
 
     void Update() {
+		// Get the current scene, if lobby, check for ready count
+		//if(Scene
+//PhotonNetwork.LoadLevel("Room for 1");
 
     }
 
