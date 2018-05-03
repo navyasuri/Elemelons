@@ -18,6 +18,7 @@ public class SkillStoneBehavior : MonoBehaviour {
 		if (col.gameObject.tag == "player") {
 			//start UI tutorial
 			//when tutorial ends, stop particle system
+			GameObject.Find("SceneManager").GetComponent<SceneLoader>().goToScene("VRPunScene");
 		}
 	}
 }
