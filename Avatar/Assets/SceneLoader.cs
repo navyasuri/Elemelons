@@ -15,15 +15,15 @@ public class SceneLoader : MonoBehaviour {
 	public void goToScene (string sceneName)
 	{
 
-		Debug.Log("Button being clicked");
-		SceneManager.LoadScene(sceneName);
+		Debug.Log("Loading a new scene");
+		SceneManager.LoadSceneAsync(sceneName);
 		// Application.LoadLevel("about-us");
 	}
 
 	public void goToScene (int sceneNumber)
 	{
 
-		Debug.Log("Button being clicked");
+		Debug.Log("Loading a new scene");
 		SceneManager.LoadScene(sceneNumber);
 	}
 
