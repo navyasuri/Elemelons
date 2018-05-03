@@ -11,18 +11,25 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	public AudioSource explode;
 	public float lowPitch = 0.45f;
 	public float highPitch = 0.85f;
+	public float maxSize = 0.025f;
+	public float minSize = 0.008f;
+	public float health = 1.5f;
 	float randomPitch;
 
 	// Set audio starts to 0, apply a random scale and pitch to this boulder:
 	void Start () {
 		rumbling.time = 0f;
 		explode.time = 0f;
-		float randomScale = Random.Range (0.01f, 0.03f); // Scale the size of the boulder.
-		randomPitch = Map (0.01f, 0.03f, highPitch, lowPitch, randomScale); // Set the pitch based on the size.
+		float randomScale = Random.Range (minSize, maxSize); // Scale the size of the boulder.
+		randomPitch = Map (minSize, maxSize, highPitch, lowPitch, randomScale); // Set the pitch based on the size.
 		gameObject.transform.localScale += new Vector3 (randomScale, randomScale, randomScale);
 	}
 	
 	void Update () {
+		// Flamethrowers are the only things that affect health, but if the destroy the boulder:
+		if (health <= 0) {
+			PlayExplosion ();
+		}
 		// If the boulder falls off the map, destroy it silently:
 		if (gameObject.transform.position.y < -20f) {
 			// Call the NetworkDestroy RPC via the PhotonView component to destroy ON NETWORK:
@@ -30,7 +37,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		}
 	}
 
-	// Listen for collisions:
+	// Listen for collisions (things the boulder is hitting):
 	void OnCollisionEnter(Collision col){
 		// Rumble on each collision if silent:
 		if (!rumbling.isPlaying) {
@@ -77,6 +84,12 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			PhotonNetwork.RemoveRPCs(viewToDestroy);
 			PhotonNetwork.Destroy (viewToDestroy);
 		}
+	}
+
+	[PunRPC]
+	public void TakeDamage(float damage) {
+		health -= damage;
+		Debug.Log ("Boulder health: " + health);
 	}
 
 	float Map (float oldMin, float oldMax, float newMin, float newMax, float val){

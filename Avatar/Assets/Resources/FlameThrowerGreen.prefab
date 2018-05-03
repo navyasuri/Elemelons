@@ -131,7 +131,7 @@ Transform:
   m_GameObject: {fileID: 1440308042822460}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.35}
   m_Children:
   - {fileID: 4304131663376582}
   - {fileID: 4131171083911992}
@@ -248,8 +248,7 @@ MonoBehaviour:
   flamethrowerWhoosh: {fileID: 82362137063595646}
   throwerParticles: {fileID: 198415837978440976}
   playerID: 0
-  lowPitch: 0.65
-  highPitch: 0.85
+  isActive: 0
 --- !u!114 &114731163908605442
 MonoBehaviour:
   m_ObjectHideFlags: 1
