@@ -29,7 +29,7 @@ public class DefenseBehavior : Photon.MonoBehaviour {
 
 	void Update() {
 		// Keep the shield alive for the length of its audio, then call network to destroy:
-		StartCoroutine ("SelfDestruct", defenseWhoosh.clip.length);
+		StartCoroutine ("SelfDestruct", 3f);
 	}
 
 	// Behavior for when fireballs hit the shield:
@@ -43,7 +43,7 @@ public class DefenseBehavior : Photon.MonoBehaviour {
 	}
 
 	IEnumerator SelfDestruct(float clipLength) {
-		yield return new WaitForSeconds(clipLength + 1f);
+		yield return new WaitForSeconds(clipLength);
 		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All, gameObject.GetPhotonView());
 	}
 

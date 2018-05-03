@@ -178,10 +178,9 @@ MonoBehaviour:
   m_Text: "\n\nYou have been granted the gift of firebending.\nmaster your skills
     to become\n the ultimate champion!\nas part of your training, you must fend off
     the boulders that are hurled your way\nnote that the more boulders you destroy,
-    \nthe more skills you get to learn\n\n\n\n- Press the trigger to activate your
-    skill and release trigger to complete the skill move\n- the touchpads on your
-    controllers give you the epic power of teleportation. However, they come with
-    limitations\n\n"
+    \nthe more skills you get to learn\n\n\n\n- Hold the trigger to begin your skill
+    move and release trigger to complete\n- the touchpads on your controllers give
+    you the epic power of teleportation. However, they come with limitations\n\n"
 --- !u!114 &114496859288729332
 MonoBehaviour:
   m_ObjectHideFlags: 1

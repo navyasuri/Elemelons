@@ -78,6 +78,23 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			SteamVR_Controller.ButtonMask.Trigger,
 			AirSigManager.PressOrTouch.PRESS);
 	}
+
+	[PunRPC]
+	public void UnlockNext(int skill) {
+		switch (skill)
+		{
+		case 1:
+			defenseEnabled = true;
+			break;
+		case 2:
+			leftEnabled = true;
+			break;
+		case 3:
+			throwerEnabled = true;
+			break;
+		}
+	}
+
 		
 	// Necessary function for AirSig. Called by Network.cs once its WaitForRig() has found all the pieces:
 	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn, string playerColorPassedIn) {
@@ -100,6 +117,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			GestureResponse ();
 		}
 		UpdateUIandHandleControl();
+
 	}
 		
 	// Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.

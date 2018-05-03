@@ -9,30 +9,25 @@ public class GameController : MonoBehaviour {
     public GameObject BoulderSpawner2;
     public GameObject SkillStone;
     private GameObject[] remainingBoulders;
-    private float timer;
-    private float currTime;
-    private float timeOflevel;
-    private float startTime;
     private int level;
-	private int boulderCount = 0;
+	public int boulderCount;
+	private int boulderThreshold;
 
 	// Use this for initialization
 	void Start () {
-        startTime = Time.time;
-        currTime = startTime;
-        timer = 0f;
-        timeOflevel = 20.0f;
+       
         level = 1;
+		boulderCount = 0;
+		boulderThreshold = 5;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if ((Time.time - currTime) > timeOflevel)
+		if (boulderCount>= boulderThreshold)
         {
             endLevel(level);
-            level++;
 
         }
 		
@@ -50,25 +45,43 @@ public class GameController : MonoBehaviour {
         {
             GameObject light = SkillStone.transform.Find("Spotlight").gameObject;
             light.SetActive(true);
+			SkillStone.GetComponent<SphereCollider> ().enabled = true;
 
             switch (level)
             {
                 case 1:
                     // do code for level 1
+					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 1);
+					boulderThreshold = 10;
                     break;
-                case 2:
-                    // do code for level 2
-                    break;
-                case 3:
-                    //do code for level 3
-                    break;
+				case 2:
+					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 2);
+					boulderThreshold = 15;
+	                    // do code for level 2
+	                    break;
+				case 3:
+					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 3);
+					boulderThreshold = 25;
+	                    //do code for level 3
+	                 break;
+				case 4:
+					//game over
+					GameObject.Find ("GameManager").GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
+					boulderThreshold = 999;
+					break;
 
             }
         }
-
-        
+			    
         
     }
+
+	public void increaseLevel(){
+		level++;
+		BoulderSpawner1.SetActive(true);
+		BoulderSpawner2.SetActive(true);
+	}
+
 
 	[PunRPC]
 	public void BoulderCountUpdate() {

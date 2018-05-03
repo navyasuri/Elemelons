@@ -82,6 +82,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	[PunRPC]
 	void NetworkDestroy(PhotonView viewToDestroy) {
+		Destroy (gameObject);
 		if (viewToDestroy.isMine) {
 			PhotonNetwork.RemoveRPCs(viewToDestroy);
 			PhotonNetwork.Destroy (viewToDestroy);

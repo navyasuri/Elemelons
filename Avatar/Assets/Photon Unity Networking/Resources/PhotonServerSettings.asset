@@ -54,4 +54,6 @@ MonoBehaviour:
   - UpdateHealthBar
   - UpdateHealthBarAllClients
   - TakeDamage
+  - BoulderCountUpdate
+  - UnlockNext
   DisableAutoOpenWizard: 1
