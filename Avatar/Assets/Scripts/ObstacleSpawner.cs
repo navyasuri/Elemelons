@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 
-public class ObstacleSpawner : MonoBehaviour {
+public class ObstacleSpawner : Photon.MonoBehaviour {
 
 	private float startTime;
 	private float delay;
