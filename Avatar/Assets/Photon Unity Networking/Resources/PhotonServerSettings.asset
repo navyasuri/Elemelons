@@ -53,4 +53,5 @@ MonoBehaviour:
   - ActivateFlamethrower
   - UpdateHealthBar
   - UpdateHealthBarAllClients
+  - TakeDamage
   DisableAutoOpenWizard: 1

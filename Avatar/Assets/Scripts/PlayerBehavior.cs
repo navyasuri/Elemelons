@@ -8,6 +8,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public string flameType;
 	public float health;
 	public int cameraID;
+	public PhotonPlayer thisPlayer;
 
 	// To maintain player status between scenes. May belong higher up, on the Teleporting Rig instead..
 	void Awake() {
@@ -17,10 +18,10 @@ public class PlayerBehavior : Photon.MonoBehaviour {
     void Start () {
 		// Initialize health and healthbar:
 		health = 100f;
-		PhotonView.Get (this).RPC ("UpdateHealth", PhotonTargets.AllBufferedViaServer, health);
-		gameObject.GetComponentInChildren<HealthBar>().player = gameObject;
+		//PhotonView.Get (this).RPC ("", PhotonTargets.AllBufferedViaServer, health);
 		//Debug.Log ("FlameChoice is" + flameType);
 		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
+		thisPlayer = gameObject.GetComponent<PhotonView> ().owner;
     }
 
 	void Update() {
@@ -33,41 +34,12 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		}
 	}
 
-	// When something hits the player:
-	void OnCollisionEnter(Collision other) {
-		//Debug.Log("Player collided with " + other.gameObject);
-
-		if (other.gameObject.CompareTag ("boulder")) { // if you collider with a boulder
-			health -= 20f;
-			PhotonView.Get (this).RPC ("UpdateHealth", PhotonTargets.AllBufferedViaServer, health);
-			Debug.Log ("You were hit by a boulder! Health: " + health);
-			Debug.Log(PhotonView.Get (other.gameObject).viewID);
-		}
-
-		if(other.gameObject.CompareTag("fireball")) {
-			if (other.gameObject.GetComponent<FireballBehavior> ().playerID != cameraID) {
-				health -= 25f;
-				PhotonView.Get (this).RPC ("UpdateHealth", PhotonTargets.AllBufferedViaServer, health);
-				Debug.Log ("You were hit by a fireball! Health: " + health);
-			}
-		}
-	}
-
-	// Listen for collision with particle systems that have collision messages enabled:
-	void OnParticleCollision(GameObject particles) {
-		if (particles.CompareTag ("flamethrower")) {
-			if (particles.gameObject.GetComponent<FlamethrowerBehavior> ().playerID != cameraID) {
-				Debug.Log (particles);
-				health -= 10f * Time.deltaTime; 
-				PhotonView.Get (this).RPC ("UpdateHealth", PhotonTargets.AllBufferedViaServer, health);
-				Debug.Log ("You are hit by a flamethrower!");
-			}
-		}
-	}
-
 	[PunRPC]
-	public void UpdateHealth(float newHealth) {
-		health = newHealth;
+	public void TakeDamage(float damage) {
+		health -= damage;
+		Debug.Log ("TakeDamage RPC recieved for " + damage + " damage.");
+		PhotonView [] playerViews = gameObject.GetPhotonViewsInChildren ();
+		playerViews [2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
 	}
 		
 }

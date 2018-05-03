@@ -5,9 +5,7 @@ using Photon;
 
 public class FireballBehavior : Photon.MonoBehaviour {
 
-	GameObject player;
-	public int playerID; // Must be public for Photon, no need to provide a value.
-
+	public PhotonPlayer fireballPlayer;
 	public AudioSource fireballWhoosh;
 	public AudioSource fireballImpact;
 	public ParticleSystem fireballPoof;
@@ -18,6 +16,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	void Start() {
 		startTime = Time.time; // Keep track of how long the fireball has been alive.
+		fireballPlayer = gameObject.GetComponent<PhotonView> ().owner;
 	}
 
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
@@ -42,19 +41,18 @@ public class FireballBehavior : Photon.MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		Debug.Log ("Fireball hit object named: " + collision.gameObject.name);
 		if(collision.gameObject.GetPhotonView() != null) { // if the colliding game object is networked (has a photon view)
-			Debug.Log("Object has photon view");
 			if (collision.gameObject.CompareTag("Player")) { // if the collision is with a player
-				Debug.Log("Object was a player");
-				if (collision.gameObject.GetComponent<PlayerBehavior> ().cameraID == playerID) { // if this is the player who launched the fireball
-					Debug.Log("Fireball matched to sending player's ID, did nothing.");
-					return; // Do nothing
+				if (collision.gameObject.GetComponent<PlayerBehavior> ().thisPlayer == fireballPlayer) { // if this is the player who launched the fireball
+					Debug.Log ("Fireball matched to sending player's ID, did nothing.");
+					return; // Don't play explosion.
+				} else { // Otherwise, send that player damage:
+					collision.gameObject.GetPhotonView().RPC("TakeDamage", collision.gameObject.GetPhotonView().owner, 25f);
 				}
 			}
 			if (collision.gameObject.CompareTag ("fireball")) { // if the collision is with another fireball
-				if (collision.gameObject.GetComponent<FireballBehavior> ().playerID == playerID) { // if two fireballs from the same player somehow hit,
-					return; // Do nothing
+				if (collision.gameObject.GetComponent<FireballBehavior> ().fireballPlayer == fireballPlayer) { // if two fireballs from the same player somehow hit,
+					return; // Don't play explosion.
 				}
 			}
 		}
@@ -79,14 +77,15 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	IEnumerator SelfDestruct(float clipLength) {
 		yield return new WaitForSeconds(clipLength);
-		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.MasterClient);
+		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All, gameObject.GetPhotonView());
 	}
 
 	[PunRPC]
-	void NetworkDestroy() {
-		PhotonView thisView = PhotonView.Get (this);
-		PhotonNetwork.RemoveRPCs(thisView);
-		PhotonNetwork.Destroy (gameObject);
+	void NetworkDestroy(PhotonView viewToDestroy) {
+		if (viewToDestroy.isMine) {
+			PhotonNetwork.RemoveRPCs(viewToDestroy);
+			PhotonNetwork.Destroy (viewToDestroy);
+		}
 	}
 
 }

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 89353bef0e3c6484e86e4fe4890bfe4b
+timeCreated: 1524746076
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - skillStone1: {fileID: 1167517420179988, guid: f3cbf664265c84afa9f59e2878672f57,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

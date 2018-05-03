@@ -118,14 +118,14 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		}
 
 		// Active defense above 1 match:
-		else if(score > 1 && gesture.Trim ().Equals ("DefenseShieldCross")) {
+		else if(score > 0.9 && gesture.Trim ().Equals ("DefenseShieldCross")) {
 			Debug.Log (string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 			gestureTriggered = true;
 			defenseTriggered = true;
 		}
 
 		// Flamethrower! (if above 0.9 match)
-		else if (score > 0.9 && gesture.Trim ().Equals ("C")) {
+		else if (score > 1 && gesture.Trim ().Equals ("C")) {
 			Debug.Log (string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 			gestureTriggered = true;
 			throwerTriggered = true;
@@ -186,7 +186,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
 	public void GestureResponse() {
 		// Get the position two units in front of the headset:
-		Vector3 inFrontOfPlayer = headset.transform.position + (headset.transform.forward * 2f);
+		Vector3 inFrontOfPlayer = headset.transform.position + (headset.transform.forward * 1f);
 
 		// Attack!
 		if (fireballTriggered && fireballEnabled) {
@@ -194,13 +194,11 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			string playerFireball = "Fireball" + playerColor;
 			if (rightTriggered) {
 				GameObject gestureResult = PhotonNetwork.Instantiate (playerFireball, rightController.transform.position, Quaternion.identity, 0);
-				// Give the GameObject traits to be handled by GestureBehavior:
-				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				// Give the GameObject traits to be handled by FireballBehavior:
 				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (rightDir); // Do this, from the launching hand's position.
 			} else if (leftEnabled && leftTriggered) {
 				GameObject gestureResult = PhotonNetwork.Instantiate (playerFireball, leftController.transform.position, Quaternion.identity, 0);
-				// Give the GameObject traits to be handled by GestureBehavior:
-				gestureResult.GetComponent<FireballBehavior> ().playerID = headset.GetInstanceID (); // Launched by this player.
+				// Give the GameObject traits to be handled by FireballBehavior:
 				gestureResult.GetComponent<FireballBehavior> ().DoAfterStart (leftDir);
 			}
 			// Fireball has been launched, untrigger until next gesture match:
@@ -210,7 +208,6 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		// Defend!
 		if (defenseTriggered && defenseEnabled) {
 			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", inFrontOfPlayer, Quaternion.identity, 0);
-			gestureResult.GetComponent<DefenseBehavior> ().playerID = headset.GetInstanceID (); // Pass the ID of this player's headset (Camera (eye)).
 			gestureResult.GetComponent<DefenseBehavior> ().DoAfterStart (headset.transform.forward);
 			// Defense has been activated, untrigger until next gesture match:
 			defenseTriggered = false;
