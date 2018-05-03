@@ -69,3 +69,9 @@ EditorBuildSettings:
     path: Assets/Photon Unity Networking/Demos/PunBasics-Tutorial/Scenes/PunBasics-Room
       for 4.unity
     guid: e7a7f9734636d415ca84ef3aaf7680f6
+  - enabled: 1
+    path: Assets/VRPUNScene.unity
+    guid: 4e0c3b53672a05b48bb8df1e75ba8b1b
+  - enabled: 1
+    path: Assets/Lobby.unity
+    guid: cf0ac8d49d406e446835d7f929016cff
