@@ -75,9 +75,9 @@ public class Network : Photon.PunBehaviour
         }
 		// Else, if you're connected and not yet in a room, display a clickable button to create a room:
         else if (PhotonNetwork.room == null) { 
-//            if (GUI.Button(new Rect(100, 100, 250, 100), "Create a Room")) // This line creates a GUI Button.
-//                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 5, IsVisible = true }, null); // This line is called on click.
-//
+            if (GUI.Button(new Rect(100, 100, 250, 100), "Create a Room")) // This line creates a GUI Button.
+                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 5, IsVisible = true }, null); // This line is called on click.
+
 			// If we have some rooms to display:
             if (roomsList != null) { 
 				// Loop and create buttons for each available room:

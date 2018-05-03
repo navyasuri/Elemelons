@@ -36,7 +36,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	public string playerColor;
 
 	// Bools for skill stone progression (public for debugging)
-	public bool leftEnabled = true, fireballEnabled = true, defenseEnabled = true, throwerEnabled = true;
+	public bool leftEnabled = false, fireballEnabled = true, defenseEnabled = false, throwerEnabled = false;
 
 	// UI for displaying current status and operation results 
 	//public Text textMode;
@@ -127,7 +127,8 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		// Good Match!
 		// Actions are then triggered by Update() based on these flags:
-		GameObject.Find("GestureFeedback").GetComponent<GestureFeedback>().UpdateGestureFeedback(score);
+		// headset.transform.GetChild(0).GetComponentInChildren<GestureFeedback>().UpdateGestureFeedback(score);
+		// GameObject.Find("GestureFeedback").GetComponent<GestureFeedback>().UpdateGestureFeedback(score);
 
 		// Launch fireball above 0.85 match:
 		if (score > 0.85 && gesture.Trim ().Equals ("AttackPunchSimple")) {

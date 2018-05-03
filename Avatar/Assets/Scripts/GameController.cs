@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 
-public class GameController : MonoBehaviour {
+public class GameController : Photon.MonoBehaviour {
 
     public GameObject BoulderSpawner1;
     public GameObject BoulderSpawner2;
