@@ -19,7 +19,6 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		// Initialize health and healthbar:
 		health = 100f;
 		//PhotonView.Get (this).RPC ("", PhotonTargets.AllBufferedViaServer, health);
-		gameObject.GetComponentInChildren<HealthBar>().player = gameObject;
 		//Debug.Log ("FlameChoice is" + flameType);
 		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
 		thisPlayer = gameObject.GetComponent<PhotonView> ().owner;
@@ -39,7 +38,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public void TakeDamage(float damage) {
 		health -= damage;
 		Debug.Log ("TakeDamage RPC recieved for " + damage + " damage.");
-		// Needs second RPC to send health bar updates to other players
+		PhotonView [] playerViews = gameObject.GetPhotonViewsInChildren ();
+		playerViews [2].RPC("UpdateHealthBar", thisPlayer, health);
 	}
 		
 }
