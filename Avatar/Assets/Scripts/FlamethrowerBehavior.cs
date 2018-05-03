@@ -41,14 +41,17 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 
 	void OnParticleCollision(GameObject hitByFlames) {
 		Debug.Log ("Flamethrower hit object named: " + hitByFlames.gameObject.name);
-		if (hitByFlames.gameObject.GetPhotonView () != null && hitByFlames.gameObject.CompareTag ("Player")) {
-			Debug.Log("Object was a networked player");
-			if (hitByFlames.gameObject.GetComponent<PlayerBehavior> ().thisPlayer == flamethrowerPlayer) { // if this is the player who launched the fireball
-				Debug.Log ("Flamethrower matched to sending player's ID, no damage.");
-			} else { // Otherwise, send that player damage:
+		if (hitByFlames.gameObject.GetPhotonView () != null ) {
+			if (hitByFlames.gameObject.CompareTag ("Player")) {
+				if (hitByFlames.gameObject.GetComponent<PlayerBehavior> ().thisPlayer == flamethrowerPlayer) { // if this is the player who launched the fireball
+				} else { // Otherwise, send that player damage:
+					float damage = 10f * Time.deltaTime;
+					hitByFlames.gameObject.GetPhotonView ().RPC ("TakeDamage", hitByFlames.gameObject.GetPhotonView ().owner, damage);
+				}
+			}
+			if (hitByFlames.gameObject.CompareTag ("boulder")) {
 				float damage = 10f * Time.deltaTime;
-				hitByFlames.gameObject.GetPhotonView().RPC("TakeDamage", hitByFlames.gameObject.GetPhotonView().owner, damage);
-				Debug.Log ("Photon player " + hitByFlames.GetComponent<PlayerBehavior>().thisPlayer + " hit by a flamethrower!");
+				hitByFlames.gameObject.GetPhotonView ().RPC ("TakeDamage", PhotonTargets.All, damage);
 			}
 		}
 	}
