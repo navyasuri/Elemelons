@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon; // To use Photon-specific methods
 
 /*
@@ -62,10 +63,19 @@ public class Network : Photon.PunBehaviour
 
     void Update() {
 		// Get the current scene, if lobby, check for ready count
-		//if(Scene
-//PhotonNetwork.LoadLevel("Room for 1");
-
+		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
+			if(PhotonNetwork.isMasterClient) {
+				if(playersReady == playerCount) {
+					PhotonNetwork.LoadLevel("AvatarGame");
+				}
+			}
+		}
     }
+
+	[PunRPC]
+	public void UpdateReadyCount() {
+		playersReady++;
+	}
 
     // This is a simple way to display the connection state on the screen itself, instead of in the Console:
     void OnGUI() {
