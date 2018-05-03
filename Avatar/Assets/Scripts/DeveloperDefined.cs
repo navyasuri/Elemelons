@@ -109,6 +109,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		// Good Match!
 		// Actions are then triggered by Update() based on these flags:
+		GameObject.Find("GestureFeedback").GetComponent<GestureFeedback>().UpdateGestureFeedback(score);
 
 		// Launch fireball above 0.85 match:
 		if (score > 0.85 && gesture.Trim ().Equals ("AttackPunchSimple")) {
