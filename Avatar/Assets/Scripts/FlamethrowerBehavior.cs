@@ -5,6 +5,7 @@ using Photon;
 
 public class FlamethrowerBehavior : Photon.MonoBehaviour {
 
+	public PhotonPlayer flamethrowerPlayer;
 	public AudioSource flamethrowerWhoosh;
 	public ParticleSystem throwerParticles;
 	public int playerID; // Must be public for Photon, no need to provide a value.
@@ -12,7 +13,7 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	public bool isActive = false;
 
 	void Start() {
-		//throwerParticles = transform.gameObject.Find("Flamethrower").gameObject.GetComponent<ParticleSystem> (); // Find thrower particles.
+		flamethrowerPlayer = gameObject.GetComponent<PhotonView> ().owner;
 	}
 
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
@@ -35,6 +36,20 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 		if (isActive && !throwerParticles.isPlaying) {
 			throwerParticles.Play(); // Start the particle effects
 			flamethrowerWhoosh.Play (); // Sound like a flamethrower
+		}
+	}
+
+	void OnParticleCollision(GameObject hitByFlames) {
+		Debug.Log ("Flamethrower hit object named: " + hitByFlames.gameObject.name);
+		if (hitByFlames.gameObject.GetPhotonView () != null && hitByFlames.gameObject.CompareTag ("Player")) {
+			Debug.Log("Object was a networked player");
+			if (hitByFlames.gameObject.GetComponent<PlayerBehavior> ().thisPlayer == flamethrowerPlayer) { // if this is the player who launched the fireball
+				Debug.Log ("Flamethrower matched to sending player's ID, no damage.");
+			} else { // Otherwise, send that player damage:
+				float damage = 10f * Time.deltaTime;
+				hitByFlames.gameObject.GetPhotonView().RPC("TakeDamage", hitByFlames.gameObject.GetPhotonView().owner, damage);
+				Debug.Log ("Photon player " + hitByFlames.GetComponent<PlayerBehavior>().thisPlayer + " hit by a flamethrower!");
+			}
 		}
 	}
 

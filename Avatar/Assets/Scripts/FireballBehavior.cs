@@ -41,19 +41,18 @@ public class FireballBehavior : Photon.MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		Debug.Log ("Fireball hit object named: " + collision.gameObject.name);
 		if(collision.gameObject.GetPhotonView() != null) { // if the colliding game object is networked (has a photon view)
-			Debug.Log("Object has photon view");
 			if (collision.gameObject.CompareTag("Player")) { // if the collision is with a player
-				Debug.Log("Object was a player");
 				if (collision.gameObject.GetComponent<PlayerBehavior> ().thisPlayer == fireballPlayer) { // if this is the player who launched the fireball
-					Debug.Log("Fireball matched to sending player's ID, did nothing.");
-					return; // Do nothing
+					Debug.Log ("Fireball matched to sending player's ID, did nothing.");
+					return; // Don't play explosion.
+				} else { // Otherwise, send that player damage:
+					collision.gameObject.GetPhotonView().RPC("TakeDamage", collision.gameObject.GetPhotonView().owner, 25f);
 				}
 			}
 			if (collision.gameObject.CompareTag ("fireball")) { // if the collision is with another fireball
 				if (collision.gameObject.GetComponent<FireballBehavior> ().fireballPlayer == fireballPlayer) { // if two fireballs from the same player somehow hit,
-					return; // Do nothing
+					return; // Don't play explosion.
 				}
 			}
 		}

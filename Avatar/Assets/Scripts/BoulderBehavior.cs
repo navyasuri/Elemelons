@@ -37,6 +37,10 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			rumbling.pitch = randomPitch;
 			rumbling.Play ();
 		}
+		// If the boulder hits a neworked player, call that PhotonView owner to take damage:
+		if (col.gameObject.GetPhotonView () != null && col.gameObject.CompareTag ("Player")) {
+			col.gameObject.GetPhotonView().RPC("TakeDamage", col.gameObject.GetPhotonView().owner, 15f);
+		}
 		// Boulders should bounce off of: the environment, other boulders, and shields. Explode otherwise.
 		if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense")) {
 			PlayExplosion ();
