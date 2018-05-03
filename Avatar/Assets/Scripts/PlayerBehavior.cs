@@ -39,7 +39,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		health -= damage;
 		Debug.Log ("TakeDamage RPC recieved for " + damage + " damage.");
 		PhotonView [] playerViews = gameObject.GetPhotonViewsInChildren ();
-		playerViews [2].RPC("UpdateHealthBar", thisPlayer, health);
+		playerViews [2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
 	}
 		
 }
