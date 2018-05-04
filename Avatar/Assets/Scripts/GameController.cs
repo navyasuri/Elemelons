@@ -20,17 +20,21 @@ public class GameController : Photon.MonoBehaviour {
         level = 1;
 		boulderCount = 0;
 		boulderThreshold = 5;
+//		BoulderSpawner1.gameObject.SetActive(false);
+//		BoulderSpawner2.SetActive(false);
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (boulderCount>= boulderThreshold)
+		if (boulderCount> boulderThreshold)
         {
             endLevel(level);
+			Debug.Log ("In update: level " + level);
 
         }
+			
 		
 	}
 
@@ -38,9 +42,13 @@ public class GameController : Photon.MonoBehaviour {
     private void endLevel(int level)
     {
 		Debug.Log ("level " + level);
-        // turn off boulder spawner
-//        BoulderSpawner1.SetActive(false);
-//        BoulderSpawner2.SetActive(false);
+
+        
+		// turn off boulder spawner
+		BoulderSpawner1.gameObject.SetActive(false);
+        BoulderSpawner2.SetActive(false);
+
+		Debug.Log (BoulderSpawner1.activeInHierarchy);
         remainingBoulders = GameObject.FindGameObjectsWithTag("boulder");
 
         if (remainingBoulders.Length < 1)
@@ -48,6 +56,7 @@ public class GameController : Photon.MonoBehaviour {
             GameObject light = SkillStone.transform.Find("Spotlight").gameObject;
             light.SetActive(true);
 			SkillStone.GetComponent<SphereCollider> ().enabled = true;
+			SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem>().Play();
 
             switch (level)
             {
@@ -74,6 +83,8 @@ public class GameController : Photon.MonoBehaviour {
 
             }
         }
+
+
 			    
         
     }
