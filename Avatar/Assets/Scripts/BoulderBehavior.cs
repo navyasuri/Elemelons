@@ -49,7 +49,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			col.gameObject.GetPhotonView().RPC("TakeDamage", col.gameObject.GetPhotonView().owner, 15f);
 		}
 		// Boulders should bounce off of: the environment, other boulders, and shields. Explode otherwise.
-		if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense")) {
+		if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense") && !col.gameObject.CompareTag("Untagged")) {
 			PlayExplosion ();
 		}
 	}

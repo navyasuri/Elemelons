@@ -14,7 +14,7 @@ public class ObstacleSpawner : Photon.MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		delay = 4.0f;
+		delay = 5.0f;
 		startTime = Time.time;
 		currPos = this.transform.position;
 		float zForce;
