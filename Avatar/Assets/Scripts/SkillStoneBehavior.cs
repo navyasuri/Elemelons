@@ -12,8 +12,13 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 	void Start () {
 		//start particle system
 		startTime = Time.time;
-		gameObject.GetComponent<SphereCollider> ().enabled = false;
-		Debug.Log (SceneManager.GetActiveScene ().name);
+		Debug.Log ("Skill stone says active scene is: " + SceneManager.GetActiveScene ().name);
+		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
+			gameObject.GetComponent<SphereCollider> ().enabled = true;
+		}
+		else {
+			gameObject.GetComponent<SphereCollider> ().enabled = false;
+		}
 	}
 	
 	// Update is called once per frame
@@ -22,7 +27,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 //			GameObject.Find("SceneManager").GetComponent<SceneLoader>().goToScene("VRPunScene");
 	}
 
-	void OnCollisionEnter(Collision col){
+	void OnTriggerEnter(Collider col){
 		Debug.Log ("Collision with Skill Stone by: " + col.gameObject.tag);
 		if (col.gameObject.CompareTag("Player")) {
 			//start UI tutorial
@@ -31,7 +36,9 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 			if (!playerReady && SceneManager.GetActiveScene ().name == "Lobby") {
 				Debug.Log ("Player is now ready!");
 				playerReady = true;
-				GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.MasterClient);
+				Debug.Log ("Photon network master client is: " + PhotonNetwork.masterClient);
+				Debug.Log ("Are you master client? " + PhotonNetwork.isMasterClient);
+				GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
 			}
 			else {
 				

@@ -64,17 +64,26 @@ public class Network : Photon.PunBehaviour
     void Update() {
 		// Get the current scene, if lobby, check for ready count
 		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
-			if(PhotonNetwork.isMasterClient) {
-				if(playersReady == playerCount) {
-					PhotonNetwork.LoadLevel("VRPUNScene");
+			DontDestroyOnLoad(GameObject.Find("SelectionPad(Clone)"));
+			DontDestroyOnLoad(GameObject.Find("InvalidSelectionPad(Clone)"));
+			if(playerCount > 0 && playersReady == playerCount) { // Playercount is updated by OnJoinedRoom()
+					Debug.Log ("Scene is lobby, good.");
+					Debug.Log ("Photon network master client is: " + PhotonNetwork.masterClient);
+					if(PhotonNetwork.isMasterClient) {
+							Debug.Log ("Master client called to load a new scene over the network.");
+							PhotonNetwork.LoadLevel("VRPUNScene");
+					}
 				}
 			}
-		}
     }
 
 	[PunRPC]
 	public void UpdateReadyCount() {
-		playersReady++;
+		if(PhotonNetwork.isMasterClient) {
+			Debug.Log ("Are you master client? " + PhotonNetwork.isMasterClient + " Good, because a player is ready, this should only be updated once.");
+			playersReady++;
+			Debug.Log (playersReady + " players are ready");
+		}
 	}
 
     // This is a simple way to display the connection state on the screen itself, instead of in the Console:
@@ -109,31 +118,26 @@ public class Network : Photon.PunBehaviour
 			if (playerCount == 1) {
 				spawnLocation = spawnPoints[0].position;
                 //spawnPointTaken[0] = true;
-				playerCount = 2;
 				playerColor = "Yellow";
             }
 			else if (playerCount == 2) {
 				spawnLocation = spawnPoints[1].position;
 				//spawnPointTaken[1] = true;
-				playerCount = 3;
 				playerColor = "Blue";
 			}
 			else if (playerCount == 3) {
 				spawnLocation = spawnPoints[2].position;
 				//spawnPointTaken[2] = true;
-				playerCount = 4;
 				playerColor = "Green";
 			}
 			else if (playerCount == 4) {
 				spawnLocation = spawnPoints[3].position;
 				//spawnPointTaken[3] = true;
-				playerCount = 4;
 				playerColor = "Purple";
 			}
             else {
 				spawnLocation = spawnPoints[4].position;
                 //spawnPointTaken[4] = true;
-				playerCount = 5;
 				playerColor = "White";
             }
         }
@@ -149,6 +153,7 @@ public class Network : Photon.PunBehaviour
 		Debug.Log("Creating new " + playerColor + " player at " + spawnLocation);
 
 		GameObject.Instantiate(teleportRig, spawnLocation, Quaternion.identity);
+		DontDestroyOnLoad (GameObject.Find ("TeleportingRig(Clone)"));
     }
 
     // Photon automatically calls this function when a room is created or removed:
