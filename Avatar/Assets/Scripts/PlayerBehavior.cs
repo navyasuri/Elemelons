@@ -10,11 +10,6 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public int cameraID;
 	public PhotonPlayer thisPlayer;
 
-	// To maintain player status between scenes. May belong higher up, on the Teleporting Rig instead..
-	void Awake() {
-		//DontDestroyOnLoad (this.gameObject);
-	}
-
     void Start () {
 		// Initialize health and healthbar:
 		health = 100f;

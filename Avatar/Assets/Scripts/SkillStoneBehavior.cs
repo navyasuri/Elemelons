@@ -27,7 +27,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 //			GameObject.Find("SceneManager").GetComponent<SceneLoader>().goToScene("VRPunScene");
 	}
 
-	void OnCollisionEnter(Collision col){
+	void OnTriggerEnter(Collider col){
 		Debug.Log ("Collision with Skill Stone by: " + col.gameObject.tag);
 		if (col.gameObject.CompareTag("Player")) {
 			//start UI tutorial
@@ -36,7 +36,9 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 			if (!playerReady && SceneManager.GetActiveScene ().name == "Lobby") {
 				Debug.Log ("Player is now ready!");
 				playerReady = true;
-				GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.MasterClient);
+				Debug.Log ("Photon network master client is: " + PhotonNetwork.masterClient);
+				Debug.Log ("Are you master client? " + PhotonNetwork.isMasterClient);
+				GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
 			}
 			else {
 				
