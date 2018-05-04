@@ -63,10 +63,14 @@ public class Network : Photon.PunBehaviour
 
     void Update() {
 		// Get the current scene, if lobby, check for ready count
-		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
-			if(PhotonNetwork.isMasterClient) {
-				if(playersReady == playerCount) {
-					PhotonNetwork.LoadLevel("VRPUNScene");
+		if(playerCount > 0 && playersReady == playerCount) {
+			Debug.Log ("Player count: " + playerCount + ". Players ready: " + playersReady);
+			if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
+				Debug.Log ("Scene is lobby, good.");
+				Debug.Log ("Photon network master client is: " + PhotonNetwork.masterClient);
+				if(PhotonNetwork.isMasterClient) {
+						Debug.Log ("Master client called to load a new scene over the network.");
+						PhotonNetwork.LoadLevel("VRPUNScene");
 				}
 			}
 		}
@@ -74,7 +78,9 @@ public class Network : Photon.PunBehaviour
 
 	[PunRPC]
 	public void UpdateReadyCount() {
+		Debug.Log ("Are you master client? " + PhotonNetwork.isMasterClient + " Good, because a player is ready, this should only be updated once.");
 		playersReady++;
+		Debug.Log (playersReady + " players are ready");
 	}
 
     // This is a simple way to display the connection state on the screen itself, instead of in the Console:

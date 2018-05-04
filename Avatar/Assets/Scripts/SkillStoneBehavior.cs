@@ -12,8 +12,13 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 	void Start () {
 		//start particle system
 		startTime = Time.time;
-		gameObject.GetComponent<SphereCollider> ().enabled = false;
-		Debug.Log (SceneManager.GetActiveScene ().name);
+		Debug.Log ("Skill stone says active scene is: " + SceneManager.GetActiveScene ().name);
+		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
+			gameObject.GetComponent<SphereCollider> ().enabled = true;
+		}
+		else {
+			gameObject.GetComponent<SphereCollider> ().enabled = false;
+		}
 	}
 	
 	// Update is called once per frame
