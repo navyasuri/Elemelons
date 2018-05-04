@@ -13,6 +13,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 		//start particle system
 		startTime = Time.time;
 		gameObject.GetComponent<SphereCollider> ().enabled = false;
+		Debug.Log (SceneManager.GetActiveScene ().name);
 	}
 	
 	// Update is called once per frame
@@ -22,11 +23,13 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
+		Debug.Log ("Collision with Skill Stone by: " + col.gameObject.tag);
 		if (col.gameObject.CompareTag("Player")) {
 			//start UI tutorial
 			//when tutorial ends, stop particle system
-
+			Debug.Log("Collision by player!");
 			if (!playerReady && SceneManager.GetActiveScene ().name == "Lobby") {
+				Debug.Log ("Player is now ready!");
 				playerReady = true;
 				GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.MasterClient);
 			}
