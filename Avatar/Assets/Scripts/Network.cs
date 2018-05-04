@@ -66,7 +66,7 @@ public class Network : Photon.PunBehaviour
 		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
 			if(PhotonNetwork.isMasterClient) {
 				if(playersReady == playerCount) {
-					PhotonNetwork.LoadLevel("AvatarGame");
+					PhotonNetwork.LoadLevel("VRPUNScene");
 				}
 			}
 		}
