@@ -16,6 +16,7 @@ TagManager:
   - flamethrower
   - FxTemporaire
   - SkillStone
+  - rig
   layers:
   - Default
   - TransparentFX

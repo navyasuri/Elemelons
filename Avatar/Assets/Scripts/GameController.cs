@@ -96,7 +96,7 @@ public class GameController : Photon.MonoBehaviour {
 	void ResetPlayerLocations() {
 		// Send RPC to all clients, telling them to use their local playerColor to move to spawn
 		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(5).gameObject;
-		string playerColor = GameObject.Find ("GameManager").GetComponent<DeveloperDefined> ().playerColor;
+		string playerColor =  blankScreen.GetComponentInParent<DeveloperDefined> ().playerColor;
 		GameObject.Find ("TeleportingRig(Clone)").transform.position = GameObject.Find ("Spawn" + playerColor).transform.position;
 		blankScreen.GetComponent<Renderer> ().material.SetColor("_Color", new Color(0, 0, 0, 0));
 	}

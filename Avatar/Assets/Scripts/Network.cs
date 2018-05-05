@@ -259,7 +259,7 @@ public class Network : Photon.PunBehaviour
 			throwerRight.GetComponent<FlamethrowerBehavior> ().playerID = headset.GetInstanceID();
 
 			// Once the player is instantiated in the game room, update the controller references for AirSig:
-			GameObject.Find("GameManager").gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset, playerColor);
+			player.gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset, playerColor);
 		}
     }
 
