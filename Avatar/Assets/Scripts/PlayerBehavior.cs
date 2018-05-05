@@ -9,10 +9,13 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public float health;
 	public int cameraID;
 	public PhotonPlayer thisPlayer;
+	public int raycastDistance;
+	public LayerMask layers;
 
     void Start () {
 		// Initialize health and healthbar:
 		health = 100f;
+		raycastDistance = 100;
 		//PhotonView.Get (this).RPC ("", PhotonTargets.AllBufferedViaServer, health);
 		//Debug.Log ("FlameChoice is" + flameType);
 		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
@@ -27,6 +30,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 			// Delete all the old player stuff
 			health = 100f;
 		}
+
+		RayCast ();
 	}
 
 	[PunRPC]
@@ -36,5 +41,22 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		PhotonView [] playerViews = gameObject.GetPhotonViewsInChildren ();
 		playerViews [2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
 	}
+
+	void RayCast() {
+		Vector3 forward = GameObject.Find ("Camera (eye)").transform.forward;
+		RaycastHit hit;
+
+		if (Physics.Raycast (transform.position, forward, out hit, raycastDistance, layers)) {
+			string tag = hit.collider.gameObject.tag;
+			Debug.Log ("raycast hit successful");
+
+			if (tag == "SkillStone") {
+				
+				//inform skillstone that player sees it
+				GameObject.FindGameObjectWithTag("SkillStone").GetComponent<SkillStoneBehavior>().playerSees = true;
+			}
+		}
+	}
 		
 }
+
