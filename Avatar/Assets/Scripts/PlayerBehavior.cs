@@ -15,7 +15,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
     void Start () {
 		// Initialize health and healthbar:
 		health = 100f;
-		raycastDistance = 100;
+		raycastDistance = 10;
 		//PhotonView.Get (this).RPC ("", PhotonTargets.AllBufferedViaServer, health);
 		//Debug.Log ("FlameChoice is" + flameType);
 		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
@@ -46,14 +46,15 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		Vector3 forward = GameObject.Find ("Camera (eye)").transform.forward;
 		RaycastHit hit;
 
-		if (Physics.Raycast (transform.position, forward, out hit, raycastDistance, layers)) {
+		if (Physics.Raycast (GameObject.Find ("Camera (eye)").transform.position, forward, out hit, raycastDistance, layers)) {
 			string tag = hit.collider.gameObject.tag;
 			Debug.Log ("raycast hit successful");
 
 			if (tag == "SkillStone") {
+				Debug.Log ("SkillStone detected");
 				
 				//inform skillstone that player sees it
-				GameObject.FindGameObjectWithTag("SkillStone").GetComponent<SkillStoneBehavior>().playerSees = true;
+				GameObject.Find("SkillStonePrefab").GetComponent<SkillStoneBehavior>().playerSees = true;
 			}
 		}
 	}

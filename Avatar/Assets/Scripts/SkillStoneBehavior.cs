@@ -18,7 +18,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 	void Start () {
 		//start particle system
 		startTime = Time.time;
-		range = 1f;
+		range = 2f;
 		levelEnd = false;
 		playerSees = false;
 
@@ -34,7 +34,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 
 		if (levelEnd) {
 			dist = Vector3.Distance (this.transform.position, GameObject.FindGameObjectWithTag ("Player").transform.position);
-			if (dist < range) {
+			if (dist < range && playerSees) {
 				unlockSkill ();
 			}
 		}

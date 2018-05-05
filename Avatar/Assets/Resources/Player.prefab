@@ -1073,7 +1073,7 @@ MonoBehaviour:
   raycastDistance: 0
   layers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
 --- !u!114 &114727954372510372
 MonoBehaviour:
   m_ObjectHideFlags: 1

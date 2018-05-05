@@ -64,12 +64,12 @@ public class GameController : Photon.MonoBehaviour {
 					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 2);
 					boulderThreshold = 15;
 	                    // do code for level 2
-	                    break;
+	                break;
 				case 3:
 					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 3);
 					boulderThreshold = 25;
 	                    //do code for level 3
-	                 break;
+	                break;
 				case 4:
 					//game over
 					GameObject.Find ("GameManager").GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
@@ -83,6 +83,7 @@ public class GameController : Photon.MonoBehaviour {
 		level++;
 		BoulderSpawner1.SetActive(true);
 		BoulderSpawner2.SetActive(true);
+		SkillStone.GetComponent<SkillStoneBehavior> ().levelEnd = false;
 	}
 
 
