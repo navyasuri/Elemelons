@@ -11,6 +11,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 	// Reference to AirSigManager for setting operation mode and registering listener
 	public AirSigManager airsigManager;
+	public GameObject GestureBar;
 
 	// Vive objects
 	protected GameObject headset;
@@ -29,23 +30,15 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	Vector3 leftStart;
 	Vector3 leftEnd;
 	Vector3 leftDir;
-	bool gestureTriggered = false, rightTriggered = false, leftTriggered = false;
+	bool gestureAttempted = false, gestureTriggered = false, rightTriggered = false, leftTriggered = false;
 	bool fireballTriggered = false;
 	bool defenseTriggered = false;
 	bool throwerTriggered = false;
 	public string playerColor;
+	float currentScore;
 
 	// Bools for skill stone progression (public for debugging)
 	public bool leftEnabled = false, fireballEnabled = true, defenseEnabled = false, throwerEnabled = false;
-
-	// UI for displaying current status and operation results 
-	//public Text textMode;
-	//public Text textResult;
-	//public GameObject instruction;
-	//public GameObject cHeartDown;
-	protected string textToUpdate;
-	protected readonly string DEFAULT_INSTRUCTION_TEXT = "Pressing trigger and write in the air\nReleasing trigger when finish";
-	protected string defaultResultText;
 
 	// Set by the callback function to run this action in the next UI call
 	protected Action nextUiAction;
@@ -56,7 +49,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 
 	// Use this for initialization
-	void Awake() {
+	void Start() {
 		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
 		// Configure AirSig by specifying target 
@@ -75,8 +68,8 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 		airsigManager.SetTriggerStartKeys(
 			AirSigManager.Controller.LEFT_HAND,
-			SteamVR_Controller.ButtonMask.Trigger,
-			AirSigManager.PressOrTouch.PRESS);
+			SteamVR_Controller.ButtonMask.Trigger,  // NOTE: Potential gesture bar fix by putting this line in with case 2 below vvvvvv
+			AirSigManager.PressOrTouch.PRESS);      // NOTE: May also break AirSig, who knows?
 	}
 
 	[PunRPC]
@@ -111,6 +104,11 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	}
 
 	void Update() {
+		// If the player attempts a gesture, update the gesture score bar:
+		if (gestureAttempted) {
+			gestureAttempted = false;
+			GestureBar.GetComponent<GestureFeedback> ().UpdateGestureFeedback (currentScore);
+		}
 		// If a gesture matched above the threshold, run the response and reset:
 		if (gestureTriggered) {
 			gestureTriggered = false;
@@ -125,10 +123,23 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	// gesture - gesture matched or null if no match. Only gesture in SetDeveloperDefinedTarget list will be verified against
 	// score - the confidence level of this identification. Above 1 is generally considered a match
 	public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
+		// Updates for sending values to the player's visual-feedback bar:
+		if (fireballEnabled && gesture.Trim ().Equals ("AttackPunchSimple")) {
+			gestureAttempted = true;
+			currentScore = score;
+		}
+		if (defenseEnabled && gesture.Trim ().Equals ("DefenseShieldCross")) {
+			gestureAttempted = true;
+			currentScore = score;
+		}
+		if (throwerEnabled && gesture.Trim ().Equals ("C")) {
+			gestureAttempted = true;
+			currentScore = score;
+		}
+
 		// Good Match!
 		// Actions are then triggered by Update() based on these flags:
 		// headset.transform.GetChild(0).GetComponentInChildren<GestureFeedback>().UpdateGestureFeedback(score);
-		// GameObject.Find("GestureFeedback").GetComponent<GestureFeedback>().UpdateGestureFeedback(score);
 
 		// Launch fireball above 0.85 match:
 		if (score > 0.85 && gesture.Trim ().Equals ("AttackPunchSimple")) {
@@ -137,15 +148,15 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			fireballTriggered = true;
 		}
 
-		// Active defense above 1 match:
-		else if(score > 0.9 && gesture.Trim ().Equals ("DefenseShieldCross")) {
+		// Active defense:
+		else if(score > 0.85 && gesture.Trim ().Equals ("DefenseShieldCross")) {
 			Debug.Log (string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 			gestureTriggered = true;
 			defenseTriggered = true;
 		}
 
-		// Flamethrower! (if above 0.9 match)
-		else if (score > 1 && gesture.Trim ().Equals ("C")) {
+		// Flamethrower!
+		else if (score > 0.85 && gesture.Trim ().Equals ("C")) {
 			Debug.Log (string.Format ("<color=cyan>Gesture Match: {0} Score: {1}</color>", gesture.Trim (), score));
 			gestureTriggered = true;
 			throwerTriggered = true;

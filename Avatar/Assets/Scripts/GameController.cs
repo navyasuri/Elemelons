@@ -42,6 +42,7 @@ public class GameController : Photon.MonoBehaviour {
 		// turn off boulder spawner
 		BoulderSpawner1.gameObject.SetActive(false);
         BoulderSpawner2.SetActive(false);
+		StartCoroutine ("MusicFadeOut");
 
 		Debug.Log (BoulderSpawner1.activeInHierarchy);
         remainingBoulders = GameObject.FindGameObjectsWithTag("boulder");
@@ -84,8 +85,17 @@ public class GameController : Photon.MonoBehaviour {
 		BoulderSpawner1.SetActive(true);
 		BoulderSpawner2.SetActive(true);
 		SkillStone.GetComponent<SkillStoneBehavior> ().levelEnd = false;
+		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().time = 0f;
+		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Play ();
 	}
 
+	IEnumerator MusicFadeOut() {
+		for(float t = 3f; t > 0f; t -= 0.05f) {
+			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = t/4f;
+			yield return new WaitForSeconds(0.05f);
+		}
+		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Stop();
+	}
 
 	[PunRPC]
 	public void BoulderCountUpdate() {
