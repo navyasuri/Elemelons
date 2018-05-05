@@ -23,27 +23,22 @@ public class GameController : Photon.MonoBehaviour {
 //		BoulderSpawner1.gameObject.SetActive(false);
 //		BoulderSpawner2.SetActive(false);
 
+		// Reset players once the scene loads:
+		PhotonView.Get(this).RPC("ResetPlayerLocations", PhotonTargets.All);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		if (boulderCount> boulderThreshold)
-        {
+		if (boulderCount> boulderThreshold) {
             endLevel(level);
 			Debug.Log ("In update: level " + level);
-
         }
-			
-		
 	}
 
 
-    private void endLevel(int level)
-    {
+    private void endLevel(int level) {
 		Debug.Log ("level " + level);
 
-        
 		// turn off boulder spawner
 		BoulderSpawner1.gameObject.SetActive(false);
         BoulderSpawner2.SetActive(false);
@@ -80,13 +75,8 @@ public class GameController : Photon.MonoBehaviour {
 					GameObject.Find ("GameManager").GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
 					boulderThreshold = 999;
 					break;
-
             }
-        }
-
-
-			    
-        
+        }    
     }
 
 	public void increaseLevel(){
@@ -100,5 +90,14 @@ public class GameController : Photon.MonoBehaviour {
 	public void BoulderCountUpdate() {
 		Debug.Log ("boulder count " + boulderCount);
 		boulderCount++;
+	}
+
+	[PunRPC]
+	void ResetPlayerLocations() {
+		// Send RPC to all clients, telling them to use their local playerColor to move to spawn
+		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(5).gameObject;
+		string playerColor = GameObject.Find ("GameManager").GetComponent<DeveloperDefined> ().playerColor;
+		GameObject.Find ("TeleportingRig(Clone)").transform.position = GameObject.Find ("Spawn" + playerColor).transform.position;
+		blankScreen.GetComponent<Renderer> ().material.SetColor("_Color", new Color(0, 0, 0, 0));
 	}
 }

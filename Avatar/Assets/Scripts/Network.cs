@@ -33,6 +33,7 @@ public class Network : Photon.PunBehaviour
 	protected static Dictionary<string, GameObject> throwers;
 
 	public bool offlineMode = false;
+	bool nowChanging;
 
     // Arrays to track spawn points locations and 'taken' status:
 	public Transform[] spawnPoints;
@@ -57,32 +58,48 @@ public class Network : Photon.PunBehaviour
 		spawnPoints[2] = greenSpawn.transform;
 		spawnPoints[3] = purpleSpawn.transform;
 		spawnPoints[4] = whiteSpawn.transform;
-
-        //spawnPointTaken = new bool[5];
     }
 
     void Update() {
 		// Get the current scene, if lobby, check for ready count
+		Debug.Log("[Network Update()] Players: " + playerCount + ". Ready: " + playersReady);
 		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
 			DontDestroyOnLoad(GameObject.Find("SelectionPad(Clone)"));
 			DontDestroyOnLoad(GameObject.Find("InvalidSelectionPad(Clone)"));
 			if(playerCount > 0 && playersReady == playerCount) { // Playercount is updated by OnJoinedRoom()
-					Debug.Log ("Scene is lobby, good.");
-					Debug.Log ("Photon network master client is: " + PhotonNetwork.masterClient);
-					if(PhotonNetwork.isMasterClient) {
-							Debug.Log ("Master client called to load a new scene over the network.");
-							PhotonNetwork.LoadLevel("VRPUNScene");
-					}
+				if(PhotonNetwork.isMasterClient && !nowChanging) {
+					// Tell everyone to begin loading the next scene, once, via server to keep things in sync:
+					nowChanging = true;
+					PhotonView.Get (this).RPC ("SceneChange", PhotonTargets.AllViaServer);
 				}
 			}
+		}
     }
 
 	[PunRPC]
 	public void UpdateReadyCount() {
+		Debug.Log ("[Network UpdateReadyCount RPC] called, yep");
 		if(PhotonNetwork.isMasterClient) {
-			Debug.Log ("Are you master client? " + PhotonNetwork.isMasterClient + " Good, because a player is ready, this should only be updated once.");
 			playersReady++;
-			Debug.Log (playersReady + " players are ready");
+			Debug.Log ("[Network UpdateReadyCount RPC] A new player is ready! " + playersReady + " players are ready");
+		}
+	}
+
+	[PunRPC]
+	void SceneChange() {
+		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(5).gameObject;
+		StartCoroutine (fadeSceneIn (blankScreen, 3f));
+	}
+
+	IEnumerator fadeSceneIn(GameObject blankScreen, float fadeTime) {
+		for(float t = 0; t < fadeTime; t += 0.05f) {
+			blankScreen.GetComponent<Renderer> ().material.SetColor("_Color", new Color(0, 0, 0, t/fadeTime));
+			yield return new WaitForSeconds(0.05f);
+		}
+		yield return new WaitForSeconds (2f);
+		if (PhotonNetwork.isMasterClient) {
+			PhotonNetwork.LoadLevel ("VRPUNScene");
+			Debug.Log ("Scene change called");
 		}
 	}
 
@@ -211,6 +228,7 @@ public class Network : Photon.PunBehaviour
 			// Instantiate player hand/body prefabs ON NETWORK, setting rig items as parents of the prefabs:
 			GameObject player = PhotonNetwork.Instantiate(playerHeadPrefab.name, headset.transform.position, headset.transform.rotation, 0);
 			player.transform.SetParent(headset.transform);
+			player.GetComponent<PlayerBehavior> ().flameType = playerColor;
 
 			// Instantiate hand prefab and set as child of controller:
 			GameObject playerHandLeft = PhotonNetwork.Instantiate(leftHandPrefab.name, leftController.transform.position, Quaternion.identity, 0);

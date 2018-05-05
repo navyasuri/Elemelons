@@ -32,12 +32,10 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 		if (col.gameObject.CompareTag("Player")) {
 			//start UI tutorial
 			//when tutorial ends, stop particle system
-			Debug.Log("Collision by player!");
 			if (!playerReady && SceneManager.GetActiveScene ().name == "Lobby") {
-				Debug.Log ("Player is now ready!");
+				Debug.Log ("[Skill stone] Player is now ready!");
 				playerReady = true;
-				Debug.Log ("Photon network master client is: " + PhotonNetwork.masterClient);
-				Debug.Log ("Are you master client? " + PhotonNetwork.isMasterClient);
+				Debug.Log ("[Skill stone] Are you master client? " + PhotonNetwork.isMasterClient);
 				GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
 			}
 			else {
