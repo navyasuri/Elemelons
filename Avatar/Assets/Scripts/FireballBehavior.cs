@@ -35,7 +35,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 	}
 
 	void Update() {
-		if (Time.time - startTime > 3f) {
+		if (Time.time - startTime > 3.5f) {
 			PlayFireballExplosion (); // Add some effects before the attack disappears.
 		}
 	}
@@ -77,15 +77,15 @@ public class FireballBehavior : Photon.MonoBehaviour {
 
 	IEnumerator SelfDestruct(float clipLength) {
 		yield return new WaitForSeconds(clipLength);
-		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All, gameObject.GetPhotonView());
+		PhotonView.Get(this).RPC("NetworkDestroy", PhotonTargets.All);
 	}
 
 	[PunRPC]
-	void NetworkDestroy(PhotonView viewToDestroy) {
+	void NetworkDestroy() {
 		Destroy (gameObject);
-		if (viewToDestroy.isMine) {
-			PhotonNetwork.RemoveRPCs(viewToDestroy);
-			PhotonNetwork.Destroy (viewToDestroy);
+		if (gameObject.GetPhotonView().isMine) {
+			PhotonNetwork.RemoveRPCs(gameObject.GetPhotonView());
+			PhotonNetwork.Destroy (gameObject.GetPhotonView());
 		}
 	}
 
