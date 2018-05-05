@@ -531,9 +531,81 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1167517420179988, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
       propertyPath: m_TagString
-      value: Environment
+      value: SkillStone
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4800937260805676, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 135945503171626272, guid: f3cbf664265c84afa9f59e2878672f57,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198341207751102946, guid: f3cbf664265c84afa9f59e2878672f57,
+        type: 2}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198551572157114320, guid: f3cbf664265c84afa9f59e2878672f57,
+        type: 2}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198321018445121584, guid: f3cbf664265c84afa9f59e2878672f57,
+        type: 2}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198551572157114320, guid: f3cbf664265c84afa9f59e2878672f57,
+        type: 2}
+      propertyPath: randomSeed
+      value: 813558353
+      objectReference: {fileID: 0}
+    - target: {fileID: 198321018445121584, guid: f3cbf664265c84afa9f59e2878672f57,
+        type: 2}
+      propertyPath: randomSeed
+      value: 805514235
+      objectReference: {fileID: 0}
+    - target: {fileID: 198341207751102946, guid: f3cbf664265c84afa9f59e2878672f57,
+        type: 2}
+      propertyPath: randomSeed
+      value: -585262617
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590593668856342, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505708255844782, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049546929465658, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1618681691178430, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167517420179988, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1719656082416142, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1618681691178430, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_TagString
+      value: SkillStone
+      objectReference: {fileID: 0}
+    - target: {fileID: 1719656082416142, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
+      propertyPath: m_TagString
+      value: SkillStone
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 135945503171626272, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f3cbf664265c84afa9f59e2878672f57, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &376563227
@@ -1073,6 +1145,18 @@ Prefab:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1185531212982536, guid: 8fc9bf9bb0f37064a98f8f7ee94386b7, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611781212672374, guid: 8fc9bf9bb0f37064a98f8f7ee94386b7, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826412533418028, guid: 8fc9bf9bb0f37064a98f8f7ee94386b7, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8fc9bf9bb0f37064a98f8f7ee94386b7, type: 2}
   m_IsPrefabParent: 0
@@ -1206,7 +1290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 835120892}
   - component: {fileID: 835120893}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Spotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1224,7 +1308,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 839385975}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 93.095, y: -0.000015258789, z: -0.000015258789}
 --- !u!108 &835120893
 Light:
@@ -1267,18 +1351,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1167517420179988, guid: f3cbf664265c84afa9f59e2878672f57,
     type: 2}
   m_PrefabInternal: {fileID: 372418481}
---- !u!135 &839385973
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 839385972}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &839385975 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4945218095953476, guid: f3cbf664265c84afa9f59e2878672f57,

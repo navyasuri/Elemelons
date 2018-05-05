@@ -55,8 +55,8 @@ public class GameController : Photon.MonoBehaviour {
         {
             GameObject light = SkillStone.transform.Find("Spotlight").gameObject;
             light.SetActive(true);
-			SkillStone.GetComponent<SphereCollider> ().enabled = true;
 			SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem>().Play();
+			SkillStone.GetComponent<SkillStoneBehavior> ().levelEnd = true;
 
             switch (level)
             {
