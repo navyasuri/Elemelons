@@ -42,19 +42,26 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		playerViews [2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
 	}
 
+	[PunRPC]
+	public void GameOver() {
+		if (photonView.isMine) {
+			Debug.Log("[PlayerBehavior GameOver RPC] Game Over. Trigger some UI, boss!");
+			// Trigger some UI, boss.
+		}
+	}
+
 	void RayCast() {
 		Vector3 forward = GameObject.Find ("Camera (eye)").transform.forward;
 		RaycastHit hit;
 
 		if (Physics.Raycast (GameObject.Find ("Camera (eye)").transform.position, forward, out hit, raycastDistance, layers)) {
-			string tag = hit.collider.gameObject.tag;
-			Debug.Log ("raycast hit successful");
-
-			if (tag == "SkillStone") {
+			if (hit.collider.gameObject.tag == "SkillStone") {
 				Debug.Log ("SkillStone detected");
 				
 				//inform skillstone that player sees it
-				GameObject.Find("SkillStonePrefab").GetComponent<SkillStoneBehavior>().playerSees = true;
+				GameObject.Find ("SkillStonePrefab").GetComponent<SkillStoneBehavior> ().playerSees = true;
+			} else {
+				GameObject.Find ("SkillStonePrefab").GetComponent<SkillStoneBehavior> ().playerSees = false;
 			}
 		}
 	}

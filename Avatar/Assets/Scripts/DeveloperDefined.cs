@@ -74,21 +74,21 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 	[PunRPC]
 	public void UnlockNext(int skill) {
-		switch (skill)
-		{
-		case 1:
-			defenseEnabled = true;
-			break;
-		case 2:
-			leftEnabled = true;
-			break;
-		case 3:
-			
-			throwerEnabled = true;
-			break;
+		if(photonView.isMine) {
+			switch (skill)
+			{
+			case 1:
+				defenseEnabled = true;
+				break;
+			case 2:
+				leftEnabled = true;
+				break;
+			case 3:			
+				throwerEnabled = true;
+				break;
+			}
 		}
 	}
-
 		
 	// Necessary function for AirSig. Called by Network.cs once its WaitForRig() has found all the pieces:
 	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn, string playerColorPassedIn) {

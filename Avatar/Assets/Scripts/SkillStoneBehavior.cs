@@ -7,57 +7,47 @@ using Photon;
 public class SkillStoneBehavior : Photon.MonoBehaviour {
 
 	private bool playerReady;
-	public bool levelEnd;
+	public bool levelOver;
 	public bool playerSees;
-	private bool hasBeenCalled;
 
-	// Use this for initialization
 	void Start () {
-		//start particle system
-
-		levelEnd = false;
+		levelOver = false;
 		playerSees = false;
 		playerReady = false;
-
-		Debug.Log ("Skill stone says active scene is: " + SceneManager.GetActiveScene ().name);
-
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		if (SceneManager.GetActiveScene ().name == "Lobby" || levelEnd) {
+		// Check for the level to be over (unless this is the lobby scene):
+		if (levelOver || SceneManager.GetActiveScene ().name == "Lobby") {
+			// Once the player raycasts onto the SkillStone, set the call flag to false and unlock a skill:
 			if (playerSees) {
-				levelEnd = false;
+				levelOver = false;
 				unlockSkill ();
 			}
 		}
 	}
 
 	private void unlockSkill(){
-		Debug.Log ("Collision by player!");
-
+		// If this is the lobby scene, set this player to ready and call the network to update the ready count:
 		if (!playerReady && SceneManager.GetActiveScene ().name == "Lobby") {
-			Debug.Log ("[Skill stone] Player is now ready!");
+			Debug.Log ("[Lobby SkillStone] Player is now ready!");
 			playerReady = true;
-			Debug.Log ("[Skill stone] Are you master client? " + PhotonNetwork.isMasterClient);
+			Debug.Log ("[Lobby SkillStone] Are you master client? " + PhotonNetwork.isMasterClient);
 			GameObject.Find ("NetworkManager").GetPhotonView ().RPC ("UpdateReadyCount", PhotonTargets.All);
 		} 
-
+		// If this is the main scene, call the GameManager to unlock the next skill based on the current level:
 		else {
 			GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();
 			StartCoroutine ("resetter");
 		}
 	}
 
+	// Pause. Then turn off the SkillStone, and start the next level!
 	IEnumerator resetter(){
 		yield return new WaitForSeconds (5f);
-
 		gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
 		gameObject.transform.Find ("Flames").GetComponent<ParticleSystem> ().Stop ();
-		playerSees = false;
-		GameObject.Find ("GameManager").GetComponent<GameController> ().increaseLevel ();
-
+		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Play ();
+		GameObject.Find ("GameManager").GetComponent<GameController> ().StartNextLevel ();
 	}
-		
-
 }
