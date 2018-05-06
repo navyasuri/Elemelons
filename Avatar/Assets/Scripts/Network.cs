@@ -79,7 +79,7 @@ public class Network : Photon.PunBehaviour
 
 	[PunRPC]
 	void SceneChange() {
-		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(5).gameObject;
+		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(6).gameObject;
 		StartCoroutine (fadeSceneIn (blankScreen, 3f));
 	}
 

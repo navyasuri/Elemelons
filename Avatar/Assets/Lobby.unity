@@ -729,6 +729,22 @@ Prefab:
       propertyPath: m_TagString
       value: Environment
       objectReference: {fileID: 0}
+    - target: {fileID: 114683517756235914, guid: 83796d11b1cac5348bcdd9fa87375b9e,
+        type: 2}
+      propertyPath: synchronization
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114683517756235914, guid: 83796d11b1cac5348bcdd9fa87375b9e,
+        type: 2}
+      propertyPath: ObservedComponents.Array.data[0]
+      value: 
+      objectReference: {fileID: 2021701693}
+    - target: {fileID: 114266848796076182, guid: 83796d11b1cac5348bcdd9fa87375b9e,
+        type: 2}
+      propertyPath: playerHeadPrefab
+      value: 
+      objectReference: {fileID: 1560005292153860, guid: 166ffcfd97a15fd4a993033c6efa8e26,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 83796d11b1cac5348bcdd9fa87375b9e, type: 2}
   m_IsPrefabParent: 0
@@ -2482,12 +2498,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 2021701693}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 2
   instantiationId: 2
@@ -2526,7 +2542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleportRig: {fileID: 1552955003290736, guid: 2cb59f215196b644694becdcd0ce3f29,
     type: 2}
-  playerHeadPrefab: {fileID: 1614703172101012, guid: 2c8627cebde226b4ab9406c6d6ed2550,
+  playerHeadPrefab: {fileID: 1560005292153860, guid: 166ffcfd97a15fd4a993033c6efa8e26,
     type: 2}
   leftHandPrefab: {fileID: 1789407906519474, guid: 8c268c6a1131b4941800fa36555934d4,
     type: 2}
