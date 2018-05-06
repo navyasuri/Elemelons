@@ -49,6 +49,11 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
+		Debug.Log(gameObject.transform);
+		Debug.Log(gameObject.transform.parent);
+		Debug.Log(gameObject.transform.parent.parent);
+		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
+		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
 		airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
 
 		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
@@ -78,6 +83,9 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		if(photonView.isMine) {
 			switch (skill)
 			{
+			case 0:
+				fireballEnabled = true;
+				break;
 			case 1:
 				defenseEnabled = true;
 				break;

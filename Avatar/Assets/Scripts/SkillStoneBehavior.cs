@@ -33,10 +33,14 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 			Debug.Log ("[Lobby SkillStone] Player is now ready!");
 			playerReady = true;
 			Debug.Log ("[Lobby SkillStone] Are you master client? " + PhotonNetwork.isMasterClient);
+			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("UnlockNext", PhotonTargets.All, 0);
+			//
+			// RUN FIREBALL TRAINING HERE
+			//
 			GameObject.Find ("NetworkManager").GetPhotonView ().RPC ("UpdateReadyCount", PhotonTargets.All);
 		} 
 		// If this is the main scene, call the GameManager to unlock the next skill based on the current level:
-		else {
+		if (!SceneManager.GetActiveScene().name.Equals("Lobby")) {
 			GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();
 			StartCoroutine ("resetter");
 		}

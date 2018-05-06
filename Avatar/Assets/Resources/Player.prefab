@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 114935861183568846}
   - component: {fileID: 132792756076444144}
   m_Layer: 0
-  m_Name: Text (1)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,7 +259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1560005292153860
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1730475031029206
 GameObject:
   m_ObjectHideFlags: 1
@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 114622636005008946}
   - component: {fileID: 132670174917988636}
   m_Layer: 0
-  m_Name: Text (1)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -757,7 +757,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: d48b8db47a3974a46940d6b41fda070a, type: 3}
-    m_FontSize: 22
+    m_FontSize: 26
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -768,8 +768,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\nYou have completed your quest to train \nand you have survived \nyou
-    are now a master firebender\n"
+  m_Text: 'you have survived
+
+    this training
+
+
+    you are now a
+
+    master firebender!
+
+
+    Yet this is only the
+
+    beginning of a much
+
+    longer quest...'
 --- !u!114 &114304305567801314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -929,7 +942,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: d48b8db47a3974a46940d6b41fda070a, type: 3}
-    m_FontSize: 22
+    m_FontSize: 26
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -940,15 +953,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '
+  m_Text: 'you fought bravely, but
+
+    your technique needs work
 
 
-    the quest to becom a master firebender is now complete
+    this is only the beginning
 
-    you fought bravely and you have earned the respect of master firebenders across
-    the globe
+    of a longer quest...
 
-    return to complete your training and claim your title of master firebender'
+
+    complete your training
+
+    to claim the title of
+
+    master firebender!'
 --- !u!114 &114546326366740474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1038,7 +1057,7 @@ MonoBehaviour:
   GestureBar: {fileID: 1156919339043098}
   playerColor: 
   leftEnabled: 0
-  fireballEnabled: 1
+  fireballEnabled: 0
   defenseEnabled: 0
   throwerEnabled: 0
 --- !u!114 &114613612712186904
@@ -1073,7 +1092,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: d48b8db47a3974a46940d6b41fda070a, type: 3}
-    m_FontSize: 32
+    m_FontSize: 38
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -1084,20 +1103,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '
-
-
-
-    Well done, Warrior
-
-
-
-
-
-
-
-
-'
+  m_Text: Try again, Warrior
 --- !u!114 &114641212167722048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1320,7 +1326,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: d48b8db47a3974a46940d6b41fda070a, type: 3}
-    m_FontSize: 32
+    m_FontSize: 38
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -1331,25 +1337,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '
-
-
-
-
-    Well done, Warrior
-
-
-
-
-
-
-
-
-
-
-
-
-'
+  m_Text: Well done, Warrior
 --- !u!114 &114941017751296880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1833,7 +1821,7 @@ RectTransform:
   m_GameObject: {fileID: 1448128590051640}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 224605876402500006}
   m_RootOrder: 1
@@ -1851,7 +1839,7 @@ RectTransform:
   m_GameObject: {fileID: 1271951988136534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 224066151304287380}
   m_RootOrder: 1
@@ -1898,7 +1886,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00006262287, y: 0.0000038146973}
+  m_AnchoredPosition: {x: -0.00006262287, y: 150}
   m_SizeDelta: {x: 430, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224409050002845208
@@ -1916,7 +1904,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -40}
   m_SizeDelta: {x: 430, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224514642791456106
@@ -2032,7 +2020,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -40}
   m_SizeDelta: {x: 430, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224785824948314802
@@ -2050,7 +2038,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00006262287, y: 0.0000038146973}
+  m_AnchoredPosition: {x: -0.00006262287, y: 150}
   m_SizeDelta: {x: 430, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224848199660541802

@@ -61,4 +61,5 @@ MonoBehaviour:
   - ResetPlayerLocations
   - NetworkDestroyNoCount
   - GameOver
+  - increasePoints
   DisableAutoOpenWizard: 1
