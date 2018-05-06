@@ -62,6 +62,7 @@ public class Network : Photon.PunBehaviour
 
     void Update() {
 		// Get the current scene, if lobby, check for ready count
+		playerCount = PhotonNetwork.playerList.Length;
 		Debug.Log("[Network Update()] Players: " + playerCount + ". Ready: " + playersReady);
 		if(SceneManager.GetActiveScene().name.Equals("Lobby")) {
 			DontDestroyOnLoad(GameObject.Find("SelectionPad(Clone)"));
@@ -129,7 +130,6 @@ public class Network : Photon.PunBehaviour
         // Get the spawn point location to place the rig, assign player color based on that location:
         Vector3 spawnLocation;
 		Quaternion spawnRotation;
-		playerCount = PhotonNetwork.playerList.Length;
 
         if (spawnPoints.Length > 0) {
 			if (playerCount == 1) {
