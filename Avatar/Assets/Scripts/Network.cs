@@ -78,7 +78,6 @@ public class Network : Photon.PunBehaviour
 
 	[PunRPC]
 	public void UpdateReadyCount() {
-		Debug.Log ("[Network UpdateReadyCount RPC] called, yep");
 		if(PhotonNetwork.isMasterClient) {
 			playersReady++;
 			Debug.Log ("[Network UpdateReadyCount RPC] A new player is ready! " + playersReady + " players are ready");
