@@ -15,7 +15,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
     void Start () {
 		// Initialize health and healthbar:
-		health = 100f;
+		health = 300f;
 		raycastDistance = 3;
 		//PhotonView.Get (this).RPC ("", PhotonTargets.AllBufferedViaServer, health);
 		//Debug.Log ("FlameChoice is" + flameType);
@@ -27,11 +27,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
 	void Update() {
 		// Broken respawn code:
-		if (health <= 0f) {
-			//Destroy (gameObject.GetComponentInParent<Camera>());
-			//GameObject.Find ("NetworkManager").GetComponent<Network> ().OnJoinedRoom ();
-			// Delete all the old player stuff
-			health = 100f;
+		if (health<=0){
+			GameOver ();
 		}
 
 		RayCast ();
@@ -51,13 +48,18 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public void GameOver() {
 		if (photonView.isMine) {
 			Debug.Log("[PlayerBehavior GameOver RPC] Game Over. Trigger some UI, boss!");
-			gameObject.transform.GetChild (4).gameObject.SetActive(true);
+			if (health > 0) {
+				gameObject.transform.GetChild (5).gameObject.SetActive (true);
+			} else {//player is dead
+				gameObject.transform.GetChild (4).gameObject.SetActive (true);
+				totalPoints = -1f;
+			}
 			StartCoroutine (RestartGame ());
 		}
 	}
 
 	IEnumerator RestartGame() {
-		yield return new WaitForSeconds(20f);
+		yield return new WaitForSeconds(10f);
 		GameObject.Find ("NetworkManager").GetPhotonView ().RPC ("SceneChange", PhotonTargets.AllBufferedViaServer);
 	}
 
@@ -83,6 +85,10 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 				GameObject.Find ("SkillStonePrefab").GetComponent<SkillStoneBehavior> ().playerSees = false;
 			}
 		}
+	}
+
+	public void getPoints() {
+		return totalPoints;
 	}
 		
 }

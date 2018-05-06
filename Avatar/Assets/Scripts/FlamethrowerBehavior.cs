@@ -53,7 +53,7 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 			if (hitByFlames.gameObject.CompareTag ("boulder")) {
 				float damage = 10f * Time.deltaTime;
 				hitByFlames.gameObject.GetPhotonView ().RPC ("TakeDamage", PhotonTargets.All, damage);
-				GameObject.FindGameObjectWithTag("Player").GetPhotonView().RPC("increasePoints", flamethrowerPlayer, 50f);
+				GameObject.FindGameObjectWithTag("Player").GetPhotonView().RPC("increasePoints", flamethrowerPlayer, 10f);
 			}
 		}
 	}
