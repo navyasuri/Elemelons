@@ -20,19 +20,21 @@ public class GameController : Photon.MonoBehaviour {
         level = 1;
 		boulderCount = 0;
 		boulderThreshold = 5;
-//		BoulderSpawner1.gameObject.SetActive(false);
-//		BoulderSpawner2.SetActive(false);
 
 		// Reset players once the scene loads:
 		PhotonView.Get(this).RPC("ResetPlayerLocations", PhotonTargets.All);
+	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//if  players have cleared the level by destroying the minimum number of boulders
 		if (boulderCount> boulderThreshold) {
             endLevel(level);
 			Debug.Log ("In update: level " + level);
-        }
+        
+		}
+
 	}
 
 
@@ -49,8 +51,7 @@ public class GameController : Photon.MonoBehaviour {
 
         if (remainingBoulders.Length < 1)
         {
-            GameObject light = SkillStone.transform.Find("Spotlight").gameObject;
-            light.SetActive(true);
+            SkillStone.transform.Find("Spotlight").gameObject.SetActive(true);
 			SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem>().Play();
 			SkillStone.GetComponent<SkillStoneBehavior> ().levelEnd = true;
 
@@ -80,6 +81,7 @@ public class GameController : Photon.MonoBehaviour {
         }    
     }
 
+
 	public void increaseLevel(){
 		level++;
 		BoulderSpawner1.SetActive(true);
@@ -89,6 +91,7 @@ public class GameController : Photon.MonoBehaviour {
 		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Play ();
 	}
 
+
 	IEnumerator MusicFadeOut() {
 		for(float t = 3f; t > 0f; t -= 0.05f) {
 			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = t/4f;
@@ -97,11 +100,13 @@ public class GameController : Photon.MonoBehaviour {
 		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Stop();
 	}
 
+
 	[PunRPC]
 	public void BoulderCountUpdate() {
 		Debug.Log ("boulder count " + boulderCount);
 		boulderCount++;
 	}
+
 
 	[PunRPC]
 	void ResetPlayerLocations() {

@@ -15,7 +15,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
     void Start () {
 		// Initialize health and healthbar:
 		health = 100f;
-		raycastDistance = 10;
+		raycastDistance = 3;
 		//PhotonView.Get (this).RPC ("", PhotonTargets.AllBufferedViaServer, health);
 		//Debug.Log ("FlameChoice is" + flameType);
 		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
