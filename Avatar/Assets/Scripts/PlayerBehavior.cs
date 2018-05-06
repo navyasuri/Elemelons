@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon;
 
 public class PlayerBehavior : Photon.MonoBehaviour {
@@ -12,6 +13,18 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public int raycastDistance;
 	public LayerMask layers;
 	private float totalPoints;
+
+	void Awake() {
+		SceneManager.sceneLoaded += OnSceneFinishedLoading;
+	}
+
+	private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
+		if (scene.name == "VRPUNScene") {
+			if (PhotonNetwork.isMasterClient) {
+				Debug.Log ("Scene loaded callback from master player, " + PhotonNetwork.playerList.Length + " players in scene");
+			}
+		}
+	}
 
     void Start () {
 		// Initialize health and healthbar:

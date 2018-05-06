@@ -48,7 +48,6 @@ public class Network : Photon.PunBehaviour
         // Allows us to connect to the network. The only argument is the version of this application.
 
         PhotonNetwork.autoJoinLobby = true;
-		PhotonNetwork.automaticallySyncScene = true;
 
 		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
 
@@ -98,6 +97,7 @@ public class Network : Photon.PunBehaviour
 		}
 		yield return new WaitForSeconds (2f);
 		if (PhotonNetwork.isMasterClient) {
+			PhotonNetwork.automaticallySyncScene = true;
 			PhotonNetwork.LoadLevel ("VRPUNScene");
 			Debug.Log ("Scene change called");
 		}
@@ -181,6 +181,10 @@ public class Network : Photon.PunBehaviour
 
 		DontDestroyOnLoad (GameObject.Find ("TeleportingRig(Clone)"));
     }
+
+	public override void OnLeftRoom() {
+
+	}
 
     // Photon automatically calls this function when a room is created or removed:
     public override void OnReceivedRoomListUpdate() {
