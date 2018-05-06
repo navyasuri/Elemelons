@@ -173,14 +173,8 @@ public class Network : Photon.PunBehaviour
 
         //Waiting for rig to come into the network and connect the player:
         StartCoroutine(WaitForRig());
-
 		Debug.Log("Creating new " + playerColor + " player at " + spawnLocation);
-
-		//GameObject.Find("Camera (eye)").
-
 		GameObject.Instantiate(teleportRig, spawnLocation, spawnRotation);
-
-		DontDestroyOnLoad (GameObject.Find ("TeleportingRig(Clone)"));
     }
 
 	public override void OnLeftRoom() {

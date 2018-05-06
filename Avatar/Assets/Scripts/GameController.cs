@@ -21,7 +21,7 @@ public class GameController : Photon.MonoBehaviour {
 		boulderThreshold = 5;
 
 		// Reset players once the scene loads:
-		PhotonView.Get(this).RPC("ResetPlayerLocations", PhotonTargets.All);
+		//PhotonView.Get(this).RPC("ResetPlayerLocations", PhotonTargets.All);
 	}
 	
 	void Update () {
@@ -112,12 +112,12 @@ public class GameController : Photon.MonoBehaviour {
 		boulderCount++;
 	}
 
-	[PunRPC]
-	void ResetPlayerLocations() {
-		// Send RPC to all clients, telling them to use their local playerColor to move to spawn
-		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(5).gameObject;
-		string playerColor =  blankScreen.GetComponentInParent<DeveloperDefined> ().playerColor;
-		GameObject.Find ("TeleportingRig(Clone)").transform.position = GameObject.Find ("Spawn" + playerColor).transform.position;
-		blankScreen.GetComponent<Renderer> ().material.SetColor("_Color", new Color(0, 0, 0, 0));
-	}
+//	[PunRPC]
+//	void ResetPlayerLocations() {
+//		// Send RPC to all clients, telling them to use their local playerColor to move to spawn
+//		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(5).gameObject;
+//		string playerColor =  blankScreen.GetComponentInParent<DeveloperDefined> ().playerColor;
+//		GameObject.Find ("TeleportingRig(Clone)").transform.position = GameObject.Find ("Spawn" + playerColor).transform.position;
+//		blankScreen.GetComponent<Renderer> ().material.SetColor("_Color", new Color(0, 0, 0, 0));
+//	}
 }
