@@ -11,6 +11,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public PhotonPlayer thisPlayer;
 	public int raycastDistance;
 	public LayerMask layers;
+	private float totalPoints;
 
     void Start () {
 		// Initialize health and healthbar:
@@ -20,6 +21,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		//Debug.Log ("FlameChoice is" + flameType);
 		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
 		thisPlayer = gameObject.GetComponent<PhotonView> ().owner;
+		totalPoints = 0;
+
     }
 
 	void Update() {
@@ -34,6 +37,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		RayCast ();
 	}
 
+
 	[PunRPC]
 	public void TakeDamage(float damage) {
 		health -= damage;
@@ -42,6 +46,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		playerViews [2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
 	}
 
+
 	[PunRPC]
 	public void GameOver() {
 		if (photonView.isMine) {
@@ -49,6 +54,14 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 			// Trigger some UI, boss.
 		}
 	}
+
+
+	[PunRPC]
+	public void increasePoints(float points){
+		totalPoints += points;
+		Debug.Log ("total points:" + totalPoints);
+	}
+
 
 	void RayCast() {
 		Vector3 forward = GameObject.Find ("Camera (eye)").transform.forward;

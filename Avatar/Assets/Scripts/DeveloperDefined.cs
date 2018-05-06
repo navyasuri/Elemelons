@@ -89,7 +89,8 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			}
 		}
 	}
-		
+
+
 	// Necessary function for AirSig. Called by Network.cs once its WaitForRig() has found all the pieces:
 	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn, string playerColorPassedIn) {
 		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>(); // Get SteamVR script from the "controller (left)" GameObject.
