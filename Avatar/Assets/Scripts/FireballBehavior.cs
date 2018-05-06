@@ -53,7 +53,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 				} else { // Otherwise, send that player damage:
 					collision.gameObject.GetPhotonView().RPC("TakeDamage", collision.gameObject.GetPhotonView().owner, 10f);
 					collision.gameObject.GetPhotonView().RPC("increasePoints", fireballPlayer, 10f);
-				
+
 				}
 			}
 

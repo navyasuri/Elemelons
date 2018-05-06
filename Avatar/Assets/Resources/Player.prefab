@@ -50,22 +50,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!1 &1067841602205076
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4180497792093696}
-  - component: {fileID: 114097374991022150}
-  m_Layer: 0
-  m_Name: AirSigManager
-  m_TagString: Environment
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1152629121488038
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,19 +440,6 @@ Transform:
   m_Father: {fileID: 4348966921739222}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4180497792093696
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1067841602205076}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -52.05, y: 10.9, z: -21.550304}
-  m_LocalScale: {x: 5, y: 5, z: 5}
-  m_Children: []
-  m_Father: {fileID: 4348966921739222}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4348966921739222
 Transform:
   m_ObjectHideFlags: 1
@@ -485,7 +456,6 @@ Transform:
   - {fileID: 224605876402500006}
   - {fileID: 224066151304287380}
   - {fileID: 4690366976037888}
-  - {fileID: 4180497792093696}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -743,17 +713,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31c6a57a3a5ca9a46985e1ee2887de1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114097374991022150
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1067841602205076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46964b142a8b343b3919fa771e2f7294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114164635533866786
@@ -1075,7 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 978123972108063418f25839ac09c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  airsigManager: {fileID: 114097374991022150}
+  airsigManager: {fileID: 0}
   GestureBar: {fileID: 1156919339043098}
   playerColor: 
   leftEnabled: 0

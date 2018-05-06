@@ -47,7 +47,6 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 		yield return new WaitForSeconds (5f);
 		gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
 		gameObject.transform.Find ("Flames").GetComponent<ParticleSystem> ().Stop ();
-		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Play ();
 		GameObject.Find ("GameManager").GetComponent<GameController> ().StartNextLevel ();
 	}
 }

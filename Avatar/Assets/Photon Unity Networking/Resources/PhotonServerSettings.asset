@@ -60,4 +60,5 @@ MonoBehaviour:
   - SceneChange
   - ResetPlayerLocations
   - NetworkDestroyNoCount
+  - GameOver
   DisableAutoOpenWizard: 1
