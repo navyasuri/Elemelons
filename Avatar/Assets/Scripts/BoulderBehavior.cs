@@ -88,6 +88,14 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	}
 
 	[PunRPC]
+	void NetworkDestroyNoCount() {
+		if (gameObject.GetPhotonView().isMine) {
+			PhotonNetwork.RemoveRPCs(gameObject.GetPhotonView());
+			PhotonNetwork.Destroy (gameObject.GetPhotonView());
+		}
+	}
+
+	[PunRPC]
 	public void TakeDamage(float damage) {
 		health -= damage;
 		Debug.Log ("Boulder health: " + health);

@@ -129,31 +129,37 @@ public class Network : Photon.PunBehaviour
     public override void OnJoinedRoom() {
         // Get the spawn point location to place the rig, assign player color based on that location:
         Vector3 spawnLocation;
+		Quaternion spawnRotation;
 		playerCount = PhotonNetwork.playerList.Length;
 
         if (spawnPoints.Length > 0) {
 			if (playerCount == 1) {
 				spawnLocation = spawnPoints[0].position;
+				spawnRotation = spawnPoints [0].rotation;
                 //spawnPointTaken[0] = true;
 				playerColor = "Yellow";
             }
 			else if (playerCount == 2) {
 				spawnLocation = spawnPoints[1].position;
+				spawnRotation = spawnPoints [1].rotation;
 				//spawnPointTaken[1] = true;
 				playerColor = "Blue";
 			}
 			else if (playerCount == 3) {
 				spawnLocation = spawnPoints[2].position;
+				spawnRotation = spawnPoints [2].rotation;
 				//spawnPointTaken[2] = true;
 				playerColor = "Green";
 			}
 			else if (playerCount == 4) {
 				spawnLocation = spawnPoints[3].position;
+				spawnRotation = spawnPoints [3].rotation;
 				//spawnPointTaken[3] = true;
 				playerColor = "Purple";
 			}
             else {
 				spawnLocation = spawnPoints[4].position;
+				spawnRotation = spawnPoints [4].rotation;
                 //spawnPointTaken[4] = true;
 				playerColor = "White";
             }
@@ -161,6 +167,7 @@ public class Network : Photon.PunBehaviour
         else {
             Debug.Log("No Spawn points assigned! Instantiating at 0, 0, 0");
             spawnLocation = Vector3.zero;
+			spawnRotation = Quaternion.identity;
 			playerColor = "Yellow";
         }
 
@@ -169,7 +176,10 @@ public class Network : Photon.PunBehaviour
 
 		Debug.Log("Creating new " + playerColor + " player at " + spawnLocation);
 
-		GameObject.Instantiate(teleportRig, spawnLocation, Quaternion.identity);
+		//GameObject.Find("Camera (eye)").
+
+		GameObject.Instantiate(teleportRig, spawnLocation, spawnRotation);
+
 		DontDestroyOnLoad (GameObject.Find ("TeleportingRig(Clone)"));
     }
 

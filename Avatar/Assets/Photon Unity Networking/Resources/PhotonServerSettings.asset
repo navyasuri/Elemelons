@@ -59,4 +59,5 @@ MonoBehaviour:
   - UpdateReadyCount
   - SceneChange
   - ResetPlayerLocations
+  - NetworkDestroyNoCount
   DisableAutoOpenWizard: 1
