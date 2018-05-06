@@ -48,10 +48,12 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	// Callback for receiving signature/gesture progression or identification results
 	AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
+
 	// Use this for initialization
 	void Start() {
 		StartCoroutine ("WaitForPlayer");
 	}
+
 
 	IEnumerator WaitForPlayer() {
 		yield return new WaitForSeconds(0.5f);
@@ -91,6 +93,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			UnlockNext (0);
 		}
 	}
+
 
 	[PunRPC]
 	public void UnlockNext(int skill) {
