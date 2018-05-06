@@ -47,7 +47,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 					Debug.Log ("Fireball matched to sending player's ID, did nothing.");
 					return; // Don't play explosion.
 				} else { // Otherwise, send that player damage:
-					collision.gameObject.GetPhotonView().RPC("TakeDamage", collision.gameObject.GetPhotonView().owner, 25f);
+					collision.gameObject.GetPhotonView().RPC("TakeDamage", collision.gameObject.GetPhotonView().owner, 10f);
 				}
 			}
 			if (collision.gameObject.CompareTag ("fireball")) { // if the collision is with another fireball

@@ -47,9 +47,10 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	// Callback for receiving signature/gesture progression or identification results
 	AirSigManager.OnDeveloperDefinedMatch developerDefined;
 
-
 	// Use this for initialization
 	void Start() {
+		airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
+
 		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
 		// Configure AirSig by specifying target 
