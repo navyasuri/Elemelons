@@ -51,10 +51,15 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public void GameOver() {
 		if (photonView.isMine) {
 			Debug.Log("[PlayerBehavior GameOver RPC] Game Over. Trigger some UI, boss!");
-			// Trigger some UI, boss.
+			gameObject.transform.GetChild (4).gameObject.SetActive(true);
+			StartCoroutine (RestartGame ());
 		}
 	}
 
+	IEnumerator RestartGame() {
+		yield return new WaitForSeconds(20f);
+		GameObject.Find ("NetworkManager").GetPhotonView ().RPC ("SceneChange", PhotonTargets.AllBufferedViaServer);
+	}
 
 	[PunRPC]
 	public void increasePoints(float points){

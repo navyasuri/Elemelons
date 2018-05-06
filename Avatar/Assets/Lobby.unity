@@ -2539,4 +2539,4 @@ MonoBehaviour:
   whiteSpawn: {fileID: 1050052963}
   offlineMode: 0
   spawnPoints: []
-  spawnPointTaken: 
+  playerColors: []

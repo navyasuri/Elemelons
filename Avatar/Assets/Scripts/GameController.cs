@@ -89,12 +89,16 @@ public class GameController : Photon.MonoBehaviour {
 	}
 
 	public void StartNextLevel(){
-		level++;
-		BoulderSpawner1.SetActive(true);
-		BoulderSpawner2.SetActive(true);
-		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Play ();
-		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = 0.75f;
-
+		if (level == 4) {
+			SkillStone.transform.Find ("Spotlight").gameObject.SetActive (true);
+			SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem> ().Play ();
+		} else {
+			level++;
+			BoulderSpawner1.SetActive (true);
+			BoulderSpawner2.SetActive (true);
+			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Play ();
+			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = 0.75f;
+		}
 	}
 
 	IEnumerator MusicFadeOut() {

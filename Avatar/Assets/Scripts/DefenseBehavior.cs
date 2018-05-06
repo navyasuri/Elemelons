@@ -11,12 +11,9 @@ public class DefenseBehavior : Photon.MonoBehaviour {
 
 	public PhotonPlayer defensePlayer;
 	public int playerID; // Must be public for Photon, no need to provide a value.
-
 	public AudioSource defenseWhoosh;
-	float startTime;
 
 	void Start() {
-		startTime = Time.time; // Keep track of how long this defense has been alive.
 		defensePlayer = gameObject.GetComponent<PhotonView> ().owner;
 	}
 

@@ -60,40 +60,35 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			Debug.Log ("No AirSigManager, waiting for all components to track.");
 			StartCoroutine ("WaitForPlayer");
 		}
-		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
-		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
+		//Debug.Log(gameObject.transform.parent.parent.GetChild(2));
+		//Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
 		GameObject AirSigManagerOnRig = gameObject.transform.parent.parent.GetChild(2).gameObject;
 
-		if (AirSigManagerOnRig == null) {
-			StartCoroutine ("WaitForPlayer");
-		}
-		else {
-			airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
+		airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
 
-			Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
-			// Configure AirSig by specifying target 
-			airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
-			airsigManager.SetClassifier("AtDefThrow", "");
-			airsigManager.SetDeveloperDefinedTarget(new List<string> { "C", "AttackPunchSimple", "DefenseShieldCross" }); // Just in case the order here matters, list them in the order they were added to the pack on the AirSig website.
-			developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
-			airsigManager.onDeveloperDefinedMatch += developerDefined;
-			checkDbExist();
+		// Configure AirSig by specifying target 
+		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
+		airsigManager.SetClassifier("AtDefThrow", "");
+		airsigManager.SetDeveloperDefinedTarget(new List<string> { "C", "AttackPunchSimple", "DefenseShieldCross" }); // Just in case the order here matters, list them in the order they were added to the pack on the AirSig website.
+		developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
+		airsigManager.onDeveloperDefinedMatch += developerDefined;
+		checkDbExist();
 
-			// Set each controller as an AirSig gesture trigger, and which button activates the recording
-			airsigManager.SetTriggerStartKeys(
-				AirSigManager.Controller.RIGHT_HAND,
-				SteamVR_Controller.ButtonMask.Trigger,
-				AirSigManager.PressOrTouch.PRESS);
+		// Set each controller as an AirSig gesture trigger, and which button activates the recording
+		airsigManager.SetTriggerStartKeys(
+			AirSigManager.Controller.RIGHT_HAND,
+			SteamVR_Controller.ButtonMask.Trigger,
+			AirSigManager.PressOrTouch.PRESS);
 
-			airsigManager.SetTriggerStartKeys(
-				AirSigManager.Controller.LEFT_HAND,
-				SteamVR_Controller.ButtonMask.Trigger,  // NOTE: Potential gesture bar fix by putting this line in with case 2 below vvvvvv
-				AirSigManager.PressOrTouch.PRESS);      // NOTE: May also break AirSig, who knows?
+		airsigManager.SetTriggerStartKeys(
+			AirSigManager.Controller.LEFT_HAND,
+			SteamVR_Controller.ButtonMask.Trigger,  // NOTE: Potential gesture bar fix by putting this line in with case 2 below vvvvvv
+			AirSigManager.PressOrTouch.PRESS);      // NOTE: May also break AirSig, who knows?
 
-			if (SceneManager.GetActiveScene ().name == "VRPUNScene") {
-				UnlockNext (0);
-			}
+		if (SceneManager.GetActiveScene ().name == "VRPUNScene") {
+			UnlockNext (0);
 		}
 	}
 

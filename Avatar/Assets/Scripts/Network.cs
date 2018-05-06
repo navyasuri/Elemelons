@@ -36,7 +36,7 @@ public class Network : Photon.PunBehaviour
 
     // Arrays to track spawn points locations and 'taken' status:
 	public Transform[] spawnPoints;
-    public bool[] spawnPointTaken;
+	public string[] playerColors;
 
     void Start() {
 		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
@@ -91,7 +91,11 @@ public class Network : Photon.PunBehaviour
 		yield return new WaitForSeconds (2f);
 		if (PhotonNetwork.isMasterClient) {
 			PhotonNetwork.automaticallySyncScene = true;
-			PhotonNetwork.LoadLevel (1);
+			if (SceneManager.GetActiveScene ().name.Equals ("Lobby")) {				
+				PhotonNetwork.LoadLevel (1);
+			} else {
+				PhotonNetwork.LoadLevel (0);
+			}
 			Debug.Log ("Scene change called");
 		}
 	}
@@ -125,61 +129,64 @@ public class Network : Photon.PunBehaviour
 		Quaternion spawnRotation;
 
 		spawnPoints = new Transform[5];
-
 		spawnPoints[0] = yellowSpawn.transform;
 		spawnPoints[1] = blueSpawn.transform;
 		spawnPoints[2] = greenSpawn.transform;
 		spawnPoints[3] = purpleSpawn.transform;
 		spawnPoints[4] = whiteSpawn.transform;
 
-        if (spawnPoints.Length > 0) {
-			if (playerCount == 1) {
-				spawnLocation = spawnPoints[0].position;
-				spawnRotation = spawnPoints [0].rotation;
-                //spawnPointTaken[0] = true;
-				playerColor = "Yellow";
-            }
-			else if (playerCount == 2) {
-				spawnLocation = spawnPoints[1].position;
-				spawnRotation = spawnPoints [1].rotation;
-				//spawnPointTaken[1] = true;
-				playerColor = "Blue";
-			}
-			else if (playerCount == 3) {
-				spawnLocation = spawnPoints[2].position;
-				spawnRotation = spawnPoints [2].rotation;
-				//spawnPointTaken[2] = true;
-				playerColor = "Green";
-			}
-			else if (playerCount == 4) {
-				spawnLocation = spawnPoints[3].position;
-				spawnRotation = spawnPoints [3].rotation;
-				//spawnPointTaken[3] = true;
-				playerColor = "Purple";
-			}
-            else {
-				spawnLocation = spawnPoints[4].position;
-				spawnRotation = spawnPoints [4].rotation;
-                //spawnPointTaken[4] = true;
-				playerColor = "White";
-            }
-        }
-        else {
-            Debug.Log("No Spawn points assigned! Instantiating at 0, 0, 0");
-            spawnLocation = Vector3.zero;
+		playerColors = new string[5];
+		playerColors[0] = "Yellow";
+		playerColors[1] = "Blue";
+		playerColors[2] = "Green";
+		playerColors[3] = "Purple";
+		playerColors[4] = "White";
+
+		playerColor = GameObject.Find ("SceneLoader").GetComponent<SceneLoader> ().playerColor;
+
+		if (playerColor.Equals("") || SceneManager.GetActiveScene().name.Equals("Lobby")) {
+			// Returns 0-4
+			int randomColor = Random.Range (0, 5);
+			playerColor = playerColors [randomColor];
+		}
+
+		switch (playerColor)
+		{
+		case "Yellow":
+			spawnLocation = spawnPoints[0].position;
+			spawnRotation = spawnPoints [0].rotation;
+			break;
+		case "Blue":
+			spawnLocation = spawnPoints[1].position;
+			spawnRotation = spawnPoints [1].rotation;
+			break;
+		case "Green":
+			spawnLocation = spawnPoints[2].position;
+			spawnRotation = spawnPoints [2].rotation;
+			break;
+		case "Purple":
+			spawnLocation = spawnPoints[3].position;
+			spawnRotation = spawnPoints [3].rotation;
+			break;
+		case "White":
+			spawnLocation = spawnPoints[4].position;
+			spawnRotation = spawnPoints [4].rotation;
+			break;
+		default:
+			Debug.Log("No playerColor assigned! Something broke. Instantiating at 0, 0, 0");
+			spawnLocation = Vector3.zero;
 			spawnRotation = Quaternion.identity;
 			playerColor = "Yellow";
-        }
+			break;
+		}
+
+		GameObject.Find ("SceneLoader").GetComponent<SceneLoader> ().playerColor = playerColor;
 
         //Waiting for rig to come into the network and connect the player:
         StartCoroutine(WaitForRig());
-		Debug.Log("Creating new " + playerColor + " player at " + spawnLocation);
+		Debug.Log("New " + playerColor + " player at " + spawnLocation);
 		GameObject.Instantiate(teleportRig, spawnLocation, spawnRotation);
     }
-
-	public override void OnLeftRoom() {
-
-	}
 
     // Photon automatically calls this function when a room is created or removed:
     public override void OnReceivedRoomListUpdate() {
@@ -188,22 +195,7 @@ public class Network : Photon.PunBehaviour
 
     // Function to free up spawn points on disconnect
     void onLeftRoom() {
-        GameObject playerRemaining = GameObject.FindGameObjectWithTag("Player");
-		if (playerRemaining.transform.position == blueSpawn.transform.position) {
-            spawnPointTaken[1] = false;
-        }
-		if (playerRemaining.transform.position == greenSpawn.transform.position) {
-			spawnPointTaken[2] = false;
-		}
-		if (playerRemaining.transform.position == purpleSpawn.transform.position) {
-			spawnPointTaken[3] = false;
-		}
-		if (playerRemaining.transform.position == whiteSpawn.transform.position) {
-			spawnPointTaken[4] = false;
-		}
-        else {
-            spawnPointTaken[0] = false;
-        }
+
     }
 
     // By Photon default, we join a lobby. This will join a room right away:

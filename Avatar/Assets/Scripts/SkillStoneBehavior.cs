@@ -48,7 +48,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 
 	// Pause. Then turn off the SkillStone, and start the next level!
 	IEnumerator resetter(){
-		yield return new WaitForSeconds (5f);
+		yield return new WaitForSeconds (7f);
 		gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
 		gameObject.transform.Find ("Flames").GetComponent<ParticleSystem> ().Stop ();
 		GameObject.Find ("GameManager").GetComponent<GameController> ().StartNextLevel ();

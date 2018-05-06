@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour {
 
-	public string playerColor;
+	public string playerColor = "";
 
 	void Awake() {
 	}
