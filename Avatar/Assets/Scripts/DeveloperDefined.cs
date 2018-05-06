@@ -54,20 +54,18 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	}
 
 	IEnumerator WaitForPlayer() {
-		yield return new WaitForSeconds(1.5f);
+		yield return new WaitForSeconds(0.5f);
 
-		//Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
-		Debug.Log(gameObject.transform);
-		Debug.Log(gameObject.transform.parent);
-		Debug.Log(gameObject.transform.parent.parent);
+		if (gameObject.transform.parent.parent == null) {
+			Debug.Log ("No AirSigManager, waiting for all components to track.");
+			StartCoroutine ("WaitForPlayer");
+		}
 		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
 		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
 		GameObject AirSigManagerOnRig = gameObject.transform.parent.parent.GetChild(2).gameObject;
 
 		if (AirSigManagerOnRig == null) {
-			Debug.Log ("No AirSigManager, waiting for all components to track.");
-
-			StartCoroutine (WaitForPlayer ());
+			StartCoroutine ("WaitForPlayer");
 		}
 		else {
 			airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();

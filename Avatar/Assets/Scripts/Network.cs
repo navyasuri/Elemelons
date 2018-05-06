@@ -8,7 +8,6 @@ using Photon; // To use Photon-specific methods
     Network should only run once, called by the NetworkManager GameObject in the scene!
 */
 
-
 // MonoBehaviour -> Photon.PunBehaviour
 // Now we can override Photon methods.
 // Photon.PunBehavior vs Photon.MonoBehavior also inherits IPunCallbacks
@@ -40,6 +39,8 @@ public class Network : Photon.PunBehaviour
     public bool[] spawnPointTaken;
 
     void Start() {
+		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
+
 		if (offlineMode) {
 			PhotonNetwork.offlineMode = true;
 		} else {
@@ -49,15 +50,6 @@ public class Network : Photon.PunBehaviour
 
 		PhotonNetwork.automaticallySyncScene = true;
         PhotonNetwork.autoJoinLobby = true;
-
-		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
-
-		spawnPoints = new Transform[5];
-		spawnPoints[0] = yellowSpawn.transform;
-		spawnPoints[1] = blueSpawn.transform;
-		spawnPoints[2] = greenSpawn.transform;
-		spawnPoints[3] = purpleSpawn.transform;
-		spawnPoints[4] = whiteSpawn.transform;
     }
 
     void Update() {
@@ -131,6 +123,14 @@ public class Network : Photon.PunBehaviour
         // Get the spawn point location to place the rig, assign player color based on that location:
         Vector3 spawnLocation;
 		Quaternion spawnRotation;
+
+		spawnPoints = new Transform[5];
+
+		spawnPoints[0] = yellowSpawn.transform;
+		spawnPoints[1] = blueSpawn.transform;
+		spawnPoints[2] = greenSpawn.transform;
+		spawnPoints[3] = purpleSpawn.transform;
+		spawnPoints[4] = whiteSpawn.transform;
 
         if (spawnPoints.Length > 0) {
 			if (playerCount == 1) {

@@ -373,7 +373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1aaa4fe36bc22644aeaf5ed24c6c8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
   fireballWhoosh: {fileID: 82722079599961036}
   fireballImpact: {fileID: 82957215301377036}
   fireballPoof: {fileID: 0}
@@ -13782,8 +13781,8 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 918c240091108484f856f68f0433ab23, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: b52f6464fe5087e458871d62e635b255, type: 2}
+  - {fileID: 2100000, guid: b52f6464fe5087e458871d62e635b255, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
