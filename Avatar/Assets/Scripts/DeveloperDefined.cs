@@ -83,6 +83,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			leftEnabled = true;
 			break;
 		case 3:
+			
 			throwerEnabled = true;
 			break;
 		}
@@ -238,8 +239,13 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 		// Defend!
 		if (defenseTriggered && defenseEnabled) {
-			GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", inFrontOfPlayer, Quaternion.identity, 0);
-			gestureResult.GetComponent<DefenseBehavior> ().DoAfterStart (headset.transform.forward);
+			if (rightTriggered) {
+				GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", inFrontOfPlayer, Quaternion.identity, 0);
+				gestureResult.GetComponent<DefenseBehavior> ().DoAfterStart (headset.transform.forward);
+			} else if (leftEnabled && leftTriggered) {
+				GameObject gestureResult = PhotonNetwork.Instantiate ("DefenseWall", inFrontOfPlayer, Quaternion.identity, 0);
+				gestureResult.GetComponent<DefenseBehavior> ().DoAfterStart (headset.transform.forward);
+			}
 			// Defense has been activated, untrigger until next gesture match:
 			defenseTriggered = false;
 		}

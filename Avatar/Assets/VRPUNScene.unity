@@ -677,7 +677,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 377779896}
-  - component: {fileID: 377779895}
   - component: {fileID: 377779894}
   - component: {fileID: 377779893}
   m_Layer: 0
@@ -730,25 +729,6 @@ MonoBehaviour:
   BoulderSpawner2: {fileID: 567449072}
   SkillStone: {fileID: 839385972}
   boulderCount: 0
---- !u!114 &377779895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114851289534997542, guid: 91558fddca7db86469d3043dc7bb3481,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 377779892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 978123972108063418f25839ac09c0f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  airsigManager: {fileID: 0}
-  GestureBar: {fileID: 0}
-  playerColor: 
-  leftEnabled: 1
-  fireballEnabled: 1
-  defenseEnabled: 1
-  throwerEnabled: 1
 --- !u!4 &377779896
 Transform:
   m_ObjectHideFlags: 0

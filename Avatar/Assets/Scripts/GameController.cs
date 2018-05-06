@@ -29,14 +29,11 @@ public class GameController : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if  players have cleared the level by destroying the minimum number of boulders
-		if (boulderCount> boulderThreshold) {
+		if (boulderCount >= boulderThreshold) {
             endLevel(level);
 			Debug.Log ("In update: level " + level);
-        
 		}
-
 	}
-
 
     private void endLevel(int level) {
 		Debug.Log ("level " + level);
@@ -49,44 +46,55 @@ public class GameController : Photon.MonoBehaviour {
 		Debug.Log (BoulderSpawner1.activeInHierarchy);
         remainingBoulders = GameObject.FindGameObjectsWithTag("boulder");
 
-        if (remainingBoulders.Length < 1)
-        {
-            SkillStone.transform.Find("Spotlight").gameObject.SetActive(true);
-			SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem>().Play();
+		if (remainingBoulders.Length < 1) {
+			SkillStone.transform.Find ("Spotlight").gameObject.SetActive (true);
+			SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem> ().Play ();
 			SkillStone.GetComponent<SkillStoneBehavior> ().levelEnd = true;
+		}
 
-            switch (level)
-            {
-                case 1:
-                    // do code for level 1
-					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 1);
-					boulderThreshold = 10;
-                    break;
-				case 2:
-					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 2);
-					boulderThreshold = 15;
-	                    // do code for level 2
-	                break;
-				case 3:
-					GameObject.Find("GameManager").GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 3);
-					boulderThreshold = 25;
-	                    //do code for level 3
-	                break;
-				case 4:
-					//game over
-					GameObject.Find ("GameManager").GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
-					boulderThreshold = 999;
-					break;
-            }
-        }    
+            
     }
+
+
+	public void addSkill(){
+
+		switch (level)
+		{
+		case 1:
+			// do code for level 1
+			Debug.Log("Defence enabled");
+			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 1);
+			boulderThreshold = 10;
+
+			break;
+		case 2:
+			Debug.Log ("Left enabled");
+			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 2);
+			boulderThreshold = 15;
+
+			// do code for level 2
+			break;
+		case 3:
+			Debug.Log ("Flame throwere enabled");
+			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 3);
+			boulderThreshold = 25;
+			//do code for level 3
+			break;
+		case 4:
+			//game over
+			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
+			boulderThreshold = 999;
+			Debug.Log ("Game Over");
+			break;
+		}
+		    
+	}
 
 
 	public void increaseLevel(){
 		level++;
 		BoulderSpawner1.SetActive(true);
 		BoulderSpawner2.SetActive(true);
-		SkillStone.GetComponent<SkillStoneBehavior> ().levelEnd = false;
 		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().time = 0f;
 		GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().Play ();
 	}
