@@ -1746,7 +1746,7 @@ MonoBehaviour:
   whiteSpawn: {fileID: 38012821}
   offlineMode: 0
   spawnPoints: []
-  spawnPointTaken: 
+  playerColors: []
 --- !u!4 &1390125566
 Transform:
   m_ObjectHideFlags: 0

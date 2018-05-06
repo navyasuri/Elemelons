@@ -41,7 +41,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 		} 
 		// If this is the main scene, call the GameManager to unlock the next skill based on the current level:
 		if (!SceneManager.GetActiveScene().name.Equals("Lobby")) {
-			GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();
+			
 			StartCoroutine ("resetter");
 		}
 	}
@@ -51,6 +51,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 		yield return new WaitForSeconds (7f);
 		gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
 		gameObject.transform.Find ("Flames").GetComponent<ParticleSystem> ().Stop ();
+		GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();
 		GameObject.Find ("GameManager").GetComponent<GameController> ().StartNextLevel ();
 	}
 }
