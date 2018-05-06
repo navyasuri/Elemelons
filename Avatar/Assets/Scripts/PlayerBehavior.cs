@@ -87,7 +87,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		}
 	}
 
-	public void getPoints() {
+	public float getPoints() {
 		return totalPoints;
 	}
 		
