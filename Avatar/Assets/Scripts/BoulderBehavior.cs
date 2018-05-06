@@ -13,7 +13,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	public float highPitch = 0.85f;
 	public float maxSize = 0.025f;
 	public float minSize = 0.008f;
-	public float health = 1.5f;
+	public float health = 1.7f;
 	float randomPitch;
 
 	// Set audio starts to 0, apply a random scale and pitch to this boulder:
@@ -62,7 +62,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			gameObject.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 			gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			gameObject.GetComponent<SphereCollider> ().enabled = false;
-			//gameObject.GetComponent<ParticleSystem> ().IsAlive = true;
+			//gameObject.GetComponent<ParticleSystem> ().Play();
 			explode.pitch = randomPitch;
 			explode.Play ();
 		}
@@ -98,7 +98,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	[PunRPC]
 	public void TakeDamage(float damage) {
 		health -= damage;
-		Debug.Log ("Boulder health: " + health);
+		//Debug.Log ("Boulder health: " + health);
 	}
 
 	float Map (float oldMin, float oldMax, float newMin, float newMax, float val){

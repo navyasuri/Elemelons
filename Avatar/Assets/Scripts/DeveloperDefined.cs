@@ -49,33 +49,48 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		Debug.Log(gameObject.transform);
-		Debug.Log(gameObject.transform.parent);
-		Debug.Log(gameObject.transform.parent.parent);
-		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
-		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
-		airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
+		StartCoroutine ("WaitForPlayer");
+	}
 
-		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+	IEnumerator WaitForPlayer() {
+		yield return new WaitForSeconds(0.2f);
 
-		// Configure AirSig by specifying target 
-		airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
-		airsigManager.SetClassifier("AtDefThrow", "");
-		airsigManager.SetDeveloperDefinedTarget(new List<string> { "C", "AttackPunchSimple", "DefenseShieldCross" }); // Just in case the order here matters, list them in the order they were added to the pack on the AirSig website.
-		developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
-		airsigManager.onDeveloperDefinedMatch += developerDefined;
-		checkDbExist();
+		//Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
+		GameObject AirSigManagerOnRig = gameObject.transform.parent.parent.GetChild(2).gameObject;
 
-		// Set each controller as an AirSig gesture trigger, and which button activates the recording
-		airsigManager.SetTriggerStartKeys(
-			AirSigManager.Controller.RIGHT_HAND,
-			SteamVR_Controller.ButtonMask.Trigger,
-			AirSigManager.PressOrTouch.PRESS);
+		if (AirSigManagerOnRig == null) {
+			Debug.Log ("No AirSigManager, waiting for all components to track.");
+			Debug.Log(gameObject.transform);
+			Debug.Log(gameObject.transform.parent);
+			Debug.Log(gameObject.transform.parent.parent);
+			Debug.Log(gameObject.transform.parent.parent.GetChild(2));
+			Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
+			StartCoroutine (WaitForPlayer ());
+		}
+		else {
+			airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
 
-		airsigManager.SetTriggerStartKeys(
-			AirSigManager.Controller.LEFT_HAND,
-			SteamVR_Controller.ButtonMask.Trigger,  // NOTE: Potential gesture bar fix by putting this line in with case 2 below vvvvvv
-			AirSigManager.PressOrTouch.PRESS);      // NOTE: May also break AirSig, who knows?
+			Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+
+			// Configure AirSig by specifying target 
+			airsigManager.SetMode(AirSigManager.Mode.DeveloperDefined);
+			airsigManager.SetClassifier("AtDefThrow", "");
+			airsigManager.SetDeveloperDefinedTarget(new List<string> { "C", "AttackPunchSimple", "DefenseShieldCross" }); // Just in case the order here matters, list them in the order they were added to the pack on the AirSig website.
+			developerDefined = new AirSigManager.OnDeveloperDefinedMatch(HandleOnDeveloperDefinedMatch);
+			airsigManager.onDeveloperDefinedMatch += developerDefined;
+			checkDbExist();
+
+			// Set each controller as an AirSig gesture trigger, and which button activates the recording
+			airsigManager.SetTriggerStartKeys(
+				AirSigManager.Controller.RIGHT_HAND,
+				SteamVR_Controller.ButtonMask.Trigger,
+				AirSigManager.PressOrTouch.PRESS);
+
+			airsigManager.SetTriggerStartKeys(
+				AirSigManager.Controller.LEFT_HAND,
+				SteamVR_Controller.ButtonMask.Trigger,  // NOTE: Potential gesture bar fix by putting this line in with case 2 below vvvvvv
+				AirSigManager.PressOrTouch.PRESS);      // NOTE: May also break AirSig, who knows?
+		}
 	}
 
 	[PunRPC]

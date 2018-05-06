@@ -47,6 +47,7 @@ public class Network : Photon.PunBehaviour
 		}
         // Allows us to connect to the network. The only argument is the version of this application.
 
+		PhotonNetwork.automaticallySyncScene = true;
         PhotonNetwork.autoJoinLobby = true;
 
 		throwers = GameObject.Find("FlamesManager").GetComponent<FlamesManager>().throwers;
@@ -98,7 +99,7 @@ public class Network : Photon.PunBehaviour
 		yield return new WaitForSeconds (2f);
 		if (PhotonNetwork.isMasterClient) {
 			PhotonNetwork.automaticallySyncScene = true;
-			PhotonNetwork.LoadLevel ("VRPUNScene");
+			PhotonNetwork.LoadLevel (1);
 			Debug.Log ("Scene change called");
 		}
 	}
