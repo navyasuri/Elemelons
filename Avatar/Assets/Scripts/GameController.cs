@@ -46,6 +46,7 @@ public class GameController : Photon.MonoBehaviour {
 		Debug.Log (BoulderSpawner1.activeInHierarchy);
         remainingBoulders = GameObject.FindGameObjectsWithTag("boulder");
 
+
 		if (remainingBoulders.Length < 1) {
 			SkillStone.transform.Find ("Spotlight").gameObject.SetActive (true);
 			SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem> ().Play ();
