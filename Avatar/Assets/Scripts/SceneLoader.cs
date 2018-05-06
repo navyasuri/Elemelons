@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChangeManager : MonoBehaviour {
+public class SceneLoader : MonoBehaviour {
 
 	void Awake() {
 	}

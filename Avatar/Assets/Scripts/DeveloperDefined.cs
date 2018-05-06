@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using AirSig;
 using Photon;
@@ -53,18 +54,19 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	}
 
 	IEnumerator WaitForPlayer() {
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(1.5f);
 
 		//Find headset and instaniate player prefab ON NETWORK — set the Camera Rig headset as the parent of the player head's prefab:
+		Debug.Log(gameObject.transform);
+		Debug.Log(gameObject.transform.parent);
+		Debug.Log(gameObject.transform.parent.parent);
+		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
+		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
 		GameObject AirSigManagerOnRig = gameObject.transform.parent.parent.GetChild(2).gameObject;
 
 		if (AirSigManagerOnRig == null) {
 			Debug.Log ("No AirSigManager, waiting for all components to track.");
-			Debug.Log(gameObject.transform);
-			Debug.Log(gameObject.transform.parent);
-			Debug.Log(gameObject.transform.parent.parent);
-			Debug.Log(gameObject.transform.parent.parent.GetChild(2));
-			Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
+
 			StartCoroutine (WaitForPlayer ());
 		}
 		else {
@@ -90,6 +92,10 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 				AirSigManager.Controller.LEFT_HAND,
 				SteamVR_Controller.ButtonMask.Trigger,  // NOTE: Potential gesture bar fix by putting this line in with case 2 below vvvvvv
 				AirSigManager.PressOrTouch.PRESS);      // NOTE: May also break AirSig, who knows?
+
+			if (SceneManager.GetActiveScene ().name == "VRPUNScene") {
+				UnlockNext (0);
+			}
 		}
 	}
 
