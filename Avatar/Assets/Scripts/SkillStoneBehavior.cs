@@ -38,7 +38,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetComponent<DeveloperDefined>().UnlockNext(0);
 			//
 			// RUN FIREBALL TRAINING HERE
-			GameObject.Find("Player").transform.GetChild(7).gameObject.GetComponent<StatusUpdate>().UpdateStatus("right attack punch unlocked!");
+			GameObject.Find("Player").transform.GetChild(7).gameObject.GetComponent<StatusUpdate>().UpdateStatus("right fire punch unlocked!");
 			//
 		} 
 
