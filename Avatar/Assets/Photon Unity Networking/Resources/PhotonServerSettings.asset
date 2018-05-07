@@ -62,4 +62,6 @@ MonoBehaviour:
   - NetworkDestroyNoCount
   - GameOver
   - increasePoints
+  - GameWonViaBoulders
+  - SkillStoneOn
   DisableAutoOpenWizard: 1

@@ -39,7 +39,6 @@ public class GameController : Photon.MonoBehaviour {
 		// Turn off boulder spawner, fade music out:
 		BoulderSpawner1.gameObject.SetActive(false);
         BoulderSpawner2.SetActive(false);
-		StartCoroutine ("MusicFadeOut");
 		Debug.Log ("Audio stopped, should now destroy boulders");
 		// Get the list of remining boulders and remove them from the scene:
         remainingBoulders = GameObject.FindGameObjectsWithTag("boulder");
@@ -49,12 +48,18 @@ public class GameController : Photon.MonoBehaviour {
 		}
 
 		Debug.Log ("RemainingBoulders: " + remainingBoulders.Length);
-		// Once all boulders are gone, light up the SkillStone, tell it that the level is over:
+
+		// Once all boulders are gone, light up the SkillStone (via RPC, for all players), tell it that the level is over:
+		PhotonView.Get(this).RPC("SkillStoneOn", PhotonTargets.AllBufferedViaServer);
+    }
+
+	[PunRPC]
+	void SkillStoneOn() {
+		StartCoroutine ("MusicFadeOut");
 		SkillStone.transform.Find ("Spotlight").gameObject.SetActive (true);
 		SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem> ().Play ();
 		SkillStone.GetComponent<SkillStoneBehavior> ().levelOver = true;
-
-    }
+	}
 
 	// Calls DeveloperDefined via RPC on the client's player prefab to enable gesture booleans.
 	// Also sets the boulderCount to the previous threshold before updating to avoid jumping levels:
@@ -63,23 +68,31 @@ public class GameController : Photon.MonoBehaviour {
 		{
 		case 1:
 			Debug.Log ("[GameController addSkill()] Defense enabled");
-			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("UnlockNext", PhotonTargets.All, 1);
+			//
+			// UI for skill unlock should happen here
+			//
+			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (1);
 			boulderThreshold = 10;
 			break;
 		case 2:
 			Debug.Log ("[GameController addSkill()] Left enabled");
-			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 2);
+			//
+			// UI for skill unlock should happen here
+			//
+			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (2);
 			boulderThreshold = 15;
 			break;
 		case 3:
 			Debug.Log ("[GameController addSkill()] Flame throwere enabled");
-			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetPhotonView().RPC("UnlockNext", PhotonTargets.All, 3);
+			//
+			// UI for skill unlock should happen here
+			//
+			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (3);
 			boulderThreshold = 25;
 			break;
 		case 4:
 			//game over
-			Debug.Log ("[GameController addSkill()] Game Over. Trigger some UI, boss!");
-			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
+			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameWonViaBoulders", PhotonTargets.AllViaServer);
 			boulderThreshold = 999;
 			break;
 		default:
@@ -102,8 +115,8 @@ public class GameController : Photon.MonoBehaviour {
 	}
 
 	IEnumerator MusicFadeOut() {
-		for(float t = 3f; t > 0f; t -= 0.05f) {
-			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = t/4f;
+		for(float t = 0.163f; t > 0f; t -= 0.002f) {
+			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = t/1f;
 			yield return new WaitForSeconds(0.05f);
 		}
 		Debug.Log ("Stopping audio");
@@ -116,12 +129,4 @@ public class GameController : Photon.MonoBehaviour {
 		boulderCount++;
 	}
 
-//	[PunRPC]
-//	void ResetPlayerLocations() {
-//		// Send RPC to all clients, telling them to use their local playerColor to move to spawn
-//		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(5).gameObject;
-//		string playerColor =  blankScreen.GetComponentInParent<DeveloperDefined> ().playerColor;
-//		GameObject.Find ("TeleportingRig(Clone)").transform.position = GameObject.Find ("Spawn" + playerColor).transform.position;
-//		blankScreen.GetComponent<Renderer> ().material.SetColor("_Color", new Color(0, 0, 0, 0));
-//	}
 }

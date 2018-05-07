@@ -9,9 +9,10 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	//public AudioSource rumbling;
 	public AudioSource rumbling;
 	public AudioSource explode;
+	public ParticleSystem explodeParticles;
 	public float lowPitch = 0.45f;
 	public float highPitch = 0.85f;
-	public float maxSize = 0.025f;
+	public float maxSize = 0.02f;
 	public float minSize = 0.008f;
 	public float health = 1.7f;
 	float randomPitch;
@@ -28,7 +29,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	void Update () {
 		// Flamethrowers are the only things that affect health, but if the destroy the boulder:
 		if (health <= 0) {
-			PlayExplosion ();
+			PlayExplosion (true);
 		}
 		// If the boulder falls off the map, destroy it silently:
 		if (gameObject.transform.position.y < -20f) {
@@ -47,22 +48,25 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		// If the boulder hits a neworked player, call that PhotonView owner to take damage:
 		if (col.gameObject.GetPhotonView () != null && col.gameObject.CompareTag ("Player")) {
 			col.gameObject.GetPhotonView().RPC("TakeDamage", col.gameObject.GetPhotonView().owner, 15f);
+			PlayExplosion (false);
 		}
 		// Boulders should bounce off of: the environment, other boulders, and shields. Explode otherwise.
-		if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense") && !col.gameObject.CompareTag("Untagged") && !col.gameObject.CompareTag("SkillStone")) {
-			PlayExplosion ();
+		else if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense") && !col.gameObject.CompareTag("Untagged") && !col.gameObject.CompareTag("SkillStone")) {
+			PlayExplosion (true);
 		}
 	}
 
 	// Trigger explosion audio, "hide" the main boulder, call network to destroy once audio is done:
-	public void PlayExplosion() {
+	public void PlayExplosion(bool withExplosionParticles) {
 		// If the clip is not playing (this is SelfDestruct's first call), play it,
 		// turn off the Renderer/Collider, and turn on the explosion particle effect:
 		if (!explode.isPlaying) {
+			if (withExplosionParticles) {
+				explodeParticles.Play();
+			}
 			gameObject.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 			gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			gameObject.GetComponent<SphereCollider> ().enabled = false;
-			//gameObject.GetComponent<ParticleSystem> ().Play();
 			explode.pitch = randomPitch;
 			explode.Play ();
 		}

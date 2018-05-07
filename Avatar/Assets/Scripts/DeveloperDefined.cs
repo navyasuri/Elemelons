@@ -62,8 +62,8 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			Debug.Log ("No AirSigManager, waiting for all components to track.");
 			StartCoroutine ("WaitForPlayer");
 		}
-		//Debug.Log(gameObject.transform.parent.parent.GetChild(2));
-		//Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
+		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
+		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
 		GameObject AirSigManagerOnRig = gameObject.transform.parent.parent.GetChild(2).gameObject;
 
 		airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
@@ -94,25 +94,20 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		}
 	}
 
-
-	[PunRPC]
 	public void UnlockNext(int skill) {
-		if(photonView.isMine) {
-			switch (skill)
-			{
-			case 0:
-				fireballEnabled = true;
-				break;
-			case 1:
-				defenseEnabled = true;
-				break;
-			case 2:
-				leftEnabled = true;
-				break;
-			case 3:			
-				throwerEnabled = true;
-				break;
-			}
+		switch (skill) {
+		case 0:
+			fireballEnabled = true;
+			break;
+		case 1:
+			defenseEnabled = true;
+			break;
+		case 2:
+			leftEnabled = true;
+			break;
+		case 3:			
+			throwerEnabled = true;
+			break;
 		}
 	}
 

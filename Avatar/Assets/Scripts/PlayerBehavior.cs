@@ -27,8 +27,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
 	void Update() {
 		// Broken respawn code:
-		if (health<=0){
-			GameOver ();
+		if (health <= 40f){
+			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = 0.19f;
 		}
 
 		RayCast ();
@@ -45,9 +45,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
 
 	[PunRPC]
-	public void GameOver() {
+	public void GameWonViaBoulders() {
 		if (photonView.isMine) {
-			Debug.Log("[PlayerBehavior GameOver RPC] Game Over. Trigger some UI, boss!");
 			if (health > 0) {
 				gameObject.transform.GetChild (5).gameObject.SetActive (true);
 			} else {//player is dead
