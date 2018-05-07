@@ -107,6 +107,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		leftParticles = leftPassedIn.transform.GetChild(0).Find("LeftFlames").gameObject.GetComponent<ParticleSystem> ();
 
 		headset = headsetPassedIn;
+		headset = GameObject.Find ("Camera (eye)");
 		playerColor = playerColorPassedIn;
 	}
 
@@ -224,6 +225,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	// Spawns gesture-based prefabs relative to the player's headset (camera eye)
 	public void GestureResponse() {
 		// Get the position two units in front of the headset:
+
 		Vector3 inFrontOfPlayer = headset.transform.position + (headset.transform.forward * 1f);
 
 		// Attack!

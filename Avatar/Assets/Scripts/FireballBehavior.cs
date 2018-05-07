@@ -52,7 +52,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 					return; // Don't play explosion.
 				} else { // Otherwise, send that player damage:
 					collision.gameObject.GetPhotonView().RPC("TakeDamage", collision.gameObject.GetPhotonView().owner, 10f);
-					collision.gameObject.GetPhotonView().RPC("increasePoints", PhotonTargets.All, 10f, fireballPlayer.ID);
+					GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC("increasePoints", PhotonTargets.All, 10f, fireballPlayer.ID);
 
 				}
 			}
