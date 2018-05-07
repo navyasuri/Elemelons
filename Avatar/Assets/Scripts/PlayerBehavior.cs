@@ -48,9 +48,18 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		playerViews [2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
 	}
 
+	[PunRPC]
+	public void increasePoints(float points, int networkID){
+		if (networkID == PhotonNetwork.player.ID) {
+			totalPoints += points;
+			Debug.Log ("Total points: " + totalPoints);
+			PhotonView [] playerViews = gameObject.GetPhotonViewsInChildren ();
+			playerViews [3].RPC("UpdatePlayerScore", PhotonTargets.AllBufferedViaServer, totalPoints);
+		}
+	}
 
 	[PunRPC]
-	public void GameWonViaBoulders() {
+	public void GameOver() {
 		if (photonView.isMine) {
 			if (health > 0) {
 				gameObject.transform.GetChild (5).gameObject.SetActive (true);
@@ -66,16 +75,6 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		yield return new WaitForSeconds(10f);
 		GameObject.Find ("NetworkManager").GetPhotonView ().RPC ("SceneChange", PhotonTargets.AllBufferedViaServer);
 	}
-
-	[PunRPC]
-	public void increasePoints(float points, int networkID){
-		if (networkID == PhotonNetwork.player.ID) {
-			totalPoints += points;
-			transform.GetChild (2).gameObject.GetComponent<ScoreUpdater> ().UpdatePlayerScore (totalPoints);
-			Debug.Log ("total points:" + totalPoints);
-		}
-	}
-
 
 	void RayCast() {
 		Vector3 forward = GameObject.Find ("Camera (eye)").transform.forward;

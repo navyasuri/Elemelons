@@ -15,8 +15,11 @@ public class ScoreUpdater : MonoBehaviour {
 		
 	}
 
+	[PunRPC]
 	public void UpdatePlayerScore(float score){
+		Debug.Log("Updating score via RPC for PhotonView " + gameObject.GetPhotonView().viewID);
 		string newScore = "Score: " + score;
 		gameObject.transform.GetChild (0).GetChild (0).gameObject.GetComponent<Text> ().text = newScore;
 	}
+
 }
