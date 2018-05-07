@@ -53,6 +53,7 @@ public class GameController : Photon.MonoBehaviour {
 		SkillStone.transform.Find ("Spotlight").gameObject.SetActive (true);
 		SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem> ().Play ();
 		SkillStone.GetComponent<SkillStoneBehavior> ().levelOver = true;
+		SkillStone.GetComponent<AudioSource> ().Play ();
 
     }
 

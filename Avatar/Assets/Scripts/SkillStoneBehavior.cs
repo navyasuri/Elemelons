@@ -19,6 +19,9 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 	void Update () {
 		// Check for the level to be over (unless this is the lobby scene):
 		if (levelOver || SceneManager.GetActiveScene ().name == "Lobby") {
+//			if (!gameObject.GetComponent<AudioSource> ().isPlaying) {
+//				gameObject.GetComponent<AudioSource> ().Play ();
+//			}
 			// Once the player raycasts onto the SkillStone, set the call flag to false and unlock a skill:
 			if (playerSees) {
 				levelOver = false;
@@ -49,6 +52,7 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 	// Pause. Then turn off the SkillStone, and start the next level!
 	IEnumerator resetter(){
 		yield return new WaitForSeconds (7f);
+		gameObject.GetComponent<AudioSource> ().Stop ();
 		gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
 		gameObject.transform.Find ("Flames").GetComponent<ParticleSystem> ().Stop ();
 		GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();

@@ -377,10 +377,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1aaa4fe36bc22644aeaf5ed24c6c8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
   fireballWhoosh: {fileID: 82736947586606426}
   fireballImpact: {fileID: 82178822136820424}
-  fireballPoof: {fileID: 0}
+  fireballPoof: {fileID: 198429516885329876, guid: 583eee08da471d842bcc9886c4c3323d,
+    type: 2}
   fireballParticles: {fileID: 198411917288606560}
   lowPitch: 0.45
   highPitch: 0.85

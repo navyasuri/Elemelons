@@ -28,7 +28,7 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	void Update() {
 		// Broken respawn code:
 		if (health<=0){
-			GameOver ();
+			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
 		}
 
 		RayCast ();
