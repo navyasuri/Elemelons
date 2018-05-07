@@ -58,9 +58,25 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	IEnumerator WaitForPlayer() {
 		yield return new WaitForSeconds(0.5f);
 
-		if (gameObject.transform.parent.parent == null) {
-			Debug.Log ("No AirSigManager, waiting for all components to track.");
+		if (gameObject.transform == null) {
+			Debug.Log ("No AirSigManager, (gameObject.transform null) waiting for all components to track.");
 			yield return StartCoroutine ("WaitForPlayer");
+			yield return 0;
+		}
+		if (gameObject.transform.parent == null) {
+			Debug.Log ("No AirSigManager, (gameObject.transform.parent null) waiting for all components to track.");
+			yield return StartCoroutine ("WaitForPlayer");
+			yield return 0;
+		}
+		if (gameObject.transform.parent.parent == null) {
+			Debug.Log ("No AirSigManager, (gameObject.transform.parent.parent null) waiting for all components to track.");
+			yield return StartCoroutine ("WaitForPlayer");
+			yield return 0;
+		}
+		if (gameObject.transform.parent.parent.GetChild(2) == null) {
+			Debug.Log ("No AirSigManager, (gameObject.transform.parent.parent.GetChild(2) null) waiting for all components to track.");
+			yield return StartCoroutine ("WaitForPlayer");
+			yield return 0;
 		}
 		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
 		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);

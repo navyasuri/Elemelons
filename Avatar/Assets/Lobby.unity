@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4129193, g: 0.49208593, b: 0.6059892, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -817,13 +817,13 @@ Prefab:
     - target: {fileID: 114683517756235914, guid: 83796d11b1cac5348bcdd9fa87375b9e,
         type: 2}
       propertyPath: synchronization
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114683517756235914, guid: 83796d11b1cac5348bcdd9fa87375b9e,
         type: 2}
       propertyPath: ObservedComponents.Array.data[0]
       value: 
-      objectReference: {fileID: 2021701693}
+      objectReference: {fileID: 0}
     - target: {fileID: 114266848796076182, guid: 83796d11b1cac5348bcdd9fa87375b9e,
         type: 2}
       propertyPath: playerHeadPrefab
@@ -2583,12 +2583,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 3
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 2021701693}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 2
   instantiationId: 2

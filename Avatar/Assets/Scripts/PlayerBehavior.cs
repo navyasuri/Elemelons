@@ -68,10 +68,12 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	}
 
 	[PunRPC]
-	public void increasePoints(float points){
-		totalPoints += points;
-		transform.GetChild(2).gameObject.GetComponent<ScoreUpdater> ().UpdatePlayerScore (totalPoints);
-		Debug.Log ("total points:" + totalPoints);
+	public void increasePoints(float points, int networkID){
+		if (networkID == PhotonNetwork.player.ID) {
+			totalPoints += points;
+			transform.GetChild (2).gameObject.GetComponent<ScoreUpdater> ().UpdatePlayerScore (totalPoints);
+			Debug.Log ("total points:" + totalPoints);
+		}
 	}
 
 

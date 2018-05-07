@@ -64,4 +64,5 @@ MonoBehaviour:
   - increasePoints
   - GameWonViaBoulders
   - SkillStoneOn
+  - PlayExplosion
   DisableAutoOpenWizard: 1

@@ -52,7 +52,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 					return; // Don't play explosion.
 				} else { // Otherwise, send that player damage:
 					collision.gameObject.GetPhotonView().RPC("TakeDamage", collision.gameObject.GetPhotonView().owner, 10f);
-					collision.gameObject.GetPhotonView().RPC("increasePoints", fireballPlayer, 10f);
+					collision.gameObject.GetPhotonView().RPC("increasePoints", PhotonTargets.All, 10f, fireballPlayer.ID);
 
 				}
 			}
@@ -64,7 +64,9 @@ public class FireballBehavior : Photon.MonoBehaviour {
 			}
 
 			if (collision.gameObject.CompareTag ("boulder")) {
-				GameObject.FindGameObjectWithTag("Player").GetPhotonView().RPC("increasePoints", fireballPlayer, 50f);
+				// Just to be safe, we are finding the exact "Player(Clone)" instance, calling this RPC to all players,
+				// but only the one who matches PhotonPlayer ID's with the fireball will get points.
+				GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC("increasePoints", PhotonTargets.All, 50f, fireballPlayer.ID);
 			}
 		}
 		// Destroy the fireball, with effects, on any other collision.
