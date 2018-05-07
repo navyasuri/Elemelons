@@ -528,14 +528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireballWhoosh: {fileID: 82722079599961036}
   fireballImpact: {fileID: 82957215301377036}
-<<<<<<< HEAD
-  fireballPoof: {fileID: 198608574288259342, guid: 27f724624a11dee4bb29dcce56499bb9,
-    type: 2}
-  fireballParticles: {fileID: 198734565029232764}
-=======
   fireballExplosion: {fileID: 198180580579679198}
   fireballParticles: {fileID: 198504659460728896}
->>>>>>> 2b839a77040f5e89a55cdf04dd0b92ccbb6fdcc6
   lowPitch: 0.45
   highPitch: 0.85
 --- !u!135 &135851233350783426
