@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 135119771768956498}
   - component: {fileID: 23414393241445330}
   - component: {fileID: 114804703288156488}
+  - component: {fileID: 114929464792979720}
+  - component: {fileID: 114107550351714486}
   m_Layer: 0
   m_Name: HealthUp
   m_TagString: healthUp
@@ -84,6 +86,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1792737402179646}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114107550351714486
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1792737402179646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c6a57a3a5ca9a46985e1ee2887de1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114804703288156488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,6 +108,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2bb8ed3e15062469d27bcc74c66ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114929464792979720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1792737402179646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114107550351714486}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!135 &135119771768956498
 SphereCollider:
   m_ObjectHideFlags: 1

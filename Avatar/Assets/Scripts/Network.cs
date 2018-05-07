@@ -29,6 +29,7 @@ public class Network : Photon.PunBehaviour
 	string playerColor;
 	int playerCount;
 	public int playersReady;
+    public int playersSeen;
 	protected static Dictionary<string, GameObject> throwers;
 
 	public bool offlineMode = false;
@@ -70,12 +71,13 @@ public class Network : Photon.PunBehaviour
         // In the main scene, update the level only once all players have seen the stone:
         if(SceneManager.GetActiveScene().name.Equals("VRPUNScene"))
         {
-            if (playerCount > 0 && playersReady == playerCount)
+            Debug.Log("[Network Update()] Players: " + playerCount + ". Ready: " + playersSeen);
+            if (playerCount > 0 && playersSeen == playerCount)
             { // Playercount is updated by seeing the skill stone
                 if (PhotonNetwork.isMasterClient)
                 {
-                    GameObject.Find("SkillStone").GetPhotonView().RPC("NextLevel", PhotonTargets.AllViaServer);
-                    playersReady = 0;
+                    GameObject.Find("SkillStonePrefab").GetPhotonView().RPC("NextLevel", PhotonTargets.AllViaServer);
+                    playersSeen = 0;
                 }
             }
         }
@@ -87,6 +89,16 @@ public class Network : Photon.PunBehaviour
 			playersReady++;
 			Debug.Log ("[Network UpdateReadyCount RPC] A new player is ready! " + playersReady + " players are ready");
 		}
+    }
+
+    [PunRPC]
+    public void UpdateSeenCount()
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            playersSeen++;
+            Debug.Log("[Network UpdateSeenCount RPC] A new player is seeing skill stone! " + playersSeen + " players are ready");
+        }
     }
 
     [PunRPC]

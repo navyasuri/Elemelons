@@ -68,4 +68,5 @@ MonoBehaviour:
   - UpdatePlayerScore
   - NextLevel
   - AddHealth
+  - UpdateSeenCount
   DisableAutoOpenWizard: 1

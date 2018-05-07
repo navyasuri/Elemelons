@@ -88,15 +88,15 @@ public class DeveloperDefined : Photon.MonoBehaviour {
             break;
 		case 1:
 			defenseEnabled = true;
-            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
+            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateSeenCount", PhotonTargets.All);
             break;
 		case 2:
 			leftEnabled = true;
-            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
+            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateSeenCount", PhotonTargets.All);
             break;
 		case 3:			
 			throwerEnabled = true;
-            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
+            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateSeenCount", PhotonTargets.All);
             break;
 		}
 	}
