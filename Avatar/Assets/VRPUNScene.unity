@@ -713,8 +713,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 3
-  instantiationId: 3
+  viewIdField: 7
+  instantiationId: 7
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &377779894
@@ -733,6 +733,7 @@ MonoBehaviour:
   BoulderSpawner2: {fileID: 567449072}
   SkillStone: {fileID: 839385972}
   boulderCount: 0
+  boulderThreshold: 0
 --- !u!4 &377779896
 Transform:
   m_ObjectHideFlags: 0
@@ -1842,8 +1843,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 1
-  instantiationId: 1
+  viewIdField: 8
+  instantiationId: 8
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &1390125565
@@ -1870,6 +1871,8 @@ MonoBehaviour:
   greenSpawn: {fileID: 1229993815}
   purpleSpawn: {fileID: 1025389595}
   whiteSpawn: {fileID: 38012821}
+  playersReady: 0
+  playersSeen: 0
   offlineMode: 0
   spawnPoints: []
   playerColors: []

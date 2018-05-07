@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon;
 
 public class PlayerBehavior : Photon.MonoBehaviour {
@@ -12,6 +13,10 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 	public int raycastDistance;
 	public LayerMask layers;
 	private float totalPoints;
+    GameObject gameController;
+    GameObject boulderUpdate;
+    int boulderThreshold;
+    int boulderCount;
 
     void Start () {
 		// Initialize health and healthbar:
@@ -19,25 +24,38 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		raycastDistance = 3;
 		//PhotonView.Get (this).RPC ("", PhotonTargets.AllBufferedViaServer, health);
 		//Debug.Log ("FlameChoice is" + flameType);
-		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
+		//cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
 		thisPlayer = gameObject.GetComponent<PhotonView> ().owner;
 		totalPoints = 0;
+        boulderUpdate = gameObject.transform.GetChild(8).gameObject;
+        boulderUpdate.SetActive(true);
+        gameController = GameObject.Find("GameManager");
     }
 
-	void Update() {
-		// Broken respawn code:
-		if (health <= 0) {
-			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
-		}
+    void Update()
+    {
+        // Broken respawn code:
+        if (health <= 0)
+        {
+            GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetPhotonView().RPC("GameOver", PhotonTargets.All);
+        }
 
-		if (health <= 40f){
-			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = 0.19f;
-		}
+        if (health <= 40f)
+        {
+            GameObject.Find("AudioPlayer").GetComponent<AudioSource>().volume = 0.19f;
+        }
 
-		RayCast ();
-	}
+        RayCast();
 
-	[PunRPC]
+        if (SceneManager.GetActiveScene().name.Equals("VRPUNScene"))
+        {
+            boulderThreshold = gameController.GetComponent<GameController>().boulderThreshold;
+            boulderCount = gameController.GetComponent<GameController>().boulderCount;
+            boulderUpdate.GetComponent<BoulderUpdate>().UpdateBoulderStatus(boulderThreshold - boulderCount);
+        }
+    }
+
+    [PunRPC]
 	public void TakeDamage(float damage) {
 		health -= damage;
 		Debug.Log ("TakeDamage RPC recieved for " + damage + " damage.");
