@@ -80,7 +80,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 			gameObject.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 			gameObject.GetComponent<SphereCollider> ().enabled = false;
 			fireballParticles.Stop();
-			fireballPoof.Play;
+			fireballPoof.Play();
 			fireballImpact.pitch = Random.Range (lowPitch, highPitch);
 			fireballImpact.Play ();
 		}
