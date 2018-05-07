@@ -27,8 +27,8 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		//cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
 		thisPlayer = gameObject.GetComponent<PhotonView> ().owner;
 		totalPoints = 0;
-        boulderUpdate = gameObject.transform.GetChild(8).gameObject;
-        boulderUpdate.SetActive(true);
+        //boulderUpdate = gameObject.transform.GetChild(8).gameObject;
+        //boulderUpdate.SetActive(true);
         gameController = GameObject.Find("GameManager");
     }
 
@@ -47,12 +47,12 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
         RayCast();
 
-        if (SceneManager.GetActiveScene().name.Equals("VRPUNScene"))
-        {
-            boulderThreshold = gameController.GetComponent<GameController>().boulderThreshold;
-            boulderCount = gameController.GetComponent<GameController>().boulderCount;
-            boulderUpdate.GetComponent<BoulderUpdate>().UpdateBoulderStatus(boulderThreshold - boulderCount);
-        }
+//        if (SceneManager.GetActiveScene().name.Equals("VRPUNScene"))
+//        {
+//            boulderThreshold = gameController.GetComponent<GameController>().boulderThreshold;
+//            boulderCount = gameController.GetComponent<GameController>().boulderCount;
+//            boulderUpdate.GetComponent<BoulderUpdate>().UpdateBoulderStatus(boulderThreshold - boulderCount);
+//        }
     }
 
     [PunRPC]
