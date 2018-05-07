@@ -8,7 +8,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 	public PhotonPlayer fireballPlayer;
 	public AudioSource fireballWhoosh;
 	public AudioSource fireballImpact;
-	public ParticleSystem fireballPoof;
+	public ParticleSystem fireballExplosion;
 	public ParticleSystem fireballParticles;
 	public float lowPitch = 0.45f;
 	public float highPitch = 0.85f;
@@ -80,7 +80,7 @@ public class FireballBehavior : Photon.MonoBehaviour {
 			gameObject.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 			gameObject.GetComponent<SphereCollider> ().enabled = false;
 			fireballParticles.Stop();
-			fireballPoof.Play();
+			fireballExplosion.Play();
 			fireballImpact.pitch = Random.Range (lowPitch, highPitch);
 			fireballImpact.Play ();
 		}

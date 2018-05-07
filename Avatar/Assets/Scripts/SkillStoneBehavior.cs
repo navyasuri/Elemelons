@@ -33,29 +33,29 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 	private void unlockSkill(){
 		// If this is the lobby scene, set this player to ready and call the network to update the ready count:
 		if (!playerReady && SceneManager.GetActiveScene ().name == "Lobby") {
-			Debug.Log ("[Lobby SkillStone] Player is now ready!");
+			Debug.Log ("[Lobby SkillStone] Player is now ready! Master client? " + PhotonNetwork.isMasterClient);
 			playerReady = true;
-			Debug.Log ("[Lobby SkillStone] Are you master client? " + PhotonNetwork.isMasterClient);
-			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("UnlockNext", PhotonTargets.All, 0);
+			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetComponent<DeveloperDefined>().UnlockNext(0);
 			//
 			// RUN FIREBALL TRAINING HERE
 			//
 			GameObject.Find ("NetworkManager").GetPhotonView ().RPC ("UpdateReadyCount", PhotonTargets.All);
 		} 
+
 		// If this is the main scene, call the GameManager to unlock the next skill based on the current level:
 		if (!SceneManager.GetActiveScene().name.Equals("Lobby")) {
-			
 			StartCoroutine ("resetter");
 		}
 	}
 
-	// Pause. Then turn off the SkillStone, and start the next level!
+	// Unlock the next skill. Pause. Then turn off the SkillStone, and start the next level!
 	IEnumerator resetter(){
-		yield return new WaitForSeconds (7f);
+
+		GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();
+		yield return new WaitForSeconds (5f);
 		gameObject.GetComponent<AudioSource> ().Stop ();
 		gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
 		gameObject.transform.Find ("Flames").GetComponent<ParticleSystem> ().Stop ();
-		GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();
 		GameObject.Find ("GameManager").GetComponent<GameController> ().StartNextLevel ();
 	}
 }
