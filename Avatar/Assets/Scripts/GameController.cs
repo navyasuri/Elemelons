@@ -19,6 +19,7 @@ public class GameController : Photon.MonoBehaviour {
         level = 1;
 		boulderCount = 0;
 		boulderThreshold = 5;
+		GameObject.Find ("BoulderUpdate").SetActive (true);
 
 		// Reset players once the scene loads:
 		//PhotonView.Get(this).RPC("ResetPlayerLocations", PhotonTargets.All);
@@ -31,6 +32,8 @@ public class GameController : Photon.MonoBehaviour {
             endLevel(level);
 			Debug.Log ("[GameController Update()] End level was called. Level is now: " + level);
 		}
+
+		GameObject.Find ("BoulderUpdate").GetComponent<BoulderUpdate> ().UpdateBoulderStatus (boulderThreshold - boulderCount + 1);
 	}
 
     private void endLevel(int level) {
