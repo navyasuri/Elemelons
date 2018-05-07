@@ -247,7 +247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flamethrowerWhoosh: {fileID: 82428918417872416}
   throwerParticles: {fileID: 198903330837193904}
-  playerID: 0
   isActive: 0
 --- !u!114 &114616713031045326
 MonoBehaviour:
