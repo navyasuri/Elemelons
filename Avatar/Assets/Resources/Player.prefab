@@ -1156,7 +1156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 978123972108063418f25839ac09c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  airsigManager: {fileID: 0}
+  airsigManager: {fileID: 114703523964035844, guid: a184e38fb5254bd48ba431c1b4a25d30,
+    type: 2}
   GestureBar: {fileID: 1156919339043098}
   playerColor: 
   leftEnabled: 0

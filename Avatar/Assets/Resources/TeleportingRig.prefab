@@ -85,22 +85,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1524186761450348
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4628036374124766}
-  - component: {fileID: 114693720014858356}
-  m_Layer: 0
-  m_Name: AirSigManager
-  m_TagString: Environment
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1552955003290736
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,19 +240,6 @@ Transform:
   m_Father: {fileID: 4656110319746482}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4628036374124766
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1524186761450348}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 4.310064, y: 2.18, z: -10.410002}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4656110319746482}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4631610104359960
 Transform:
   m_ObjectHideFlags: 1
@@ -295,7 +266,6 @@ Transform:
   - {fileID: 4523894176824788}
   - {fileID: 4531251605132208}
   - {fileID: 4660083185740854}
-  - {fileID: 4628036374124766}
   m_Father: {fileID: 4128377551763692}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -597,17 +567,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrcam: {fileID: 0}
---- !u!114 &114693720014858356
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1524186761450348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46964b142a8b343b3919fa771e2f7294, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114858509690901572
 MonoBehaviour:
   m_ObjectHideFlags: 1

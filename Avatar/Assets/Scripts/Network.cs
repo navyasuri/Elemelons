@@ -243,8 +243,6 @@ public class Network : Photon.PunBehaviour
 			throwerLeft.transform.SetParent(playerHandLeft.transform);
 			// Remove the extra flamethrower from the prefab:
 			Destroy (leftFlameFix.gameObject);
-			// Finally, give the new flamethrower the playerID to avoid self-damage:
-			throwerLeft.GetComponent<FlamethrowerBehavior> ().playerID = headset.GetInstanceID();
 
 			// Same as above, but for the right hand:
 			GameObject playerHandRight = PhotonNetwork.Instantiate(rightHandPrefab.name, rightController.transform.position, Quaternion.identity, 0);
@@ -256,7 +254,6 @@ public class Network : Photon.PunBehaviour
 			GameObject throwerRight = PhotonNetwork.Instantiate(GameObject.Find ("FlamesManager").GetComponent<FlamesManager> ().throwers [playerColor].name, rightFlameFix.position, rightFlameFix.rotation, 0);
 			throwerRight.transform.SetParent(playerHandRight.transform);
 			Destroy (rightFlameFix.gameObject);
-			throwerRight.GetComponent<FlamethrowerBehavior> ().playerID = headset.GetInstanceID();
 
 			// Once the player is instantiated in the game room, update the controller references for AirSig:
 			player.gameObject.GetComponent<DeveloperDefined>().AirSigControlUpdate(leftController, rightController, headset, playerColor);

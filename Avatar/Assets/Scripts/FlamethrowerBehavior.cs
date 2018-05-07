@@ -8,7 +8,6 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 	public PhotonPlayer flamethrowerPlayer;
 	public AudioSource flamethrowerWhoosh;
 	public ParticleSystem throwerParticles;
-	public int playerID; // Must be public for Photon, no need to provide a value.
 	float startTime;
 	public bool isActive = false;
 
@@ -47,13 +46,15 @@ public class FlamethrowerBehavior : Photon.MonoBehaviour {
 				} else { // Otherwise, send that player damage:
 					float damage = 10f * Time.deltaTime;
 					hitByFlames.gameObject.GetPhotonView ().RPC ("TakeDamage", hitByFlames.gameObject.GetPhotonView ().owner, damage);
-					hitByFlames.gameObject.GetPhotonView ().RPC ("increasePoints", flamethrowerPlayer, damage);
+					hitByFlames.gameObject.GetPhotonView ().RPC ("increasePoints", flamethrowerPlayer, 1f);
+					hitByFlames.gameObject.GetPhotonView().RPC("increasePoints", PhotonTargets.All, 1f, flamethrowerPlayer.ID);
+
 				}
 			}
 			if (hitByFlames.gameObject.CompareTag ("boulder")) {
 				float damage = 10f * Time.deltaTime;
 				hitByFlames.gameObject.GetPhotonView ().RPC ("TakeDamage", PhotonTargets.All, damage);
-				GameObject.FindGameObjectWithTag("Player").GetPhotonView().RPC("increasePoints", flamethrowerPlayer, 10f);
+				GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC("increasePoints", PhotonTargets.All, 5f, flamethrowerPlayer.ID);
 			}
 		}
 	}

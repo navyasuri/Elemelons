@@ -51,39 +51,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		StartCoroutine ("WaitForPlayer");
-	}
-
-
-	IEnumerator WaitForPlayer() {
-		yield return new WaitForSeconds(0.5f);
-
-		if (gameObject.transform == null) {
-			Debug.Log ("No AirSigManager, (gameObject.transform null) waiting for all components to track.");
-			yield return StartCoroutine ("WaitForPlayer");
-			yield return 0;
-		}
-		if (gameObject.transform.parent == null) {
-			Debug.Log ("No AirSigManager, (gameObject.transform.parent null) waiting for all components to track.");
-			yield return StartCoroutine ("WaitForPlayer");
-			yield return 0;
-		}
-		if (gameObject.transform.parent.parent == null) {
-			Debug.Log ("No AirSigManager, (gameObject.transform.parent.parent null) waiting for all components to track.");
-			yield return StartCoroutine ("WaitForPlayer");
-			yield return 0;
-		}
-		if (gameObject.transform.parent.parent.GetChild(2) == null) {
-			Debug.Log ("No AirSigManager, (gameObject.transform.parent.parent.GetChild(2) null) waiting for all components to track.");
-			yield return StartCoroutine ("WaitForPlayer");
-			yield return 0;
-		}
-		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
-		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);
-		GameObject AirSigManagerOnRig = gameObject.transform.parent.parent.GetChild(2).gameObject;
-
-		airsigManager = gameObject.transform.parent.parent.GetChild(2).gameObject.GetComponent<AirSigManager>();
-
+		airsigManager = GameObject.Find ("AirSigManager").GetComponent<AirSigManager> ();
 		Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
 		// Configure AirSig by specifying target 
