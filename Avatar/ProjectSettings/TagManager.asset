@@ -17,6 +17,7 @@ TagManager:
   - FxTemporaire
   - SkillStone
   - rig
+  - healthUp
   layers:
   - Default
   - TransparentFX

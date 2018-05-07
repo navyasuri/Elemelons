@@ -19,7 +19,6 @@ public class FireballBehavior : Photon.MonoBehaviour {
 		fireballPlayer = gameObject.GetComponent<PhotonView> ().owner;
 	}
 
-
 	// Called by DeveloperDefined gesture triggers and networked prefab instantiation:
 	public void DoAfterStart(Vector3 direction) {
 		// Send attacks flying!
@@ -30,12 +29,10 @@ public class FireballBehavior : Photon.MonoBehaviour {
 		StartCoroutine ("EnableCollider", 0.1f);
 	}
 
-
 	IEnumerator EnableCollider(float smallPause) {
 		yield return new WaitForSeconds (smallPause);
 		gameObject.GetComponent<SphereCollider> ().enabled = true;
 	}
-
 
 	void Update() {
 		if (Time.time - startTime > 3.5f) {

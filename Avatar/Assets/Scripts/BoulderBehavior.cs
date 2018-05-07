@@ -6,8 +6,9 @@ using Photon;
 
 public class BoulderBehavior : Photon.MonoBehaviour {
 
-	//public AudioSource rumbling;
-	public AudioSource rumbling;
+    //public AudioSource rumbling;
+    public GameObject healthUpPrefab;
+    public AudioSource rumbling;
 	public AudioSource explode;
 	public ParticleSystem explodeParticles;
 	public float lowPitch = 0.45f;
@@ -51,7 +52,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			PhotonView.Get(this).RPC("PlayExplosion", PhotonTargets.All, false);
 		}
 		// Boulders should bounce off of: the environment, other boulders, and shields. Explode otherwise.
-		else if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense") && !col.gameObject.CompareTag("Untagged") && !col.gameObject.CompareTag("SkillStone")) {
+		else if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense") && !col.gameObject.CompareTag("Untagged") && !col.gameObject.CompareTag("SkillStone") && !col.gameObject.CompareTag("healthUp")) {
 			PhotonView.Get(this).RPC("PlayExplosion", PhotonTargets.All, true);
 		}
 	}
@@ -64,7 +65,15 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		if (!explode.isPlaying) {
 			if (withExplosionParticles) {
 				explodeParticles.Play();
-			}
+                if(PhotonNetwork.isMasterClient)
+                {
+                    int powerUp = Random.Range(0, 5);
+                    if (powerUp == 3)
+                    {
+                        PhotonNetwork.Instantiate(healthUpPrefab.name, gameObject.transform.position, Quaternion.identity, 0);
+                    }
+                }
+            }
 			gameObject.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 			gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			gameObject.GetComponent<SphereCollider> ().enabled = false;

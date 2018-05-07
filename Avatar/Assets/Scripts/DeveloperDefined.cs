@@ -37,6 +37,8 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 	bool throwerTriggered = false;
 	public string playerColor;
 	float currentScore;
+    int playerCount;
+    int playersReady;
 
 	// Bools for skill stone progression (public for debugging)
 	public bool leftEnabled = false, fireballEnabled = true, defenseEnabled = false, throwerEnabled = false;
@@ -82,22 +84,25 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 		switch (skill) {
 		case 0:
 			fireballEnabled = true;
-			break;
+            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
+            break;
 		case 1:
 			defenseEnabled = true;
-			break;
+            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
+            break;
 		case 2:
 			leftEnabled = true;
-			break;
+            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
+            break;
 		case 3:			
 			throwerEnabled = true;
-			break;
+            GameObject.Find("NetworkManager").GetPhotonView().RPC("UpdateReadyCount", PhotonTargets.All);
+            break;
 		}
 	}
 
-
-	// Necessary function for AirSig. Called by Network.cs once its WaitForRig() has found all the pieces:
-	public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn, string playerColorPassedIn) {
+    // Necessary function for AirSig. Called by Network.cs once its WaitForRig() has found all the pieces:
+    public void AirSigControlUpdate(GameObject leftPassedIn, GameObject rightPassedIn, GameObject headsetPassedIn, string playerColorPassedIn) {
 		rightController = rightPassedIn.GetComponent<SteamVR_TrackedObject>(); // Get SteamVR script from the "controller (left)" GameObject.
 		rightDevice = SteamVR_Controller.Input((int)rightController.index); // Automatically (safely) track whatever index SteamVR has assigned to the rightController today.
 		rightParticles = rightPassedIn.transform.GetChild(0).Find("RightFlames").gameObject.GetComponent<ParticleSystem> (); // Note that you must go down one layer first, into the Hand prefab, to get the RightFlames child.
@@ -123,14 +128,13 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 			GestureResponse ();
 		}
 		UpdateUIandHandleControl();
-
 	}
-		
-	// Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.
-	// gestureId - a serial number
-	// gesture - gesture matched or null if no match. Only gesture in SetDeveloperDefinedTarget list will be verified against
-	// score - the confidence level of this identification. Above 1 is generally considered a match
-	public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
+
+    // Handling developer defined gesture match callback - This is invoked when the Mode is set to Mode.DeveloperDefined and a gesture is recorded.
+    // gestureId - a serial number
+    // gesture - gesture matched or null if no match. Only gesture in SetDeveloperDefinedTarget list will be verified against
+    // score - the confidence level of this identification. Above 1 is generally considered a match
+    public void HandleOnDeveloperDefinedMatch(long gestureId, string gesture, float score) {
 		// Updates for sending values to the player's visual-feedback bar:
 		if (fireballEnabled && gesture.Trim ().Equals ("AttackPunchSimple")) {
 			gestureAttempted = true;

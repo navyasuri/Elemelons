@@ -39,23 +39,26 @@ public class SkillStoneBehavior : Photon.MonoBehaviour {
 			//
 			// RUN FIREBALL TRAINING HERE
 			//
-			GameObject.Find ("NetworkManager").GetPhotonView ().RPC ("UpdateReadyCount", PhotonTargets.All);
 		} 
 
 		// If this is the main scene, call the GameManager to unlock the next skill based on the current level:
 		if (!SceneManager.GetActiveScene().name.Equals("Lobby")) {
-			StartCoroutine ("resetter");
-		}
-	}
+            GameObject.Find("GameManager").GetComponent<GameController>().addSkill();
+        }
+    }
 
-	// Unlock the next skill. Pause. Then turn off the SkillStone, and start the next level!
-	IEnumerator resetter(){
+    [PunRPC]
+    public void NextLevel()
+    {
+        StartCoroutine("LoadNext");
+    }
 
-		GameObject.Find ("GameManager").GetComponent<GameController> ().addSkill ();
-		yield return new WaitForSeconds (5f);
-		gameObject.GetComponent<AudioSource> ().Stop ();
-		gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
-		gameObject.transform.Find ("Flames").GetComponent<ParticleSystem> ().Stop ();
-		GameObject.Find ("GameManager").GetComponent<GameController> ().StartNextLevel ();
-	}
+    IEnumerator LoadNext()
+    {
+        yield return new WaitForSeconds(4f);
+        gameObject.GetComponent<AudioSource>().Stop();
+        gameObject.transform.Find("Spotlight").gameObject.SetActive(false);
+        gameObject.transform.Find("Flames").GetComponent<ParticleSystem>().Stop();
+        GameObject.Find("GameManager").GetComponent<GameController>().StartNextLevel();
+    }
 }

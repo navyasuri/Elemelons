@@ -28,7 +28,7 @@ public class Network : Photon.PunBehaviour
 	public GameObject whiteSpawn;
 	string playerColor;
 	int playerCount;
-	int playersReady;
+	public int playersReady;
 	protected static Dictionary<string, GameObject> throwers;
 
 	public bool offlineMode = false;
@@ -67,6 +67,18 @@ public class Network : Photon.PunBehaviour
 				}
 			}
 		}
+        // In the main scene, update the level only once all players have seen the stone:
+        if(SceneManager.GetActiveScene().name.Equals("VRPUNScene"))
+        {
+            if (playerCount > 0 && playersReady == playerCount)
+            { // Playercount is updated by seeing the skill stone
+                if (PhotonNetwork.isMasterClient)
+                {
+                    GameObject.Find("SkillStone").GetPhotonView().RPC("NextLevel", PhotonTargets.AllViaServer);
+                    playersReady = 0;
+                }
+            }
+        }
     }
 
 	[PunRPC]
@@ -75,9 +87,9 @@ public class Network : Photon.PunBehaviour
 			playersReady++;
 			Debug.Log ("[Network UpdateReadyCount RPC] A new player is ready! " + playersReady + " players are ready");
 		}
-	}
+    }
 
-	[PunRPC]
+    [PunRPC]
 	void SceneChange() {
 		GameObject blankScreen = GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(6).gameObject;
 		StartCoroutine (fadeSceneIn (blankScreen, 3f));

@@ -60,7 +60,6 @@ public class GameController : Photon.MonoBehaviour {
 		SkillStone.transform.Find ("Flames").GetComponent<ParticleSystem> ().Play ();
 		SkillStone.GetComponent<SkillStoneBehavior> ().levelOver = true;
 		SkillStone.GetComponent<AudioSource> ().Play ();
-
     }
 
 	// Calls DeveloperDefined via RPC on the client's player prefab to enable gesture booleans.
@@ -94,7 +93,7 @@ public class GameController : Photon.MonoBehaviour {
 			break;
 		case 4:
 			//game over
-			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameWonViaBoulders", PhotonTargets.AllViaServer);
+			GameObject.FindGameObjectWithTag("Player").GetPhotonView().RPC ("GameOver", PhotonTargets.AllViaServer);
 			boulderThreshold = 999;
 			break;
 		default:

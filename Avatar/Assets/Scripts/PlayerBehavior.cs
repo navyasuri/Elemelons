@@ -22,23 +22,20 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		cameraID = GameObject.Find("Camera (eye)").GetInstanceID();
 		thisPlayer = gameObject.GetComponent<PhotonView> ().owner;
 		totalPoints = 0;
-
     }
 
 	void Update() {
 		// Broken respawn code:
 		if (health <= 0) {
-			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameWonViaBoulders", PhotonTargets.All);
+			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetPhotonView ().RPC ("GameOver", PhotonTargets.All);
 		}
 
 		if (health <= 40f){
 			GameObject.Find ("AudioPlayer").GetComponent<AudioSource> ().volume = 0.19f;
-
 		}
 
 		RayCast ();
 	}
-
 
 	[PunRPC]
 	public void TakeDamage(float damage) {
@@ -48,7 +45,15 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 		playerViews [2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
 	}
 
-	[PunRPC]
+    [PunRPC]
+    public void AddHealth(float healthUp)
+    {
+        health += healthUp;
+        PhotonView[] playerViews = gameObject.GetPhotonViewsInChildren();
+        playerViews[2].RPC("UpdateHealthBar", PhotonTargets.AllBufferedViaServer, health);
+    }
+
+    [PunRPC]
 	public void increasePoints(float points, int networkID){
 		if (networkID == PhotonNetwork.player.ID) {
 			totalPoints += points;
@@ -60,15 +65,13 @@ public class PlayerBehavior : Photon.MonoBehaviour {
 
 	[PunRPC]
 	public void GameOver() {
-		if (photonView.isMine) {
-			if (health > 0) {
-				gameObject.transform.GetChild (5).gameObject.SetActive (true);
-			} else {//player is dead
-				gameObject.transform.GetChild (4).gameObject.SetActive (true);
-				totalPoints = -1f;
-			}
-			StartCoroutine (RestartGame ());
+		if (health > 0) {
+			gameObject.transform.GetChild (5).gameObject.SetActive (true);
+		} else {//player is dead
+			gameObject.transform.GetChild (4).gameObject.SetActive (true);
+			totalPoints = -1f;
 		}
+		StartCoroutine (RestartGame ());
 	}
 
 	IEnumerator RestartGame() {

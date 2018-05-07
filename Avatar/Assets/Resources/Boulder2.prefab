@@ -534,6 +534,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6881d1dcbd77d448eeeea3a6dbdddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthUpPrefab: {fileID: 1792737402179646, guid: 3df3ff5bedb25d443b43d706ac33fa1f,
+    type: 2}
   rumbling: {fileID: 82853449079253294}
   explode: {fileID: 82060552542941630}
   explodeParticles: {fileID: 198134704849403214}
