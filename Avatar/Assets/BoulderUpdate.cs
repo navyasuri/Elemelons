@@ -16,7 +16,7 @@ public class BoulderUpdate : MonoBehaviour {
 	}
 
 	public void UpdateBoulderStatus(int count){
-		string s = "Boulders left: " + count;
+		string s = "Boulders: " + count;
 		gameObject.transform.GetChild (0).GetChild (0).gameObject.GetComponent<Text> ().text = s;
 
 	}

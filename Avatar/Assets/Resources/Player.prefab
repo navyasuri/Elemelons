@@ -651,7 +651,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1671153951542892}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8500001, z: 1.9999993}
+  m_LocalPosition: {x: 0.65, y: 1, z: 1.9999993}
   m_LocalScale: {x: 7, y: 7.9999995, z: 0}
   m_Children:
   - {fileID: 224412163325808982}
@@ -1473,7 +1473,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Boulders left:'
+  m_Text: 'Boulders:'
 --- !u!114 &114723460477697686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1514,7 +1514,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1951104912989212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 310aae59968d94246ac8234968d72de2, type: 3}
+  m_Script: {fileID: 11500000, guid: 483c0f241b6fd7046b5d1d6eacf299b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114806286097019196
