@@ -67,26 +67,27 @@ public class GameController : Photon.MonoBehaviour {
 		{
 		case 1:
 			Debug.Log ("[GameController addSkill()] Defense enabled");
-			//
-			// UI for skill unlock should happen here
-			//
-			GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (1);
+
+            GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(7).gameObject.SetActive(true);
+            GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(7).gameObject.GetComponent<StatusUpdate>().UpdateStatus("defense unlocked!");
+
+            GameObject.Find ("Camera (eye)").transform.GetChild (2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (1);
 			boulderThreshold = 10;
 			break;
 		case 2:
 			Debug.Log ("[GameController addSkill()] Left enabled");
-			//
-			// UI for skill unlock should happen here
-			//
-			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (2);
+            GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(7).gameObject.SetActive(true);
+            GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(7).gameObject.GetComponent<StatusUpdate>().UpdateStatus("left hand enabled!");
+
+            GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (2);
 			boulderThreshold = 15;
 			break;
 		case 3:
 			Debug.Log ("[GameController addSkill()] Flame throwere enabled");
-			//
-			// UI for skill unlock should happen here
-			//
-			GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (3);
+            GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(7).gameObject.SetActive(true);
+            GameObject.Find("Camera (eye)").transform.GetChild(2).GetChild(7).gameObject.GetComponent<StatusUpdate>().UpdateStatus("flamethrower!");
+
+            GameObject.Find("Camera (eye)").transform.GetChild(2).gameObject.GetComponent<DeveloperDefined> ().UnlockNext (3);
 			boulderThreshold = 25;
 			break;
 		case 4:
