@@ -60,7 +60,7 @@ public class DeveloperDefined : Photon.MonoBehaviour {
 
 		if (gameObject.transform.parent.parent == null) {
 			Debug.Log ("No AirSigManager, waiting for all components to track.");
-			StartCoroutine ("WaitForPlayer");
+			yield return StartCoroutine ("WaitForPlayer");
 		}
 		Debug.Log(gameObject.transform.parent.parent.GetChild(2));
 		Debug.Log(gameObject.transform.parent.parent.GetChild(2).gameObject);

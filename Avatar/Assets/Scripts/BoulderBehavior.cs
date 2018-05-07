@@ -29,7 +29,7 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 	void Update () {
 		// Flamethrowers are the only things that affect health, but if the destroy the boulder:
 		if (health <= 0) {
-			PlayExplosion (true);
+			PhotonView.Get(this).RPC("PlayExplosion", PhotonTargets.All, true);
 		}
 		// If the boulder falls off the map, destroy it silently:
 		if (gameObject.transform.position.y < -20f) {
@@ -48,15 +48,16 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 		// If the boulder hits a neworked player, call that PhotonView owner to take damage:
 		if (col.gameObject.GetPhotonView () != null && col.gameObject.CompareTag ("Player")) {
 			col.gameObject.GetPhotonView().RPC("TakeDamage", col.gameObject.GetPhotonView().owner, 15f);
-			PlayExplosion (false);
+			PhotonView.Get(this).RPC("PlayExplosion", PhotonTargets.All, false);
 		}
 		// Boulders should bounce off of: the environment, other boulders, and shields. Explode otherwise.
 		else if (!col.gameObject.CompareTag("Environment") && !col.gameObject.CompareTag("boulder") && !col.gameObject.CompareTag("defense") && !col.gameObject.CompareTag("Untagged") && !col.gameObject.CompareTag("SkillStone")) {
-			PlayExplosion (true);
+			PhotonView.Get(this).RPC("PlayExplosion", PhotonTargets.All, true);
 		}
 	}
 
 	// Trigger explosion audio, "hide" the main boulder, call network to destroy once audio is done:
+	[PunRPC]
 	public void PlayExplosion(bool withExplosionParticles) {
 		// If the clip is not playing (this is SelfDestruct's first call), play it,
 		// turn off the Renderer/Collider, and turn on the explosion particle effect:
@@ -70,7 +71,6 @@ public class BoulderBehavior : Photon.MonoBehaviour {
 			explode.pitch = randomPitch;
 			explode.Play ();
 		}
-
 		StartCoroutine ("SelfDestruct", explode.clip.length);
 	}
 
