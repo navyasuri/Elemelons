@@ -1,10 +1,12 @@
 # Elemelons
 
-For context - http://knowyourmeme.com/photos/958709
+A project inspired by Avatar: The Last Airbender, bringing firebending to life through networked virtual reality programming. Created at NYUAD for Pierre Depaz's Interactive Media course, Alternate Realities. A collaborative endeavor by Navya Suri, Faizan Haider, and Tavius Koktavy. Spring 2018.
 
-A repo to collaborate on trying to work with Photon Unity Networking on Unity
+Combining Unity 3D, AirSig gesture recognition, and Photon Unity Networking.
 
-## Important Files - 
+For context on the repo title - http://knowyourmeme.com/photos/958709
+
+## Development Files - 
 - [Project Proposal](ProjectProposal.md)
 - [Technical Specifications](TechnicalSpecifications.md)
 - [User Testing Results](UserTestingUpdates.md)
