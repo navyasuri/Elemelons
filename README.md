@@ -6,7 +6,14 @@ Combining Unity 3D, AirSig gesture recognition, and Photon Unity Networking.
 
 For context on the repo title - http://knowyourmeme.com/photos/958709
 
-## Development Files - 
+## Development Files
 - [Project Proposal](ProjectProposal.md)
 - [Technical Specifications](TechnicalSpecifications.md)
 - [User Testing Results](UserTestingUpdates.md)
+
+## Screenshots
+![Title screen](
+https://github.com/navyasuri/Elemelons/blob/master/Avatar/Assets/Moodboard/intro.bmp)
+
+![Playthrough](
+https://github.com/navyasuri/Elemelons/blob/master/Avatar/Assets/Moodboard/action.bmp)
